@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ContactUsPage extends StatelessWidget {
+
+class ContactUsPage extends StatefulWidget {
+  @override
+  _ContactUsPageState createState() => _ContactUsPageState();
+}
+
+
+class _ContactUsPageState extends State<ContactUsPage> {
   //const ContactUsPage({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
 
   String ContactUsTitle = "";
   String ContactUsMessage = "";
@@ -9,6 +17,7 @@ class ContactUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //key: _formKey,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -45,74 +54,79 @@ class ContactUsPage extends StatelessWidget {
                   ),
                   Flexible(
                     flex: 20,
-                    child: Column(
-                      children: [
-                        Container(height: 5, color: Colors.transparent),
-                        TextFormField(
-                          onChanged: (value) {
-                            ContactUsTitle = value;
-                          },
-                          maxLength: 64,
-                          minLines: 1,
-                          maxLines: 2,
-                          autocorrect: true,
-                          decoration: InputDecoration(
-                            icon: Icon(Icons.subject),
-                            labelText: "Objet du message",
-                            labelStyle: TextStyle(color: Color(0xFF4C75A0)),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (ContactUsTitle.isNotEmpty) {
-                              return null;
-                            } else {
-                              return "Contenu du message manquant";
-                            }
-                          },
-                        ),
-                        Container(height: 10, color: Colors.transparent),
-                        TextFormField(
-                          onChanged: (value) {
-                            ContactUsMessage = value;
-                          },
-                          maxLength: 2048,
-                          minLines: 2,
-                          maxLines: 15,
-                          autocorrect: true,
-                          decoration: InputDecoration(
-                            labelText: "Votre message",
-                            labelStyle: TextStyle(color: Color(0xFF4C75A0)),
-                            errorStyle: TextStyle(color: Colors.red),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (ContactUsMessage.isNotEmpty) {
-                              return null;
-                            } else {
-                              return "Contenu du message manquant";
-                            }
-                          },
-                        ),
-                        Container(height: 20, color: Colors.transparent),
-                        Center(
-                          child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.indigo,
-                            shape: StadiumBorder(
-                              side: BorderSide(color: Colors.indigo, width: 1),
-                            ),
-                            onPressed: () {
-                              //DO SOMETHING
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(height: 5, color: Colors.transparent),
+                          TextFormField(
+                            onChanged: (value) {
+                              ContactUsTitle = value;
                             },
-                            child: Text("     Envoyer     ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
+                            maxLength: 64,
+                            minLines: 1,
+                            maxLines: 2,
+                            autocorrect: true,
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.subject),
+                              labelText: "Objet du message",
+                              labelStyle: TextStyle(color: Color(0xFF4C75A0)),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            validator: (String? value) {
+                              if (value != null && value.isEmpty) {
+                                return "L'objet du message est requis";
+                              }return null;
+                            },
                           ),
-                        ),
-                        Container(height: 20, color: Colors.transparent),
-                      ],
+                          Container(height: 10, color: Colors.transparent),
+                          TextFormField(
+                            onChanged: (value) {
+                              ContactUsMessage = value;
+                            },
+                            maxLength: 2048,
+                            minLines: 2,
+                            maxLines: 15,
+                            autocorrect: true,
+                            decoration: InputDecoration(
+                              labelText: "Votre message",
+                              labelStyle: TextStyle(color: Color(0xFF4C75A0)),
+                              errorStyle: TextStyle(color: Colors.red),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            validator: (String? value) {
+                              if (value != null && value.isEmpty) {
+                                return "Contenu du message manquant";
+                              }return null;
+                            },
+                          ),
+                          Container(height: 20, color: Colors.transparent),
+                          Center(
+                            child: RaisedButton(
+                              color: Colors.white,
+                              textColor: Colors.indigo,
+                              shape: StadiumBorder(
+                                side: BorderSide(color: Colors.indigo, width: 1),
+                              ),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Message envoyé")),
+                                  );
+                                  //SEND EMAIL TO pickassos2se@gmail.com;
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: Text("     Envoyer     ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
+                            ),
+                          ),
+                          Container(height: 20, color: Colors.transparent),
+                        ],
+                      ),
                     ),
                   ),
                   Flexible(
