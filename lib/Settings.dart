@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 200.0,
+            expandedHeight: 240.0,
             stretch: true,
             backgroundColor: Color(0xFF4C75A0),
             flexibleSpace: FlexibleSpaceBar(
