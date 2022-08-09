@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 
-class ContactUsPage extends StatefulWidget {
+class ContactUsLogOutPage extends StatefulWidget {
   @override
-  _ContactUsPageState createState() => _ContactUsPageState();
+  _ContactUsLogOutPageState createState() => _ContactUsLogOutPageState();
 }
 
 
-class _ContactUsPageState extends State<ContactUsPage> {
-  //const ContactUsPage({Key? key}) : super(key: key);
+class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
+  //const ContactUsLogOutPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   String ContactUsTitle = "";
@@ -63,6 +63,46 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             onChanged: (value) {
                               ContactUsTitle = value;
                             },
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.person),
+                              labelText: "Nom, Prénom",
+                              labelStyle: TextStyle(color: Color(0xFF4C75A0)),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            validator: (String? value) {
+                              if (value != null && value.isEmpty) {
+                                return "Vos nom et prénom sont requis";
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              ContactUsTitle = value;
+                            },
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.email_rounded),
+                              labelText: "Adresse Email",
+                              labelStyle: TextStyle(color: Color(0xFF4C75A0)),
+                              errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                              ),
+                            ),
+                            validator: (String? value) {
+                              if (value != null && value.isEmpty) {
+                                return "Votre adresse email est requise";
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              ContactUsTitle = value;
+                            },
                             maxLength: 64,
                             minLines: 1,
                             maxLines: 2,
@@ -78,7 +118,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
                                 return "L'objet du message est requis";
-                              }return null;
+                              }
+                              return null;
                             },
                           ),
                           TextFormField(
@@ -87,7 +128,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             },
                             maxLength: 2048,
                             minLines: 2,
-                            maxLines: 17,
+                            maxLines: 10,
                             autocorrect: true,
                             decoration: InputDecoration(
                               labelText: "Votre message",
@@ -100,7 +141,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
                                 return "Contenu du message manquant";
-                              }return null;
+                              }
+                              return null;
                             },
                           ),
                           Container(height: 20, color: Colors.transparent),

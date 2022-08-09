@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/CalendarChooseButton.dart';
 import 'package:navigation_drawer_test/ContactUs.dart';
+import 'package:navigation_drawer_test/ContactUsLogOut.dart';
 import 'package:navigation_drawer_test/Settings.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         "/settings": (BuildContext context) => SettingsPage(),
         "/contact": (BuildContext context) => ContactUsPage(),
+        //"/contactLogOut": (BuildContext context) => ContactUsLogOutPage(),
         },
     );
   }
@@ -57,6 +59,7 @@ class HomePage extends StatelessWidget {
             //TOP DRAWER ITEMS
             Expanded(
               child: ListView(
+                shrinkWrap: true,
                 children: [
                   DrawerHeader(
                     decoration: BoxDecoration(
@@ -130,6 +133,8 @@ class HomePage extends StatelessWidget {
                       Divider(color: Colors.black, height: 1),
                       ListTile(
                         title: Text("Paramètres"),
+                        dense: true,
+                        visualDensity: VisualDensity(vertical: -2),
                         trailing: Icon(Icons.settings, color: Colors.black),
                         onTap: () {
                           Navigator.of(context).pushNamed("/settings");
@@ -137,6 +142,8 @@ class HomePage extends StatelessWidget {
                       ),
                       ListTile(
                         title: Text("Déconnexion", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                        dense: true,
+                        visualDensity: VisualDensity(vertical: -2),
                         trailing: Icon(Icons.logout_rounded, color: Colors.red),
                         onTap: () {
                           Navigator.of(context).pop();
@@ -145,6 +152,8 @@ class HomePage extends StatelessWidget {
                       Divider(color: Colors.black, height: 1),
                       ListTile(
                         title: Text("Nous Contacter", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.indigo)),
+                        dense: true,
+                        visualDensity: VisualDensity(vertical: -2),
                         trailing: Icon(Icons.outgoing_mail, color: Colors.indigo),
                         onTap: () {
                           Navigator.of(context).pop();
