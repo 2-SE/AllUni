@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/CalendarChooseButton.dart';
+import 'package:navigation_drawer_test/CalendarDrawerView.dart';
 import 'package:navigation_drawer_test/ContactUs.dart';
 import 'package:navigation_drawer_test/ContactUsLogOut.dart';
 import 'package:navigation_drawer_test/Settings.dart';
@@ -22,8 +23,9 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       routes: <String, WidgetBuilder>{
         "/settings": (BuildContext context) => SettingsPage(),
-        "/contact": (BuildContext context) => ContactUsPage(),
+        //"/contact": (BuildContext context) => ContactUsPage(),
         //"/contactLogOut": (BuildContext context) => ContactUsLogOutPage(),
+        "/contact": (BuildContext context) => ContactUsLogOutPage(),
         },
     );
   }
@@ -51,9 +53,8 @@ class HomePage extends StatelessWidget {
         title: Text('Flutter Navigation Drawer Test'),
         //elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0:0.0,
       ),
-
       //DRAWER PART
-      drawer: Drawer(
+      /*drawer: Drawer(
         child: Column(
           children: [
             //TOP DRAWER ITEMS
@@ -169,6 +170,8 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+       */
+      drawer: CalendarDrawerView(),
 
       //BODY PART
       body: Center(

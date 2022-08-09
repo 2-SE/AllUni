@@ -11,6 +11,8 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
   //const ContactUsLogOutPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
+  String ContactUsName = "";
+  String ContactUsEmail = "";
   String ContactUsTitle = "";
   String ContactUsMessage = "";
 
@@ -61,12 +63,12 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                           Container(height: 5, color: Colors.transparent),
                           TextFormField(
                             onChanged: (value) {
-                              ContactUsTitle = value;
+                              ContactUsName = value;
                             },
                             maxLines: 1,
                             decoration: InputDecoration(
                               icon: Icon(Icons.person),
-                              labelText: "Nom, Prénom",
+                              labelText: "Nom",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
                               errorBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.red),
@@ -74,16 +76,17 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             ),
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
-                                return "Vos nom et prénom sont requis";
+                                return "Votre nom est requis";
                               }
                               return null;
                             },
                           ),
                           TextFormField(
                             onChanged: (value) {
-                              ContactUsTitle = value;
+                              ContactUsEmail = value;
                             },
                             maxLines: 1,
+                            keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               icon: Icon(Icons.email_rounded),
                               labelText: "Adresse Email",
@@ -95,6 +98,8 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
                                 return "Votre adresse email est requise";
+                              } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value.toString())) {
+                                return "Le format de votre adresse email est invalide";
                               }
                               return null;
                             },

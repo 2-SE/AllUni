@@ -78,7 +78,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
                                 return "L'objet du message est requis";
-                              }return null;
+                              }
+                              return null;
                             },
                           ),
                           TextFormField(
@@ -100,7 +101,8 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
                                 return "Contenu du message manquant";
-                              }return null;
+                              }
+                              return null;
                             },
                           ),
                           Container(height: 20, color: Colors.transparent),
