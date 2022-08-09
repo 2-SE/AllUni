@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CalendarChooseButton extends StatefulWidget {
+class DrawerCalendarChooseButton extends StatefulWidget {
   @override
-  State<CalendarChooseButton> createState() => _CalendarChooseButtonState();
+  State<DrawerCalendarChooseButton> createState() => _DrawerCalendarChooseButtonState();
 }
 
-class _CalendarChooseButtonState extends State<CalendarChooseButton> {
+class _DrawerCalendarChooseButtonState extends State<DrawerCalendarChooseButton> {
   List<bool> isSelected = [false,false,false,false,false]; //???
 
   @override

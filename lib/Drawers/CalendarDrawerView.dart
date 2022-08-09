@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/CalendarChooseButton.dart';
-import 'package:navigation_drawer_test/ContactUs.dart';
-import 'package:navigation_drawer_test/ContactUsLogOut.dart';
-import 'package:navigation_drawer_test/Settings.dart';
+import 'package:navigation_drawer_test/Drawers/DrawerCalendarChooseButton.dart';
+import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUs.dart';
+import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUsLogOut.dart';
+import 'package:navigation_drawer_test/OtherViews/Settings.dart';
 
 
 class CalendarDrawer extends StatelessWidget {
@@ -13,9 +13,8 @@ class CalendarDrawer extends StatelessWidget {
       home: CalendarDrawerView(),
       routes: <String, WidgetBuilder>{
         "/settings": (BuildContext context) => SettingsPage(),
-        //"/contact": (BuildContext context) => ContactUsPage(),
-        //"/contactLogOut": (BuildContext context) => ContactUsLogOutPage(),
-        "/contact": (BuildContext context) => ContactUsLogOutPage(),
+        "/contact": (BuildContext context) => ContactUsPage(),
+        //"/contact": (BuildContext context) => ContactUsLogOutPage(), //ForTestsOnly
       },
     );
   }
@@ -30,7 +29,6 @@ class CalendarDrawerView extends StatelessWidget {
   //const HomePage({Key? key}) : super(key: key);
 
   //const SelectedCalendar({super.key, required this.SelectedCalendarType});
-
   List<bool> isSelected = [false, false, false, false, false];
   //isSelected[SelectedCalendarType] = true;
   //print(isSelected);
@@ -102,7 +100,7 @@ class CalendarDrawerView extends StatelessWidget {
                   },
                 ),
                 Divider(color: Colors.black, height: 1),
-                CalendarChooseButton(), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
+                DrawerCalendarChooseButton(), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
                 Divider(color: Colors.black, height: 1),
               ],
             ),

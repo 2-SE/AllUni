@@ -66,6 +66,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                               ContactUsName = value;
                             },
                             maxLines: 1,
+                            autocorrect: false,
                             decoration: InputDecoration(
                               icon: Icon(Icons.person),
                               labelText: "Nom",
@@ -86,6 +87,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                               ContactUsEmail = value;
                             },
                             maxLines: 1,
+                            autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               icon: Icon(Icons.email_rounded),
@@ -160,10 +162,17 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState?.save();
+                                  /*
+                                  print("Name :  " + ContactUsName);
+                                  print("Email :  " + ContactUsEmail);
+                                  print("Title :  " + ContactUsTitle);
+                                  print("Msg :  " + ContactUsMessage);
+                                  */
+                                  //SEND EMAIL TO pickassos2se@gmail.com;
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(content: Text("Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
                                   );
-                                  //SEND EMAIL TO pickassos2se@gmail.com;
                                   Navigator.of(context).pop();
                                 }
                               },
