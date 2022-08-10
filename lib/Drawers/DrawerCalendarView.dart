@@ -1,31 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarChooseButton.dart';
-import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUs.dart';
-import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUsLogOut.dart';
-import 'package:navigation_drawer_test/OtherViews/Settings.dart';
+import 'package:navigation_drawer_test/Utils/DrawerCalendarChooseButton.dart';
 
 
-class CalendarDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CalendarDrawerView(),
-      routes: <String, WidgetBuilder>{
-        "/settings": (BuildContext context) => SettingsPage(),
-        "/contact": (BuildContext context) => ContactUsPage(),
-        //"/contact": (BuildContext context) => ContactUsLogOutPage(), //ForTestsOnly
-      },
-    );
-  }
-}
 
 class SelectedCalendar {
   final int SelectedCalendarType;
   const SelectedCalendar(this.SelectedCalendarType);
 }
 
-class CalendarDrawerView extends StatelessWidget {
+class DrawerCalendarView extends StatelessWidget {
   //const HomePage({Key? key}) : super(key: key);
 
   //const SelectedCalendar({super.key, required this.SelectedCalendarType});
@@ -67,7 +51,10 @@ class CalendarDrawerView extends StatelessWidget {
                 ListTile(
                   title: Text("Mon Calendrier"),
                   trailing: Icon(Icons.today_rounded, color: Colors.black),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, "/calendar");
+                  },
                 ),
                 Divider(color: Colors.black, height: 1),
                 Container(height: 15, color: Colors.transparent),
@@ -89,7 +76,8 @@ class CalendarDrawerView extends StatelessWidget {
                   title: Text("Calendrier Salles Libres"),
                   trailing: Icon(Icons.meeting_room_outlined, color: Colors.black),
                   onTap: () {
-                    //...
+                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, "/freerooms");
                   },
                 ),
                 ListTile(
@@ -120,7 +108,7 @@ class CalendarDrawerView extends StatelessWidget {
                       visualDensity: VisualDensity(vertical: -2),
                       trailing: Icon(Icons.settings, color: Colors.black),
                       onTap: () {
-                        Navigator.of(context).pushNamed("/settings");
+                        Navigator.pushNamed(context, "/settings");
                       },
                     ),
                     ListTile(
@@ -140,7 +128,7 @@ class CalendarDrawerView extends StatelessWidget {
                       trailing: Icon(Icons.outgoing_mail, color: Colors.indigo),
                       onTap: () {
                         Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed("/contact");
+                        Navigator.pushNamed(context, "/contact");
                       },
                     ),
                     Container(height: 15, color: Colors.transparent),

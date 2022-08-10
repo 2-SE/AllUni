@@ -1,6 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Drawers/CalendarDrawerView.dart';
+import 'package:navigation_drawer_test/Calendars/Calendar.dart';
+
+//DRAWER IMPORT (for routes) :
+import 'package:navigation_drawer_test/Calendars/Calendar.dart';
+import 'package:navigation_drawer_test/Calendars/FreeRoomsCalendar.dart';
+import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUs.dart';
+import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUsLogOut.dart';
+import 'package:navigation_drawer_test/OtherViews/Settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,40 +17,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Navigation Drawer Test',
+      title: 'AllUni',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.amber,
         //primaryColor: defaultTargetPlatform == TargetPlatform.iOS ? Colors.white : null,
       ),
+      routes: <String, WidgetBuilder>{
+        "/calendar": (BuildContext context) => Calendar(),
+        "/freerooms": (BuildContext context) => FreeRoomsCalendar(),
+        "/settings": (BuildContext context) => SettingsPage(),
+        "/contact": (BuildContext context) => ContactUsPage(),
+        //"/contact": (BuildContext context) => ContactUsLogOutPage(), //ForTestsOnly
+      },
       home: HomePage(),
     );
   }
 }
 
-class SelectedCalendar {
-  final int SelectedCalendarType;
-  const SelectedCalendar(this.SelectedCalendarType);
-}
-
 class HomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Navigation Drawer Test'),
-        //elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0:0.0,
-      ),
-      drawer: CalendarDrawerView(),
-      //BODY PART
-      body: Center(
-          child: Text('Calendar Soon?'),
-      ),
-
+      //HOME-PAGE WHEN APP STARTS
+      body: Calendar(),
     );
   }
 }
-
-//Icon(Icons.meeting_room_outlined) or Icon(Icons.meeting_room_rounded)
