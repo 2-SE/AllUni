@@ -1,25 +1,38 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/Utils/DrawerCalendarChooseButton.dart';
+import 'package:navigation_drawer_test/Calendars/Calendar.dart';
 
 
 
-class SelectedCalendar {
-  final int SelectedCalendarType;
-  const SelectedCalendar(this.SelectedCalendarType);
+class DrawerCalendarView extends StatefulWidget {
+
+  String currentView = "";
+  List<bool> isSelectedFormat = [];
+  DrawerCalendarView({
+    super.key,
+    required this.currentView,
+    required this.isSelectedFormat,
+  });
+
+  @override
+  State<DrawerCalendarView> createState() => _DrawerCalendarViewState();
 }
 
-class DrawerCalendarView extends StatelessWidget {
-  //const HomePage({Key? key}) : super(key: key);
+class _DrawerCalendarViewState extends State<DrawerCalendarView> {
 
-  //const SelectedCalendar({super.key, required this.SelectedCalendarType});
-  List<bool> isSelected = [false, false, false, false, false];
-  //isSelected[SelectedCalendarType] = true;
-  //print(isSelected);
+  int currentFormat = 0;
 
   @override
   Widget build(BuildContext context) {
-
+    var isSelectedFormat = widget.isSelectedFormat;
+    //var currentFormat = widget.currentFormat;
+    var currentView = widget.currentView;
+    for (int index = 0; index < isSelectedFormat.length; index++) {
+      if (isSelectedFormat[index] == true) {
+        currentFormat = index;
+      }
+    }
     return Drawer(
       child: Column(
         children: [
@@ -53,7 +66,12 @@ class DrawerCalendarView extends StatelessWidget {
                   trailing: Icon(Icons.today_rounded, color: Colors.black),
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.pushNamed(context, "/calendar");
+                    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => Calendar("Mon Calendrier", currentFormat)))
+                        .then((_) {
+                      setState(() {
+                      });
+                    });
+                    //Navigator.pushNamed(context, "/calendar");
                   },
                 ),
                 Divider(color: Colors.black, height: 1),
@@ -66,29 +84,39 @@ class DrawerCalendarView extends StatelessWidget {
                 ),
                 Container(height: 5, color: Colors.transparent),
                 ListTile(
-                  title: Text("Autres Promotions"),
+                  title: Text("Calendriers Autres Promotions"),
                   trailing: Icon(Icons.people_outlined, color: Colors.black),
                   onTap: () {
-                    //...
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => Calendar("Autres Promotions", currentFormat)))
+                        .then((_) {
+                      setState(() {
+                      });
+                    });                    //Navigator.pushNamed(context, "/calendar");
                   },
                 ),
                 ListTile(
                   title: Text("Calendrier Salles Libres"),
                   trailing: Icon(Icons.meeting_room_outlined, color: Colors.black),
                   onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.pushNamed(context, "/freerooms");
+                    //Navigator.of(context).pop();
+                    //Navigator.pushNamed(context, "/freerooms");
                   },
                 ),
                 ListTile(
-                  title: Text("Calendriers École"),
+                  title: Text("Calendrier de l'École"),
                   trailing: Icon(Icons.school_rounded, color: Colors.black),
                   onTap: () {
-                    //...
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => Calendar("Calendrier École", currentFormat)))
+                        .then((_) {
+                      setState(() {
+                      });
+                    });                    //Navigator.pushNamed(context, "/calendar");
                   },
                 ),
                 Divider(color: Colors.black, height: 1),
-                DrawerCalendarChooseButton(), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
+                DrawerCalendarChooseButton(currentView: currentView, isSelected: isSelectedFormat), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
                 Divider(color: Colors.black, height: 1),
               ],
             ),

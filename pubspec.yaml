@@ -55,7 +55,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "images/app_logo/app_logo.png"
+  image_path: "Assets/Images/app_logo/app_logo.png"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -67,10 +67,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/logo_final_V2_light.png
-    - images/BannerLogoApp.png
-    - images/logo_settings.png
-    - images/logo_ContactUs.png
+    - Assets/Images/logo_final_V2_light.png
+    - Assets/Images/BannerLogoApp.png
+    - Assets/Images/logo_settings.png
+    - Assets/Images/logo_ContactUs.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

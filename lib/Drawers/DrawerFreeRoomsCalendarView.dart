@@ -42,7 +42,7 @@ class DrawerFreeRoomsView extends StatelessWidget {
                   trailing: Icon(Icons.today_rounded, color: Colors.black),
                   onTap: () {
                     //Navigator.of(context).pop();
-                    Navigator.pushNamed(context, "/calendar");
+                    //Navigator.pushNamed(context, "/calendar");
                   },
                 ),
                 Divider(color: Colors.black, height: 1),
