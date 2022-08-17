@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
-  //const NewPage({Key? key}) : super(key: key);
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,22 +12,22 @@ class SettingsPage extends StatelessWidget {
             pinned: true,
             expandedHeight: 240.0,
             stretch: true,
-            backgroundColor: Color(0xFF4C75A0),
+            backgroundColor: const Color(0xFF4C75A0),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Paramètres', style: TextStyle(color: Colors.white)),
+              title: const Text('Paramètres',
+                  style: TextStyle(color: Colors.white)),
               background: Padding(
                 padding: const EdgeInsets.only(top: 25.0),
-                child: Image(
-                  image: AssetImage("images/logo_settings.png"),
-                  //image: AssetImage("images/BannerLogoApp.png"),
+                child: Image.asset("assets/images/Settings.png"),
+                /*
+                Image(
+                  image: AssetImage("assets/images/logo_settings.png"),
                   fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,/*BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("images/BannerLogoApp.png"),
-                  fit: BoxFit.cover,*/
+                  alignment: Alignment.topCenter,
                 ),
+                */
               ),
-              stretchModes: [
+              stretchModes: const [
                 StretchMode.zoomBackground,
               ],
             ),
@@ -35,12 +36,18 @@ class SettingsPage extends StatelessWidget {
             delegate: SliverChildListDelegate([
               FlatButton(
                 onPressed: () => {},
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
+                  children: const <Widget>[
                     Icon(Icons.edit, color: Colors.indigo),
-                    Text("Editer le Profil", style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.indigo))
+                    Text("Editer le Profil",
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.indigo,
+                        ))
                   ],
                 ),
               ),
@@ -53,57 +60,64 @@ class SettingsPage extends StatelessWidget {
               Container(height: 15, color: Colors.transparent),
               Center(
                 child: Column(
-                  children: [
-                    Text("NOM Prénom", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  children: const [
+                    Text("NOM Prénom",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                     Text("prenom.nom@esme.fr", style: TextStyle(fontSize: 18)),
                   ],
                 ),
               ),
               Container(height: 25, color: Colors.transparent),
-              Divider(color: Colors.black, height: 1),
+              const Divider(color: Colors.black, height: 1),
               Container(height: 10, color: Colors.transparent),
               ListTile(
-                title: Text("Changer de Mot de Passe"),
-                trailing: Icon(Icons.security),
+                title: const Text("Changer de Mot de Passe"),
+                trailing: const Icon(Icons.security),
                 onTap: () {},
               ),
               ListTile(
-                title: Text("Notifications"),
-                trailing: Icon(Icons.notifications_active),
+                title: const Text("Notifications"),
+                trailing: const Icon(Icons.notifications_active),
                 onTap: () {},
               ),
               /*
               ListTile(
-                title: Text("Langue"),
-                trailing: Icon(Icons.language),
+                title: const Text("Langue"),
+                trailing: const Icon(Icons.language),
                 onTap: () {},
               ),
               */
               Container(height: 10, color: Colors.transparent),
-              Divider(color: Colors.black, height: 1),
+              const Divider(color: Colors.black, height: 1),
               Container(height: 10, color: Colors.transparent),
               Row(
-                children: [
+                children: const [
                   Text("    "),
-                  Text("Apparence :", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black, decoration: TextDecoration.underline)),
+                  Text("Apparence :",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.black,
+                          decoration: TextDecoration.underline)),
                 ],
               ),
               ListTile(
-                title: Text("Thème"),
-                trailing: Icon(Icons.dark_mode),
+                title: const Text("Thème"),
+                trailing: const Icon(Icons.dark_mode),
                 onTap: () {},
               ),
               ListTile(
-                title: Text("Visualisation Journée"),
-                trailing: Icon(Icons.edit_calendar),
+                title: const Text("Visualisation Journée"),
+                trailing: const Icon(Icons.edit_calendar),
                 onTap: () {},
               ),
               Container(height: 10, color: Colors.transparent),
-              Divider(color: Colors.black, height: 1),
+              const Divider(color: Colors.black, height: 1),
               Container(height: 10, color: Colors.transparent),
               ListTile(
-                title: Text("Informations"),
-                trailing: Icon(Icons.info_outline_rounded),
+                title: const Text("Informations"),
+                trailing: const Icon(Icons.info_outline_rounded),
                 onTap: () {},
               ),
               Container(height: 5, color: Colors.transparent),
@@ -115,11 +129,13 @@ class SettingsPage extends StatelessWidget {
                 child: RaisedButton(
                   color: Colors.white,
                   textColor: Colors.red,
-                  shape: StadiumBorder(
+                  shape: const StadiumBorder(
                     side: BorderSide(color: Colors.red, width: 1),
                   ),
                   onPressed: () {},
-                  child: Text("     Déconnexion     ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                  child: const Text("     Déconnexion     ",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.red)),
                 ),
               ),
               Container(height: 20, color: Colors.transparent),

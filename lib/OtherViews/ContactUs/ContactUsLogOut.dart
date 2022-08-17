@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-
 class ContactUsLogOutPage extends StatefulWidget {
+  const ContactUsLogOutPage({Key? key}) : super(key: key);
+
   @override
   _ContactUsLogOutPageState createState() => _ContactUsLogOutPageState();
 }
 
-
 class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
-  //const ContactUsLogOutPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   String ContactUsName = "";
@@ -26,22 +25,15 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
             pinned: true,
             expandedHeight: 240.0,
             stretch: true,
-            backgroundColor: Color(0xFF4C75A0),
+            backgroundColor: const Color(0xFF4C75A0),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Nous Contacter', style: TextStyle(color: Colors.white)),
+              title: const Text('Nous Contacter',
+                  style: TextStyle(color: Colors.white)),
               background: Padding(
-                padding: EdgeInsets.only(top: 25.0),
-                child: Image(
-                  image: AssetImage("images/logo_ContactUs.png"),
-                  //image: AssetImage("images/BannerLogoApp.png"),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,/*BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("images/BannerLogoApp.png"),
-                  fit: BoxFit.cover,*/
-                ),
+                padding: const EdgeInsets.only(top: 25.0),
+                child: Image.asset("assets/images/ContactUs.png"),
               ),
-              stretchModes: [
+              stretchModes: const [
                 StretchMode.zoomBackground,
               ],
             ),
@@ -67,7 +59,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             },
                             maxLines: 1,
                             autocorrect: false,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               icon: Icon(Icons.person),
                               labelText: "Nom",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
@@ -89,7 +81,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             maxLines: 1,
                             autocorrect: false,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               icon: Icon(Icons.email_rounded),
                               labelText: "Adresse Email",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
@@ -100,7 +92,9 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             validator: (String? value) {
                               if (value != null && value.isEmpty) {
                                 return "Votre adresse email est requise";
-                              } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value.toString())) {
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value.toString())) {
                                 return "Le format de votre adresse email est invalide";
                               }
                               return null;
@@ -114,7 +108,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             minLines: 1,
                             maxLines: 2,
                             autocorrect: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               icon: Icon(Icons.subject),
                               labelText: "Objet du message",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
@@ -135,9 +129,9 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             },
                             maxLength: 2048,
                             minLines: 2,
-                            maxLines: 10,
+                            maxLines: 30,
                             autocorrect: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: "Votre message",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
                               errorStyle: TextStyle(color: Colors.red),
@@ -157,8 +151,9 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             child: RaisedButton(
                               color: Colors.white,
                               textColor: Colors.indigo,
-                              shape: StadiumBorder(
-                                side: BorderSide(color: Colors.indigo, width: 1),
+                              shape: const StadiumBorder(
+                                side:
+                                    BorderSide(color: Colors.indigo, width: 1),
                               ),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
@@ -171,12 +166,17 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                                   */
                                   //SEND EMAIL TO pickassos2se@gmail.com;
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
+                                    const SnackBar(
+                                        content: Text(
+                                            "Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
                                   );
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: Text("     Envoyer     ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
+                              child: const Text("     Envoyer     ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.indigo)),
                             ),
                           ),
                           Container(height: 20, color: Colors.transparent),

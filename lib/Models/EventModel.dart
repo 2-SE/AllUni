@@ -11,10 +11,10 @@ class Event {
 
   const Event({
     required this.title,
-    required this.description,
+    this.description = "",
     required this.fromDate,
     required this.toDate,
-    this.backgroundColor = Colors.lightBlueAccent,
+    this.backgroundColor = Colors.green,
     this.isAllDay = false,
   });
 }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-
 class ContactUsPage extends StatefulWidget {
+  const ContactUsPage({Key? key}) : super(key: key);
+
   @override
   _ContactUsPageState createState() => _ContactUsPageState();
 }
 
-
 class _ContactUsPageState extends State<ContactUsPage> {
-  //const ContactUsPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   String ContactUsTitle = "";
@@ -24,22 +23,15 @@ class _ContactUsPageState extends State<ContactUsPage> {
             pinned: true,
             expandedHeight: 240.0,
             stretch: true,
-            backgroundColor: Color(0xFF4C75A0),
+            backgroundColor: const Color(0xFF4C75A0),
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Nous Contacter', style: TextStyle(color: Colors.white)),
+              title: const Text('Nous Contacter',
+                  style: TextStyle(color: Colors.white)),
               background: Padding(
-                padding: EdgeInsets.only(top: 25.0),
-                child: Image(
-                  image: AssetImage("images/logo_ContactUs.png"),
-                  //image: AssetImage("images/BannerLogoApp.png"),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,/*BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("images/BannerLogoApp.png"),
-                  fit: BoxFit.cover,*/
-                ),
+                padding: const EdgeInsets.only(top: 25.0),
+                child: Image.asset("assets/images/ContactUs.png"),
               ),
-              stretchModes: [
+              stretchModes: const [
                 StretchMode.zoomBackground,
               ],
             ),
@@ -67,7 +59,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             minLines: 1,
                             maxLines: 2,
                             autocorrect: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               icon: Icon(Icons.subject),
                               labelText: "Objet du message",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
@@ -88,9 +80,9 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             },
                             maxLength: 2048,
                             minLines: 2,
-                            maxLines: 17,
+                            maxLines: 30,
                             autocorrect: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: "Votre message",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
                               errorStyle: TextStyle(color: Colors.red),
@@ -110,19 +102,25 @@ class _ContactUsPageState extends State<ContactUsPage> {
                             child: RaisedButton(
                               color: Colors.white,
                               textColor: Colors.indigo,
-                              shape: StadiumBorder(
-                                side: BorderSide(color: Colors.indigo, width: 1),
+                              shape: const StadiumBorder(
+                                side:
+                                    BorderSide(color: Colors.indigo, width: 1),
                               ),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
+                                    const SnackBar(
+                                        content: Text(
+                                            "Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
                                   );
                                   //SEND EMAIL TO pickassos2se@gmail.com;
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: Text("     Envoyer     ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
+                              child: const Text("     Envoyer     ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.indigo)),
                             ),
                           ),
                           Container(height: 20, color: Colors.transparent),
