@@ -6,6 +6,7 @@ import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
 import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUs.dart';
 import 'package:navigation_drawer_test/OtherViews/Settings.dart';
 //IMPORT FILES
+import 'package:navigation_drawer_test/OtherViews/SplashLoad.dart';
 import 'package:navigation_drawer_test/Providers/EventProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -29,14 +30,14 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: <String, WidgetBuilder>{
-          "/freerooms": (BuildContext context) => FreeRoomsCalendar(),
+          "/freerooms": (BuildContext context) => const FreeRoomsCalendar(),
           "/settings": (BuildContext context) => const SettingsPage(),
           "/contact": (BuildContext context) => const ContactUsPage(),
           "/drawer": (BuildContext context) =>
               DrawerCalendarView(isSelectedFormat: const [], currentView: ""),
           //"/contact": (BuildContext context) => ContactUsLogOutPage(), //ForTestsOnlyNow
         },
-        home: const HomePage(),
+        home: const Splash(),
       ),
     );
   }

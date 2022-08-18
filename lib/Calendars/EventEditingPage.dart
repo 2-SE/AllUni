@@ -27,6 +27,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 1));
+    } else {
+      final event = widget.event!;
+      titleController.text = event.title;
+      fromDate = event.fromDate;
+      toDate = event.toDate;
     }
   }
 
@@ -49,8 +54,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
           toDate: toDate,
           isAllDay: false,
         );
+        final isEditing = widget.event != null;
         final provider = Provider.of<EventProvider>(context, listen: false);
-        provider.addEvent(event);
+
+        if (isEditing) {
+          provider.editEvent(event, widget.event!);
+        } else {
+          provider.addEvent(event);
+        }
+
         Navigator.of(context).pop();
       }
     }

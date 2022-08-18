@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
 import 'package:navigation_drawer_test/Models/EventModel.dart';
+import 'package:navigation_drawer_test/Providers/EventProvider.dart';
+import 'package:provider/provider.dart';
 
 class EventViewingPopUp extends StatelessWidget {
   final Event event;
@@ -32,6 +35,22 @@ class EventViewingPopUp extends StatelessWidget {
           ),
           Text(
             "${event.toDate}",
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => EventEditingPage(event: event)));
+            },
+            child: const Text("Editer"),
+          ),
+          TextButton(
+            onPressed: () {
+              final provider =
+                  Provider.of<EventProvider>(context, listen: false);
+              provider.deleteEvent(event);
+              Navigator.of(context).pop();
+            },
+            child: const Text("Supprimer"),
           ),
         ],
       ),
