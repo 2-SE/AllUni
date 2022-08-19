@@ -8,6 +8,8 @@ import 'package:navigation_drawer_test/Providers/EventProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../Utils/HeroDialog.dart';
+
 class Calendar extends StatefulWidget {
   String currentView;
   int CalendarFormatIndex;
@@ -235,7 +237,7 @@ class _CalendarState extends State<Calendar> {
         firstDayOfWeek: 1,
         cellBorderColor: Colors.grey.withOpacity(0.25),
         //initialSelectedDate: DateTime.now(),
-        initialDisplayDate: DateTime.now(),
+        initialDisplayDate: DateTime.now().add(const Duration(hours: -2)),
         timeSlotViewSettings: const TimeSlotViewSettings(
           timeFormat: 'HH:mm',
           timeIntervalHeight: 70,
@@ -271,7 +273,7 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
         monthViewSettings: MonthViewSettings(
-          navigationDirection: MonthNavigationDirection.vertical,
+          navigationDirection: MonthNavigationDirection.horizontal,
           //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
           appointmentDisplayCount: 4,
           dayFormat: 'EEE',
@@ -283,8 +285,15 @@ class _CalendarState extends State<Calendar> {
         onTap: (details) {
           if (details.appointments == null) return;
           final event = details.appointments!.first;
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => EventViewingPopUp(event: event)));
+
+          Navigator.of(context).push(
+            HeroDialogRoute(
+              builder: (context) => Center(
+                child: EventViewingPopUp(event: event),
+              ),
+            ),
+          );
+          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPopUp(event: event)));
         },
       ),
       floatingActionButton: FloatingActionButton(

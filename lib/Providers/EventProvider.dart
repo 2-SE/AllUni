@@ -1,29 +1,22 @@
 import 'package:flutter/cupertino.dart';
-import 'package:navigation_drawer_test/Models/EventModel.dart';
+import 'package:navigation_drawer_test/Models/EventsModel.dart';
 
 class EventProvider extends ChangeNotifier {
-  final List<Event> _events = [];
+  final List<PersonalEvent> _events = [];
 
-  List<Event> get events => _events;
+  List<PersonalEvent> get events => _events;
 
-  //DateTime _selectedDate = DateTime.now();
-
-  //DateTime get selectedDate => _selectedDate;
-
-  //void setDate(DateTime date) => _selectedDate = date;
-  //List<Event> get eventsOfSelectedDate => _events;
-
-  void addEvent(Event event) {
+  void addEvent(PersonalEvent event) {
     _events.add(event);
     notifyListeners();
   }
 
-  void deleteEvent(Event event) {
+  void deleteEvent(PersonalEvent event) {
     _events.remove(event);
     notifyListeners();
   }
 
-  void editEvent(Event newEvent, Event oldEvent) {
+  void editEvent(PersonalEvent newEvent, PersonalEvent oldEvent) {
     final index = _events.indexOf(oldEvent);
     _events[index] = newEvent;
     notifyListeners();
