@@ -273,7 +273,7 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
         monthViewSettings: MonthViewSettings(
-          navigationDirection: MonthNavigationDirection.vertical,
+          navigationDirection: MonthNavigationDirection.horizontal,
           //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
           appointmentDisplayCount: 4,
           dayFormat: 'EEE',

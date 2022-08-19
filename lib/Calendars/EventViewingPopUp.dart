@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Models/EventModel.dart';
+import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
+import 'package:navigation_drawer_test/Models/EventsModel.dart';
+import 'package:navigation_drawer_test/Providers/EventProvider.dart';
 import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
+import 'package:provider/provider.dart';
 
-class EventViewingPopUp extends StatelessWidget {
-  final Event event;
+class EventViewingPopUp extends StatefulWidget {
+  final PersonalEvent event;
 
   const EventViewingPopUp({
     Key? key,
@@ -11,12 +14,17 @@ class EventViewingPopUp extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<EventViewingPopUp> createState() => _EventViewingPopUpState();
+}
+
+class _EventViewingPopUpState extends State<EventViewingPopUp> {
+  @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Hero(
-          tag: event.title,
+          tag: widget.event.title,
           child: Material(
             color: Colors.white,
             elevation: 2,
@@ -50,13 +58,37 @@ class EventViewingPopUp extends StatelessWidget {
                             ),
                           ),
                         ),
-                        //Icon(Icons.settings)
-                        IconButton(
-                            icon: const Icon(Icons.settings), onPressed: () {}),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit_note_rounded),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EventEditingPage(event: widget.event),
+                                  ),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete_forever),
+                              onPressed: () {
+                                final provider = Provider.of<EventProvider>(
+                                  context,
+                                  listen: false,
+                                );
+                                provider.deleteEvent(widget.event);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     Text(
-                      event.title,
+                      widget.event.title,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -82,7 +114,7 @@ class EventViewingPopUp extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(event.fromDate),
+                          DateHourUtils.toDate(widget.event.fromDate),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -103,7 +135,7 @@ class EventViewingPopUp extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${DateHourUtils.toTime(event.toDate)} - ${DateHourUtils.toTime(event.toDate)}",
+                          "${DateHourUtils.toTime(widget.event.toDate)} - ${DateHourUtils.toTime(widget.event.toDate)}",
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -124,7 +156,7 @@ class EventViewingPopUp extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(event.fromDate),
+                          DateHourUtils.toDate(widget.event.fromDate),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -145,7 +177,7 @@ class EventViewingPopUp extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(event.fromDate),
+                          DateHourUtils.toDate(widget.event.fromDate),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -156,8 +188,6 @@ class EventViewingPopUp extends StatelessWidget {
                       height: 24,
                     ),
                     ClipRRect(
-                      //borderRadius: BorderRadius.circular(5),
-                      //child: Text(event.title ?? "Aucune note enregistrée pour ce cours"),
                       child: Center(
                         child: Container(
                           decoration: BoxDecoration(
@@ -167,8 +197,8 @@ class EventViewingPopUp extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Text(
-                              (event.description != "")
-                                  ? event.description
+                              (widget.event.description != "")
+                                  ? widget.event.description
                                   : "Aucune note enregistrée pour ce cours.",
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,

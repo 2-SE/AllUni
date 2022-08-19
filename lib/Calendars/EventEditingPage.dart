@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Models/EventModel.dart';
+import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
+import 'package:navigation_drawer_test/Models/EventsModel.dart';
 import 'package:navigation_drawer_test/Providers/EventProvider.dart';
 import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
 
+import '../Utils/HeroDialog.dart';
+
 class EventEditingPage extends StatefulWidget {
-  final Event? event;
+  final PersonalEvent? event;
   const EventEditingPage({
     Key? key,
     this.event,
@@ -18,6 +21,7 @@ class EventEditingPage extends StatefulWidget {
 class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
 
@@ -26,10 +30,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
     super.initState();
     if (widget.event == null) {
       fromDate = DateTime.now();
-      toDate = DateTime.now().add(Duration(hours: 1));
+      toDate = DateTime.now().add(const Duration(hours: 1));
     } else {
       final event = widget.event!;
       titleController.text = event.title;
+      descriptionController.text = event.description;
       fromDate = event.fromDate;
       toDate = event.toDate;
     }
@@ -38,6 +43,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void dispose() {
     titleController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -47,9 +53,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
-        final event = Event(
+        final event = PersonalEvent(
           title: titleController.text,
-          description: "",
+          description: descriptionController.text,
+          tag: "",
           fromDate: fromDate,
           toDate: toDate,
           isAllDay: false,
@@ -59,11 +66,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
         if (isEditing) {
           provider.editEvent(event, widget.event!);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context).push(
+            HeroDialogRoute(
+              builder: (context) => Center(
+                child: EventViewingPopUp(event: event),
+              ),
+            ),
+          );
+          //Navigator.of(context).pop();
         } else {
           provider.addEvent(event);
+          Navigator.of(context).pop();
         }
-
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
       }
     }
 
@@ -132,105 +149,124 @@ class _EventEditingPageState extends State<EventEditingPage> {
     // THE VIEW
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Ajout dans mon Calendrier"),
-          backgroundColor: const Color(0xFF4C75A0),
-          foregroundColor: Colors.white,
-          leading: const CloseButton(),
-          actions: [
-            Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: GestureDetector(
-                  child: const Icon(Icons.save),
-                  onTap: () {
-                    saveForm();
-                  },
-                )),
-          ]),
-      body: SingleChildScrollView(
-          padding: const EdgeInsets.all(12),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    hintText: "Titre",
-                  ),
-                  style: const TextStyle(fontSize: 24),
-                  autocorrect: true,
-                  //onFieldSubmitted: (_) {},
-                  controller: titleController,
-                  validator: (String? title) {
-                    if (title != null && title.isEmpty) {
-                      return "Le titre ne peut pas être vide";
-                    }
-                    return null;
-                  },
-                ),
-                Container(height: 20, color: Colors.transparent),
-                Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Du :",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: buildDropDownField(
-                                text: DateHourUtils.toDate(fromDate),
-                                onClicked: () {
-                                  pickFromDateTime(pickDate: true);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: buildDropDownField(
-                                text: DateHourUtils.toTime(fromDate),
-                                onClicked: () {
-                                  pickFromDateTime(pickDate: false);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(height: 12, color: Colors.transparent),
-                        const Text("Au :",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: buildDropDownField(
-                                text: DateHourUtils.toDate(toDate),
-                                onClicked: () {
-                                  pickToDateTime(pickDate: true);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: buildDropDownField(
-                                text: DateHourUtils.toTime(toDate),
-                                onClicked: () {
-                                  pickToDateTime(pickDate: false);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
+        title: const Text("Ajout dans mon Calendrier"),
+        backgroundColor: const Color(0xFF4C75A0),
+        foregroundColor: Colors.white,
+        leading: const CloseButton(),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              child: const Icon(Icons.save),
+              onTap: () {
+                saveForm();
+              },
             ),
-          )),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: "Titre",
+                ),
+                style: const TextStyle(fontSize: 28),
+                autocorrect: true,
+                maxLength: 128,
+                minLines: 1,
+                maxLines: 2,
+                controller: titleController,
+                validator: (String? title) {
+                  if (title != null && title.isEmpty) {
+                    return "Le titre ne peut pas être vide";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: "Description",
+                ),
+                style: const TextStyle(fontSize: 18),
+                autocorrect: true,
+                maxLength: 1024,
+                minLines: 1,
+                maxLines: 8,
+                controller: descriptionController,
+              ),
+              Container(height: 20, color: Colors.transparent),
+              //PersonalEventType(isSelected: 0),
+              Container(height: 20, color: Colors.transparent),
+              Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Du :",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: buildDropDownField(
+                              text: DateHourUtils.toDate(fromDate),
+                              onClicked: () {
+                                pickFromDateTime(pickDate: true);
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: buildDropDownField(
+                              text: DateHourUtils.toTime(fromDate),
+                              onClicked: () {
+                                pickFromDateTime(pickDate: false);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(height: 12, color: Colors.transparent),
+                      const Text("Au :",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: buildDropDownField(
+                              text: DateHourUtils.toDate(toDate),
+                              onClicked: () {
+                                pickToDateTime(pickDate: true);
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: buildDropDownField(
+                              text: DateHourUtils.toTime(toDate),
+                              onClicked: () {
+                                pickToDateTime(pickDate: false);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
