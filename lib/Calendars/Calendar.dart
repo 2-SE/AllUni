@@ -235,7 +235,7 @@ class _CalendarState extends State<Calendar> {
         appointmentBuilder: appointmentBuilder,
         firstDayOfWeek: 1,
         cellBorderColor: Colors.grey.withOpacity(0.25),
-        //initialSelectedDate: DateTime.now(),
+        initialSelectedDate: DateTime.now(),
         initialDisplayDate: DateTime.now().add(const Duration(hours: -2)),
         timeSlotViewSettings: const TimeSlotViewSettings(
           timeFormat: 'HH:mm',
