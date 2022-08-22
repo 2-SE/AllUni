@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:alluni/Calendars/EventEditingPage.dart';
 import 'package:alluni/Calendars/EventViewingPopUp.dart';
 import 'package:alluni/Drawers/DrawerCalendarView.dart';
 import 'package:alluni/Models/EventDataSource.dart';
 import 'package:alluni/Providers/EventProvider.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -223,7 +223,6 @@ class _CalendarState extends State<Calendar> {
           ),
            */
         ],
-        //elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0:0.0,
       ),
       drawer: DrawerCalendarView(
         currentView: widget.currentView,
@@ -286,14 +285,17 @@ class _CalendarState extends State<Calendar> {
           if (details.appointments == null) return;
           final event = details.appointments!.first;
 
-          Navigator.of(context).push(
-            HeroDialogRoute(
-              builder: (context) => Center(
-                child: EventViewingPopUp(event: event),
+          if (details.targetElement == CalendarElement.calendarCell) {
+            //setState(() {});
+          } else {
+            Navigator.of(context).push(
+              HeroDialogRoute(
+                builder: (context) => Center(
+                  child: EventViewingPopUp(event: event),
+                ),
               ),
-            ),
-          );
-          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPopUp(event: event)));
+            );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(

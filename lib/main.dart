@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 //DRAWER IMPORT (for routes) :
 import 'package:alluni/Calendars/Calendar.dart';
 import 'package:alluni/Calendars/FreeRoomsCalendar.dart';
@@ -8,6 +7,7 @@ import 'package:alluni/OtherViews/Settings.dart';
 //IMPORT FILES
 import 'package:alluni/OtherViews/SplashLoad.dart';
 import 'package:alluni/Providers/EventProvider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //HOME-PAGE WHEN APP STARTS
-      body: Calendar("Mon Calendrier", 0),
+      body: Calendar("Mon Calendrier", 3),
     );
   }
 }
