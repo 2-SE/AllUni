@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.navigation_drawer_test">
+    package="com.example.alluni">
    <application
-        android:label="navigation_drawer_test"
+        android:label="alluni"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

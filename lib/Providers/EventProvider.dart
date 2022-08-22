@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:navigation_drawer_test/Models/EventsModel.dart';
+import 'package:alluni/Models/EventsModel.dart';
 
 class EventProvider extends ChangeNotifier {
   final List<PersonalEvent> _events = [];

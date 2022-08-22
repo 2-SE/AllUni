@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
-import 'package:navigation_drawer_test/Models/EventsModel.dart';
-import 'package:navigation_drawer_test/Providers/EventProvider.dart';
-import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
+import 'package:alluni/Calendars/EventEditingPage.dart';
+import 'package:alluni/Models/EventsModel.dart';
+import 'package:alluni/Providers/EventProvider.dart';
+import 'package:alluni/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
 
 class EventViewingPopUp extends StatefulWidget {
@@ -44,12 +44,11 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
-                            height: 20,
-                            width: 50,
+                            height: 24,
                             color: Colors.green,
                             child: const Center(
                               child: Text(
-                                "Cours",
+                                "  Cours  ",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontStyle: FontStyle.italic,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
-
+import 'package:alluni/Calendars/Calendar.dart';
 
 class DrawerCalendarChooseButton extends StatefulWidget {
-
   String currentView = "";
   List<bool> isSelected = [];
   DrawerCalendarChooseButton({
@@ -13,12 +11,12 @@ class DrawerCalendarChooseButton extends StatefulWidget {
   });
 
   @override
-  State<DrawerCalendarChooseButton> createState() => _DrawerCalendarChooseButtonState();
+  State<DrawerCalendarChooseButton> createState() =>
+      _DrawerCalendarChooseButtonState();
 }
 
-
-
-class _DrawerCalendarChooseButtonState extends State<DrawerCalendarChooseButton> {
+class _DrawerCalendarChooseButtonState
+    extends State<DrawerCalendarChooseButton> {
   @override
   Widget build(BuildContext context) {
     var isSelected = widget.isSelected;
@@ -32,21 +30,21 @@ class _DrawerCalendarChooseButtonState extends State<DrawerCalendarChooseButton>
         selectedColor: Colors.white,
         renderBorder: false,
         color: Colors.black,
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.calendar_view_day_rounded),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.amp_stories),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.calendar_view_week_rounded),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.calendar_month_outlined),
           ),
         ],
@@ -62,10 +60,12 @@ class _DrawerCalendarChooseButtonState extends State<DrawerCalendarChooseButton>
             //print(isSelected);
             //print("Index :  $SelectedButtonIndex");
             Navigator.pop(context);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Calendar(currentView, SelectedButtonIndex)))
-            .then((_) {
-              setState(() {
-              });
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) =>
+                        Calendar(currentView, SelectedButtonIndex)))
+                .then((_) {
+              setState(() {});
             });
           });
         },

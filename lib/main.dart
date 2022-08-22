@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 //DRAWER IMPORT (for routes) :
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
-import 'package:navigation_drawer_test/Calendars/FreeRoomsCalendar.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
-import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUs.dart';
-import 'package:navigation_drawer_test/OtherViews/Settings.dart';
+import 'package:alluni/Calendars/Calendar.dart';
+import 'package:alluni/Calendars/FreeRoomsCalendar.dart';
+import 'package:alluni/Drawers/DrawerCalendarView.dart';
+import 'package:alluni/OtherViews/ContactUs/ContactUs.dart';
+import 'package:alluni/OtherViews/Settings.dart';
 //IMPORT FILES
-import 'package:navigation_drawer_test/OtherViews/SplashLoad.dart';
-import 'package:navigation_drawer_test/Providers/EventProvider.dart';
+import 'package:alluni/OtherViews/SplashLoad.dart';
+import 'package:alluni/Providers/EventProvider.dart';
 import 'package:provider/provider.dart';
 
 void main() {

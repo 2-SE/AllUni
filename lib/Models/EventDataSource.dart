@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Models/EventsModel.dart';
+import 'package:alluni/Models/EventsModel.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventDataSource extends CalendarDataSource {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
-import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
-import 'package:navigation_drawer_test/Models/EventDataSource.dart';
-import 'package:navigation_drawer_test/Providers/EventProvider.dart';
+import 'package:alluni/Calendars/EventEditingPage.dart';
+import 'package:alluni/Calendars/EventViewingPopUp.dart';
+import 'package:alluni/Drawers/DrawerCalendarView.dart';
+import 'package:alluni/Models/EventDataSource.dart';
+import 'package:alluni/Providers/EventProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
