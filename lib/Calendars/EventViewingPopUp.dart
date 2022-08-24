@@ -6,7 +6,7 @@ import 'package:alluni/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
 
 class EventViewingPopUp extends StatefulWidget {
-  final PersonalEvent event;
+  final Event event;
 
   const EventViewingPopUp({
     Key? key,

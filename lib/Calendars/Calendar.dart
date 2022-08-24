@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import '../Utils/HeroDialog.dart';
+import 'package:alluni/Utils/HeroDialog.dart';
 
 class Calendar extends StatefulWidget {
   String currentView;
@@ -101,7 +100,7 @@ class _CalendarState extends State<Calendar> {
         height: details.bounds.height,
         decoration: BoxDecoration(
           color: event.backgroundColor,
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
         child: Row(
           children: [
@@ -159,7 +158,7 @@ class _CalendarState extends State<Calendar> {
         height: details.bounds.height,
         decoration: BoxDecoration(
           color: event.backgroundColor,
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
       );
     } else {
@@ -189,6 +188,7 @@ class _CalendarState extends State<Calendar> {
         _controller.view = CalendarView.month;
       }
     }
+
     final events = Provider.of<EventProvider>(context).events;
 
     return Scaffold(
@@ -229,7 +229,7 @@ class _CalendarState extends State<Calendar> {
         isSelectedFormat: CalendarFormat,
       ),
       body: SfCalendar(
-        controller: _controller,
+        controller: _controller, // Change the Calendar Type View
         todayHighlightColor: const Color(0xFF4C75A0),
         todayTextStyle: const TextStyle(color: Colors.white),
         appointmentBuilder: appointmentBuilder,
@@ -285,9 +285,7 @@ class _CalendarState extends State<Calendar> {
           if (details.appointments == null) return;
           final event = details.appointments!.first;
 
-          if (details.targetElement == CalendarElement.calendarCell) {
-            //setState(() {});
-          } else {
+          if (details.targetElement != CalendarElement.calendarCell) {
             Navigator.of(context).push(
               HeroDialogRoute(
                 builder: (context) => Center(
