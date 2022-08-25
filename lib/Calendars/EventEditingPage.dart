@@ -1,11 +1,10 @@
-import 'package:alluni/Calendars/EventViewingPopUp.dart';
-import 'package:alluni/Models/EventsModel.dart';
-import 'package:alluni/Providers/EventProvider.dart';
-import 'package:alluni/Utils/HeroDialog.dart';
+import 'package:AllUni/Calendars/EventViewingPopUp.dart';
+import 'package:AllUni/Models/EventsModel.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Utils/DateHourUtils.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../Utils/DateHourUtils.dart';
 
 class EventEditingPage extends StatefulWidget {
   final Event? event;

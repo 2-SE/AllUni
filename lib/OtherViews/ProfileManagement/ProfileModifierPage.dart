@@ -1,6 +1,6 @@
-import 'package:alluni/OtherViews/ProfileManagement/ChoosePersonalAcademicMajorPopUp.dart';
-import 'package:alluni/OtherViews/ProfileManagement/ChoosePersonalPromotionPopUp.dart';
-import 'package:alluni/Utils/HeroDialog.dart';
+import 'package:AllUni/OtherViews/ProfileManagement/ChoosePersonalAcademicMajorPopUp.dart';
+import 'package:AllUni/OtherViews/ProfileManagement/ChoosePersonalPromotionPopUp.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 
 class ProfileModifierPage extends StatelessWidget {

@@ -1,6 +1,6 @@
 //IT'S WILL BE FOR LATER FOR NOW (WAITING FOR DYNAMODB FOR THAT)
 /*
-import 'package:alluni/Drawers/DrawerCalendarView.dart';
+import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';

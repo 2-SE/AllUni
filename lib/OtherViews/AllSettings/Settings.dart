@@ -1,6 +1,6 @@
-import 'package:alluni/OtherViews/AllSettings/InformationsPopUp.dart';
-import 'package:alluni/OtherViews/ProfileManagement/ProfileModifierPage.dart';
-import 'package:alluni/Utils/HeroDialog.dart';
+import 'package:AllUni/OtherViews/AllSettings/InformationsPopUp.dart';
+import 'package:AllUni/OtherViews/ProfileManagement/ProfileModifierPage.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {

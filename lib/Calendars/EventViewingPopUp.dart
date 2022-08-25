@@ -1,8 +1,8 @@
+import 'package:AllUni/Calendars/EventEditingPage.dart';
+import 'package:AllUni/Models/EventsModel.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:flutter/material.dart';
-import 'package:alluni/Calendars/EventEditingPage.dart';
-import 'package:alluni/Models/EventsModel.dart';
-import 'package:alluni/Providers/EventProvider.dart';
-import 'package:alluni/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
 
 class EventViewingPopUp extends StatefulWidget {

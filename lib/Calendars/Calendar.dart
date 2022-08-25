@@ -1,13 +1,13 @@
-import 'package:alluni/Calendars/EventEditingPage.dart';
-import 'package:alluni/Calendars/EventViewingPopUp.dart';
-import 'package:alluni/Drawers/DrawerCalendarView.dart';
-import 'package:alluni/Models/EventDataSource.dart';
-import 'package:alluni/Providers/EventProvider.dart';
+import 'package:AllUni/Calendars/EventEditingPage.dart';
+import 'package:AllUni/Calendars/EventViewingPopUp.dart';
+import 'package:AllUni/Drawers/DrawerCalendarView.dart';
+import 'package:AllUni/Models/EventDataSource.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:alluni/Utils/HeroDialog.dart';
 
 class Calendar extends StatefulWidget {
   String currentView;

@@ -1,5 +1,5 @@
-name: alluni
-description: A new Flutter project.
+name: AllUni
+description: App made by students, for students and their ability to take informations from their school for their ERP [Enterprise Ressource Planning] and marks.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.

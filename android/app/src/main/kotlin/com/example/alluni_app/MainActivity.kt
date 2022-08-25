@@ -1,4 +1,4 @@
-package com.example.alluni
+package com.example.AllUni
 
 import io.flutter.embedding.android.FlutterActivity
 
