@@ -1,6 +1,6 @@
+import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Drawers/DrawerCalendarChooseButton.dart';
 import 'package:flutter/material.dart';
-import 'package:alluni/Calendars/Calendar.dart';
-import 'package:alluni/Drawers/DrawerCalendarChooseButton.dart';
 
 class DrawerCalendarView extends StatefulWidget {
   String currentView = "";
@@ -116,13 +116,26 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                     }); //Navigator.pushNamed(context, "/calendar");
                   },
                 ),
+
+                //IT'S WILL BE FOR LATER FOR NOW (WAITING FOR DYNAMODB FOR THAT)
+                /*
                 ListTile(
                   title: const Text("Calendrier Salles Libres"),
                   trailing: const Icon(Icons.meeting_room_outlined,
                       color: Colors.black),
                   onTap: () {
-                    //Navigator.of(context).pop();
-                    //Navigator.pushNamed(context, "/freerooms");
+                    if (widget.currentView == "FreeRooms") {
+                      Navigator.of(context).pop();
+                    } else {
+                      Navigator.of(context).pop();
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                              builder: (context) => FreeRoomsCalendar(
+                                  CalendarFormatIndex: currentFormat)))
+                          .then((_) {
+                        setState(() {});
+                      });
+                    }
                   },
                 ),
                 ListTile(
@@ -137,9 +150,10 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                                 Calendar("Calendrier École", currentFormat)))
                         .then((_) {
                       setState(() {});
-                    }); //Navigator.pushNamed(context, "/calendar");
+                    });
                   },
                 ),
+                */
                 const Divider(color: Colors.black, height: 1),
                 DrawerCalendarChooseButton(
                     currentView: currentView,
@@ -181,15 +195,14 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   title: const Text("Nous Contacter",
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        color: Colors.indigo,
+                        color: Color(0xFF4C75A0),
                       )),
                   dense: true,
                   visualDensity: const VisualDensity(vertical: -2),
                   trailing:
-                      const Icon(Icons.outgoing_mail, color: Colors.indigo),
+                      const Icon(Icons.outgoing_mail, color: Color(0xFF4C75A0)),
                   onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.pushNamed(context, "/contact");
+                    Navigator.pushNamed(context, "/contactLogOut");
                   },
                 ),
                 Container(height: 15, color: Colors.transparent),

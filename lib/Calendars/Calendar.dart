@@ -1,14 +1,13 @@
+import 'package:AllUni/Calendars/EventEditingPage.dart';
+import 'package:AllUni/Calendars/EventViewingPopUp.dart';
+import 'package:AllUni/Drawers/DrawerCalendarView.dart';
+import 'package:AllUni/Models/EventDataSource.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:alluni/Calendars/EventEditingPage.dart';
-import 'package:alluni/Calendars/EventViewingPopUp.dart';
-import 'package:alluni/Drawers/DrawerCalendarView.dart';
-import 'package:alluni/Models/EventDataSource.dart';
-import 'package:alluni/Providers/EventProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import '../Utils/HeroDialog.dart';
 
 class Calendar extends StatefulWidget {
   String currentView;
@@ -101,7 +100,7 @@ class _CalendarState extends State<Calendar> {
         height: details.bounds.height,
         decoration: BoxDecoration(
           color: event.backgroundColor,
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
         child: Row(
           children: [
@@ -159,7 +158,7 @@ class _CalendarState extends State<Calendar> {
         height: details.bounds.height,
         decoration: BoxDecoration(
           color: event.backgroundColor,
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
       );
     } else {
@@ -189,6 +188,7 @@ class _CalendarState extends State<Calendar> {
         _controller.view = CalendarView.month;
       }
     }
+
     final events = Provider.of<EventProvider>(context).events;
 
     return Scaffold(
@@ -223,20 +223,19 @@ class _CalendarState extends State<Calendar> {
           ),
            */
         ],
-        //elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0:0.0,
       ),
       drawer: DrawerCalendarView(
         currentView: widget.currentView,
         isSelectedFormat: CalendarFormat,
       ),
       body: SfCalendar(
-        controller: _controller,
+        controller: _controller, // Change the Calendar Type View
         todayHighlightColor: const Color(0xFF4C75A0),
         todayTextStyle: const TextStyle(color: Colors.white),
         appointmentBuilder: appointmentBuilder,
         firstDayOfWeek: 1,
         cellBorderColor: Colors.grey.withOpacity(0.25),
-        //initialSelectedDate: DateTime.now(),
+        initialSelectedDate: DateTime.now(),
         initialDisplayDate: DateTime.now().add(const Duration(hours: -2)),
         timeSlotViewSettings: const TimeSlotViewSettings(
           timeFormat: 'HH:mm',
@@ -286,14 +285,15 @@ class _CalendarState extends State<Calendar> {
           if (details.appointments == null) return;
           final event = details.appointments!.first;
 
-          Navigator.of(context).push(
-            HeroDialogRoute(
-              builder: (context) => Center(
-                child: EventViewingPopUp(event: event),
+          if (details.targetElement != CalendarElement.calendarCell) {
+            Navigator.of(context).push(
+              HeroDialogRoute(
+                builder: (context) => Center(
+                  child: EventViewingPopUp(event: event),
+                ),
               ),
-            ),
-          );
-          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPopUp(event: event)));
+            );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(

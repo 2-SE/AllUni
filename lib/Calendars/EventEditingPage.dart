@@ -1,14 +1,13 @@
+import 'package:AllUni/Calendars/EventViewingPopUp.dart';
+import 'package:AllUni/Models/EventsModel.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Utils/DateHourUtils.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:alluni/Calendars/EventViewingPopUp.dart';
-import 'package:alluni/Models/EventsModel.dart';
-import 'package:alluni/Providers/EventProvider.dart';
-import 'package:alluni/Utils/HeroDialog.dart';
 import 'package:provider/provider.dart';
 
-import '../Utils/DateHourUtils.dart';
-
 class EventEditingPage extends StatefulWidget {
-  final PersonalEvent? event;
+  final Event? event;
   const EventEditingPage({
     Key? key,
     this.event,
@@ -24,7 +23,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
-  late bool isAllDay;
+  //late bool isAllDay;
 
   @override
   void initState() {
@@ -32,14 +31,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
-      isAllDay = false;
+      //isAllDay = false;
     } else {
       final event = widget.event!;
       titleController.text = event.title;
       descriptionController.text = event.description;
       fromDate = event.fromDate;
       toDate = event.toDate;
-      isAllDay = event.isAllDay;
+      //isAllDay = event.isAllDay;
     }
   }
 
@@ -58,13 +57,13 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
-        final event = PersonalEvent(
+        final event = Event(
           title: titleController.text,
           description: descriptionController.text,
           tag: "",
           fromDate: fromDate,
           toDate: toDate,
-          isAllDay: isAllDay,
+          //isAllDay: isAllDay,
         );
         final isEditing = widget.event != null;
         final provider = Provider.of<EventProvider>(context, listen: false);
@@ -209,6 +208,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
               ),
               Container(height: 10, color: Colors.transparent),
               //EventEditingType(isSelected: [true, false], isEditing: false),
+              /*
               CheckboxListTile(
                 title: const Text(
                   "Journée entière ?",
@@ -224,6 +224,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 activeColor: Colors.lightGreen,
                 checkColor: Colors.white,
               ),
+              */
               Container(height: 10, color: Colors.transparent),
               Column(
                 children: [

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
+import 'package:AllUni/Utils/DateHourUtils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class ContactUsLogOutPage extends StatefulWidget {
   const ContactUsLogOutPage({Key? key}) : super(key: key);
-
   @override
   _ContactUsLogOutPageState createState() => _ContactUsLogOutPageState();
 }
@@ -14,6 +17,20 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
   String ContactUsEmail = "";
   String ContactUsTitle = "";
   String ContactUsMessage = "";
+
+  TextEditingController senderController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    senderController.dispose();
+    emailController.dispose();
+    titleController.dispose();
+    messageController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +71,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                         children: [
                           Container(height: 5, color: Colors.transparent),
                           TextFormField(
+                            controller: senderController,
                             onChanged: (value) {
                               ContactUsName = value;
                             },
@@ -75,6 +93,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             },
                           ),
                           TextFormField(
+                            controller: emailController,
                             onChanged: (value) {
                               ContactUsEmail = value;
                             },
@@ -101,6 +120,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             },
                           ),
                           TextFormField(
+                            controller: titleController,
                             onChanged: (value) {
                               ContactUsTitle = value;
                             },
@@ -124,6 +144,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             },
                           ),
                           TextFormField(
+                            controller: messageController,
                             onChanged: (value) {
                               ContactUsMessage = value;
                             },
@@ -155,22 +176,68 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                                 side:
                                     BorderSide(color: Colors.indigo, width: 1),
                               ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  _formKey.currentState?.save();
-                                  /*
+                              onPressed: () async {
+                                /*
                                   print("Name :  " + ContactUsName);
                                   print("Email :  " + ContactUsEmail);
                                   print("Title :  " + ContactUsTitle);
                                   print("Msg :  " + ContactUsMessage);
-                                  */
-                                  //SEND EMAIL TO pickassos2se@gmail.com;
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            "Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
-                                  );
-                                  Navigator.of(context).pop();
+                                */
+
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState?.save();
+                                  var response = await Dio()
+                                      .post(
+                                        "https://discord.com/api/webhooks/1011653493439860797/jGX9AE2EAVJVeYwZjdI07lx0EVFjQZLc5cxEssBap8yf57uEYM2YEdnh6xfC4CoDDyYc",
+                                        data: json.encode({
+                                          'content': 'In-App : Contact Us',
+                                          'embeds': [
+                                            {
+                                              "title": ContactUsTitle,
+                                              "description": ContactUsMessage,
+                                              'color': int.parse('4C75A0',
+                                                  radix: 16),
+                                              'fields': [
+                                                {
+                                                  "name": "Nom",
+                                                  "value": ContactUsName,
+                                                  "inline": "true"
+                                                },
+                                                {
+                                                  "name": "Email",
+                                                  "value": ContactUsEmail,
+                                                  "inline": "true"
+                                                },
+                                                {
+                                                  "name": "Date",
+                                                  "value":
+                                                      DateHourUtils.toDateTime(
+                                                          DateTime.now()),
+                                                  "inline": "true"
+                                                }
+                                              ],
+                                            }
+                                          ]
+                                        }),
+                                      )
+                                      .then(
+                                        (value) => Navigator.of(context).pop(),
+                                      )
+                                      .then(
+                                        (value) => Navigator.of(context).pop(),
+                                      )
+                                      .then(
+                                        (value) => {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                "Le message a bien été envoyé.",
+                                              ),
+                                            ),
+                                          ),
+                                        },
+                                      );
                                 }
                               },
                               child: const Text("     Envoyer     ",
