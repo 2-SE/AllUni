@@ -1,12 +1,10 @@
-//DRAWER IMPORT (for routes) :
-import 'package:alluni/Calendars/Calendar.dart';
-import 'package:alluni/Calendars/FreeRoomsCalendar.dart';
-import 'package:alluni/Drawers/DrawerCalendarView.dart';
-import 'package:alluni/OtherViews/ContactUs/ContactUs.dart';
-import 'package:alluni/OtherViews/Settings.dart';
-//IMPORT FILES
-import 'package:alluni/OtherViews/SplashLoad.dart';
-import 'package:alluni/Providers/EventProvider.dart';
+import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Drawers/DrawerCalendarView.dart';
+import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
+import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
+import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
+import 'package:AllUni/OtherViews/SplashLoad.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,12 +28,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: <String, WidgetBuilder>{
-          "/freerooms": (BuildContext context) => const FreeRoomsCalendar(),
           "/settings": (BuildContext context) => const SettingsPage(),
-          "/contact": (BuildContext context) => const ContactUsPage(),
+          "/contactLogIn": (BuildContext context) => const ContactUsPage(),
+          "/contactLogOut": (BuildContext context) =>
+              const ContactUsLogOutPage(),
           "/drawer": (BuildContext context) =>
               DrawerCalendarView(isSelectedFormat: const [], currentView: ""),
-          //"/contact": (BuildContext context) => ContactUsLogOutPage(), //ForTestsOnlyNow
         },
         home: const Splash(),
       ),
@@ -50,7 +48,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //HOME-PAGE WHEN APP STARTS
-      body: Calendar("Mon Calendrier", 3),
+      body: Calendar("Mon Calendrier", 0),
     );
   }
 }

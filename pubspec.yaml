@@ -1,8 +1,9 @@
-name: alluni
-description: A new Flutter project.
+name: AllUni
+description: App made by students, for students and their ability to take informations from their school for their ERP [Enterprise Ressource Planning] and marks.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
+
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
@@ -37,6 +38,14 @@ dependencies:
   provider: ^6.0.3
   intl: ^0.17.0
   animated_splash_screen: ^1.3.0
+  dio: ^4.0.6
+
+  # Amplify Import Dependencies
+  #amplify_flutter: ^0.6.0
+  #amplify_datastore: ^0.6.0
+  #amplify_auth_cognito: ^0.6.0
+  #amplify_analytics_pinpoint: ^0.6.0
+  #amplify_api: ^0.6.0
 
 dev_dependencies:
   flutter_test:
@@ -54,9 +63,17 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_icons:
-  android: true
+  android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logos/LogoApp.png"
+  web:
+    generate: true
+  windows:
+    generate: true
+  image_path_ios: "assets/images/logos/LogoApp.png"
+  image_path_android: "assets/images/logos/LogoAndroidApp.png"
+  adaptive_icon_background: "#4C75A0"
+  adaptive_icon_foreground: "assets/images/logos/LogoAndroidApp.png"
+
 
 # The following section is specific to Flutter packages.
 flutter:

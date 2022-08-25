@@ -1,5 +1,5 @@
+import 'package:AllUni/Calendars/Calendar.dart';
 import 'package:flutter/material.dart';
-import 'package:alluni/Calendars/Calendar.dart';
 
 class DrawerCalendarChooseButton extends StatefulWidget {
   String currentView = "";
@@ -26,7 +26,7 @@ class _DrawerCalendarChooseButtonState
       color: Colors.indigo.withOpacity(0.15),
       child: ToggleButtons(
         isSelected: isSelected,
-        fillColor: Colors.indigo,
+        fillColor: Color(0xFF4C75A0),
         selectedColor: Colors.white,
         renderBorder: false,
         color: Colors.black,
@@ -57,16 +57,26 @@ class _DrawerCalendarChooseButtonState
                 isSelected[index] = false;
               }
             }
-            //print(isSelected);
-            //print("Index :  $SelectedButtonIndex");
-            Navigator.pop(context);
-            Navigator.of(context)
-                .push(MaterialPageRoute(
-                    builder: (context) =>
-                        Calendar(currentView, SelectedButtonIndex)))
-                .then((_) {
-              setState(() {});
-            });
+
+            if (widget.currentView == "FreeRooms") {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "Information : \nLe changement de type de vue ne peut être mis en place que pour les calendriers tels que celui personnel, des autres promotions ou encore celui de l'école.",
+                  ),
+                ),
+              );
+            } else {
+              Navigator.pop(context);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(
+                      builder: (context) =>
+                          Calendar(currentView, SelectedButtonIndex)))
+                  .then((_) {
+                setState(() {});
+              });
+            }
           });
         },
       ),

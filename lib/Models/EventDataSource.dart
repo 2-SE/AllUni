@@ -1,13 +1,13 @@
+import 'package:AllUni/Models/EventsModel.dart';
 import 'package:flutter/material.dart';
-import 'package:alluni/Models/EventsModel.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventDataSource extends CalendarDataSource {
-  EventDataSource(List<PersonalEvent> appointments) {
+  EventDataSource(List<Event> appointments) {
     this.appointments = appointments;
   }
 
-  PersonalEvent getEvent(int index) => appointments![index] as PersonalEvent;
+  Event getEvent(int index) => appointments![index] as Event;
 
   @override
   String getTitle(int index) => getEvent(index).title;
@@ -21,8 +21,8 @@ class EventDataSource extends CalendarDataSource {
   @override
   DateTime getEndTime(int index) => getEvent(index).toDate;
 
-  @override
-  bool isAllDay(int index) => getEvent(index).isAllDay;
+  //@override
+  //bool isAllDay(int index) => getEvent(index).isAllDay;
 
   @override
   Color getColor(int index) => getEvent(index).backgroundColor;
