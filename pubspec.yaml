@@ -3,6 +3,7 @@ description: App made by students, for students and their ability to take inform
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
+
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
@@ -62,9 +63,17 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_icons:
-  android: true
+  android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logos/LogoApp.png"
+  web:
+    generate: true
+  windows:
+    generate: true
+  image_path_ios: "assets/images/logos/LogoApp.png"
+  image_path_android: "assets/images/logos/LogoAndroidApp.png"
+  adaptive_icon_background: "#4C75A0"
+  adaptive_icon_foreground: "assets/images/logos/LogoAndroidApp.png"
+
 
 # The following section is specific to Flutter packages.
 flutter:
