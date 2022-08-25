@@ -1,4 +1,4 @@
-import 'package:alluni/Models/EventsModel.dart';
+import 'package:AllUni/Models/EventsModel.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 

@@ -1,10 +1,10 @@
-import 'package:alluni/Calendars/Calendar.dart';
-import 'package:alluni/Drawers/DrawerCalendarView.dart';
-import 'package:alluni/OtherViews/AllSettings/Settings.dart';
-import 'package:alluni/OtherViews/ContactUs/ContactUs.dart';
-import 'package:alluni/OtherViews/ContactUs/ContactUsLogOut.dart';
-import 'package:alluni/OtherViews/SplashLoad.dart';
-import 'package:alluni/Providers/EventProvider.dart';
+import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Drawers/DrawerCalendarView.dart';
+import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
+import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
+import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
+import 'package:AllUni/OtherViews/SplashLoad.dart';
+import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

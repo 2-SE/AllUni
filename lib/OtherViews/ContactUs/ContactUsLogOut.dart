@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:alluni/Utils/DateHourUtils.dart';
+import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

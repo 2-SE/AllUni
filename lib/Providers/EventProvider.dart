@@ -1,4 +1,4 @@
-import 'package:alluni/Models/EventsModel.dart';
+import 'package:AllUni/Models/EventsModel.dart';
 import 'package:flutter/cupertino.dart';
 
 class EventProvider extends ChangeNotifier {

@@ -1,4 +1,4 @@
-import 'package:alluni/Calendars/Calendar.dart';
+import 'package:AllUni/Calendars/Calendar.dart';
 import 'package:flutter/material.dart';
 
 class DrawerCalendarChooseButton extends StatefulWidget {
