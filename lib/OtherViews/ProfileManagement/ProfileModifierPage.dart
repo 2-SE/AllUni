@@ -3,9 +3,20 @@ import 'package:AllUni/OtherViews/ProfileManagement/ChoosePersonalPromotionPopUp
 import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 
-class ProfileModifierPage extends StatelessWidget {
-  const ProfileModifierPage({Key? key}) : super(key: key);
+class ProfileModifierPage extends StatefulWidget {
+  String myPromotion = "";
+  String myAcademicMajor = "";
+  ProfileModifierPage({
+    super.key,
+    required this.myPromotion,
+    required this.myAcademicMajor,
+  });
 
+  @override
+  State<ProfileModifierPage> createState() => _ProfileModifierPageState();
+}
+
+class _ProfileModifierPageState extends State<ProfileModifierPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,17 +80,20 @@ class ProfileModifierPage extends StatelessWidget {
                               Navigator.of(context).push(
                                 HeroDialogRoute(
                                   builder: (context) => Center(
-                                    child: ChoosePersonalPromotionPopUp(),
+                                    child: ChoosePersonalPromotionPopUp(
+                                      myPromotion: widget.myPromotion,
+                                      myAcademicMajor: widget.myAcademicMajor,
+                                    ),
                                   ),
                                 ),
                               );
                             },
                           ),
                         ),
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            "2023",
-                            style: TextStyle(
+                            widget.myPromotion,
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -101,17 +115,20 @@ class ProfileModifierPage extends StatelessWidget {
                               Navigator.of(context).push(
                                 HeroDialogRoute(
                                   builder: (context) => Center(
-                                    child: ChoosePersonalAcademicMajorPopUp(),
+                                    child: ChoosePersonalAcademicMajorPopUp(
+                                      myPromotion: widget.myPromotion,
+                                      myAcademicMajor: widget.myAcademicMajor,
+                                    ),
                                   ),
                                 ),
                               );
                             },
                           ),
                         ),
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            "2S",
-                            style: TextStyle(
+                            widget.myAcademicMajor,
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),

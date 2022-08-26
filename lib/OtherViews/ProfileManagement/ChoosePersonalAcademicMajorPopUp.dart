@@ -1,11 +1,26 @@
+import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
+import 'package:AllUni/OtherViews/ProfileManagement/ProfileModifierPage.dart';
 import 'package:flutter/material.dart';
 
-class ChoosePersonalAcademicMajorPopUp extends StatelessWidget {
-  const ChoosePersonalAcademicMajorPopUp({Key? key}) : super(key: key);
+class ChoosePersonalAcademicMajorPopUp extends StatefulWidget {
+  String myPromotion = "";
+  String myAcademicMajor = "";
+  ChoosePersonalAcademicMajorPopUp({
+    super.key,
+    required this.myPromotion,
+    required this.myAcademicMajor,
+  });
 
   @override
+  State<ChoosePersonalAcademicMajorPopUp> createState() =>
+      _ChoosePersonalAcademicMajorPopUpState();
+}
+
+class _ChoosePersonalAcademicMajorPopUpState
+    extends State<ChoosePersonalAcademicMajorPopUp> {
+  @override
   Widget build(BuildContext context) {
-    final AcademicMajor = [
+    final AcademicMajorList = [
       "1A",
       "1B",
       "1C",
@@ -82,10 +97,11 @@ class ChoosePersonalAcademicMajorPopUp extends StatelessWidget {
                             SliverList(
                               delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
-                                if (index < AcademicMajor.length) {
+                                if (index < AcademicMajorList.length) {
                                   return ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: false
+                                      primary: (widget.myAcademicMajor ==
+                                              AcademicMajorList[index])
                                           ? const Color(0xFF4C75A0)
                                           : Colors.white,
                                       shape: RoundedRectangleBorder(
@@ -94,15 +110,37 @@ class ChoosePersonalAcademicMajorPopUp extends StatelessWidget {
                                       ),
                                     ),
                                     child: Text(
-                                      AcademicMajor[index],
-                                      style: const TextStyle(
-                                        color: false
+                                      AcademicMajorList[index],
+                                      style: TextStyle(
+                                        color: (widget.myAcademicMajor ==
+                                                AcademicMajorList[index])
                                             ? Colors.white
-                                            : Color(0xFF4C75A0),
+                                            : const Color(0xFF4C75A0),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => SettingsPage(
+                                          myPromotion: widget.myPromotion,
+                                          myAcademicMajor:
+                                              AcademicMajorList[index],
+                                        ),
+                                      ));
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProfileModifierPage(
+                                          myPromotion: widget.myPromotion,
+                                          myAcademicMajor:
+                                              AcademicMajorList[index],
+                                        ),
+                                      ));
+                                    },
                                   );
                                 }
                               }),

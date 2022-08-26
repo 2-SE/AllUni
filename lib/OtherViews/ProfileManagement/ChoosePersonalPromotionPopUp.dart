@@ -1,8 +1,23 @@
+import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
+import 'package:AllUni/OtherViews/ProfileManagement/ProfileModifierPage.dart';
 import 'package:flutter/material.dart';
 
-class ChoosePersonalPromotionPopUp extends StatelessWidget {
-  const ChoosePersonalPromotionPopUp({Key? key}) : super(key: key);
+class ChoosePersonalPromotionPopUp extends StatefulWidget {
+  String myPromotion = "";
+  String myAcademicMajor = "";
+  ChoosePersonalPromotionPopUp({
+    super.key,
+    required this.myPromotion,
+    required this.myAcademicMajor,
+  });
 
+  @override
+  State<ChoosePersonalPromotionPopUp> createState() =>
+      _ChoosePersonalPromotionPopUpState();
+}
+
+class _ChoosePersonalPromotionPopUpState
+    extends State<ChoosePersonalPromotionPopUp> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -49,7 +64,9 @@ class ChoosePersonalPromotionPopUp extends StatelessWidget {
                                 if (index <= 5) {
                                   return ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: false
+                                      primary: (widget.myPromotion ==
+                                              (DateTime.now().year + index)
+                                                  .toString())
                                           ? const Color(0xFF4C75A0)
                                           : Colors.white,
                                       shape: RoundedRectangleBorder(
@@ -59,14 +76,41 @@ class ChoosePersonalPromotionPopUp extends StatelessWidget {
                                     ),
                                     child: Text(
                                       "${DateTime.now().year + index}",
-                                      style: const TextStyle(
-                                        color: false
+                                      style: TextStyle(
+                                        color: (widget.myPromotion ==
+                                                (DateTime.now().year + index)
+                                                    .toString())
                                             ? Colors.white
-                                            : Color(0xFF4C75A0),
+                                            : const Color(0xFF4C75A0),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => SettingsPage(
+                                          myPromotion:
+                                              (DateTime.now().year + index)
+                                                  .toString(),
+                                          myAcademicMajor:
+                                              widget.myAcademicMajor,
+                                        ),
+                                      ));
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProfileModifierPage(
+                                          myPromotion:
+                                              (DateTime.now().year + index)
+                                                  .toString(),
+                                          myAcademicMajor:
+                                              widget.myAcademicMajor,
+                                        ),
+                                      ));
+                                    },
                                   );
                                 }
                               }),

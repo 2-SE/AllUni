@@ -3,9 +3,20 @@ import 'package:AllUni/OtherViews/ProfileManagement/ProfileModifierPage.dart';
 import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  String myPromotion = "";
+  String myAcademicMajor = "";
+  SettingsPage({
+    super.key,
+    required this.myPromotion,
+    required this.myAcademicMajor,
+  });
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,13 +44,17 @@ class SettingsPage extends StatelessWidget {
               FlatButton(
                 onPressed: () => {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProfileModifierPage()))
+                    builder: (context) => ProfileModifierPage(
+                      myPromotion: widget.myPromotion,
+                      myAcademicMajor: widget.myAcademicMajor,
+                    ),
+                  ))
                 },
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const <Widget>[
+                  children: const [
                     Icon(Icons.edit, color: Colors.indigo),
                     Text("Editer le Profil",
                         style: TextStyle(
@@ -59,13 +74,32 @@ class SettingsPage extends StatelessWidget {
               const SizedBox(height: 15),
               Center(
                 child: Column(
-                  children: const [
-                    Text("NOM Prénom",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text("prenom.nom@esme.fr", style: TextStyle(fontSize: 18)),
-                    Text("Promotion :  2023", style: TextStyle(fontSize: 14)),
-                    Text("Majeure :  3I", style: TextStyle(fontSize: 14)),
+                  children: [
+                    const Text(
+                      "NOM Prénom",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Text(
+                      "prenom.nom@esme.fr",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "Promotion :  ${widget.myPromotion}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      "Majeure :  ${widget.myAcademicMajor}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -28,7 +28,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: <String, WidgetBuilder>{
-          "/settings": (BuildContext context) => const SettingsPage(),
+          "/settings": (BuildContext context) => SettingsPage(
+                myPromotion: '',
+                myAcademicMajor: '',
+              ),
           "/contactLogIn": (BuildContext context) => const ContactUsPage(),
           "/contactLogOut": (BuildContext context) =>
               const ContactUsLogOutPage(),

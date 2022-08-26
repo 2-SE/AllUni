@@ -1,5 +1,7 @@
 import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Calendars/OthersCalendarsPopUpChoice.dart';
 import 'package:AllUni/Drawers/DrawerCalendarChooseButton.dart';
+import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 
 class DrawerCalendarView extends StatefulWidget {
@@ -28,6 +30,47 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
         currentFormat = index;
       }
     }
+
+    final AcademicMajorList = [
+      "1A",
+      "1B",
+      "1C",
+      "1D",
+      "1E",
+      "1F",
+      "1G",
+      "1H",
+      "2B",
+      "2C",
+      "2D",
+      "2E",
+      "2F",
+      "2G",
+      "2I",
+      "2M",
+      "2N",
+      "2R",
+      "2S",
+      "2T",
+      "2V",
+      "3B",
+      "3C",
+      "3E",
+      "3F",
+      "3G",
+      "3I",
+      "3M",
+      "3N",
+      "3R",
+      "3S",
+      "3T",
+      "3V"
+    ];
+
+    List<bool> isSelectedMajor = [];
+    isSelectedMajor = List<bool>.filled(AcademicMajorList.length, false);
+    //isSelectedMajor[3] = true;
+
     return Drawer(
       child: Column(
         children: [
@@ -107,13 +150,27 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                       const Icon(Icons.people_outlined, color: Colors.black),
                   onTap: () {
                     Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      HeroDialogRequiredRoute(
+                        builder: (context) => Center(
+                          child: OthersCalendarsPopUp(
+                            myAcademicMajor: '2S',
+                            isSelectedMajor: isSelectedMajor,
+                            AcademicMajorList: AcademicMajorList,
+                            currentFormatView: currentFormat,
+                          ),
+                        ),
+                      ),
+                    );
+                    /*
                     Navigator.of(context)
                         .push(MaterialPageRoute(
                             builder: (context) =>
                                 Calendar("Autres Promotions", currentFormat)))
                         .then((_) {
                       setState(() {});
-                    }); //Navigator.pushNamed(context, "/calendar");
+                    });
+                    */
                   },
                 ),
 
