@@ -53,6 +53,18 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                         fontSize: 24,
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        Text(
+                          "(maximum 3 en même temps)",
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
                     const Divider(
                       color: Colors.grey,
                       thickness: 0.5,
@@ -114,11 +126,11 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                     widget.AcademicMajorList[index]);
                               }
                             }
-                            if (SelectedMajorName.length > 4) {
+                            if (SelectedMajorName.length > 3) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                    "⚠   ATTENTION   ⚠\nVous ne pouvez pas sélectionner plus de 4 classes différentes.",
+                                    "⚠   ATTENTION   ⚠\nVous ne pouvez pas sélectionner plus de 3 classes différentes.",
                                   ),
                                 ),
                               );
