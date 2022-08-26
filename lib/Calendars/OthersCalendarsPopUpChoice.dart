@@ -22,6 +22,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
   @override
   Widget build(BuildContext context) {
     List<String> SelectedMajorName = [];
+    String SelectedMajorString = "";
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -113,29 +114,48 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                     widget.AcademicMajorList[index]);
                               }
                             }
-                            if (SelectedMajorName.isEmpty ||
-                                (SelectedMajorName.length == 1 &&
-                                    SelectedMajorName[0] == '2S')) {
-                              //CHECK PAS '2S' MAIS SI SelectedMajorName[0]==myAcademicMajor
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) => Calendar(
-                                          "Mon Calendrier",
-                                          widget
-                                              .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
-                                  .then((_) {
-                                setState(() {});
-                              });
+                            if (SelectedMajorName.length > 4) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "⚠   ATTENTION   ⚠\nVous ne pouvez pas sélectionner plus de 4 classes différentes.",
+                                  ),
+                                ),
+                              );
                             } else {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) => Calendar(
-                                          "Autres Classes",
-                                          widget
-                                              .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
-                                  .then((_) {
-                                setState(() {});
-                              });
+                              if (SelectedMajorName.isEmpty ||
+                                  (SelectedMajorName.length == 1 &&
+                                      SelectedMajorName[0] == '2S')) {
+                                //CHECK PAS '2S' MAIS SI SelectedMajorName[0]==myAcademicMajor
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(
+                                        builder: (context) => Calendar(
+                                            "Mon Calendrier",
+                                            widget
+                                                .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
+                                    .then((_) {
+                                  setState(() {});
+                                });
+                              } else {
+                                for (int index = 0;
+                                    index < SelectedMajorName.length;
+                                    index++) {
+                                  SelectedMajorString +=
+                                      "${SelectedMajorName[index]} ";
+                                  if (index + 1 < SelectedMajorName.length) {
+                                    SelectedMajorString += "- ";
+                                  }
+                                }
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(
+                                        builder: (context) => Calendar(
+                                            "Autres Promotions\nClasse(s): $SelectedMajorString",
+                                            widget
+                                                .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
+                                    .then((_) {
+                                  setState(() {});
+                                });
+                              }
                             }
                           },
                           padding: const EdgeInsets.symmetric(

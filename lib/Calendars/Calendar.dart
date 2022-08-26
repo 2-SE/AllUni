@@ -196,6 +196,7 @@ class _CalendarState extends State<Calendar> {
         title: Text(widget.currentView),
         backgroundColor: const Color(0xFF4C75A0),
         foregroundColor: Colors.white,
+        centerTitle: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
