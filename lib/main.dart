@@ -1,8 +1,8 @@
 import 'package:AllUni/Calendars/Calendar.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
-import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
+import 'package:AllUni/OtherViews/ContactUs/ContactUsLogged.dart';
 import 'package:AllUni/OtherViews/SplashLoad.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
                 myPromotion: '',
                 myAcademicMajor: '',
               ),
-          "/contactLogIn": (BuildContext context) => const ContactUsPage(),
+          "/contactLogIn": (BuildContext context) =>
+              const ContactUsLoggedPage(),
           "/contactLogOut": (BuildContext context) =>
               const ContactUsLogOutPage(),
           "/drawer": (BuildContext context) =>

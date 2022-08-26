@@ -1,13 +1,17 @@
+import 'dart:convert';
+
+import 'package:AllUni/Utils/DateHourUtils.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class ContactUsPage extends StatefulWidget {
-  const ContactUsPage({Key? key}) : super(key: key);
+class ContactUsLoggedPage extends StatefulWidget {
+  const ContactUsLoggedPage({Key? key}) : super(key: key);
 
   @override
-  _ContactUsPageState createState() => _ContactUsPageState();
+  _ContactUsLoggedPageState createState() => _ContactUsLoggedPageState();
 }
 
-class _ContactUsPageState extends State<ContactUsPage> {
+class _ContactUsLoggedPageState extends State<ContactUsLoggedPage> {
   final _formKey = GlobalKey<FormState>();
 
   String ContactUsTitle = "";
@@ -106,15 +110,63 @@ class _ContactUsPageState extends State<ContactUsPage> {
                                 side:
                                     BorderSide(color: Colors.indigo, width: 1),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            "Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
-                                  );
-                                  //SEND EMAIL TO pickassos2se@gmail.com;
-                                  Navigator.of(context).pop();
+                                  _formKey.currentState?.save();
+                                  var response = await Dio()
+                                      .post(
+                                        "https://discord.com/api/webhooks/1011653493439860797/jGX9AE2EAVJVeYwZjdI07lx0EVFjQZLc5cxEssBap8yf57uEYM2YEdnh6xfC4CoDDyYc",
+                                        data: json.encode({
+                                          'content': 'In-App : Contact Us',
+                                          'embeds': [
+                                            {
+                                              "title": ContactUsTitle,
+                                              "description": ContactUsMessage,
+                                              'color': int.parse('4C75A0',
+                                                  radix: 16),
+                                              'fields': [
+                                                {
+                                                  "name": "Nom",
+                                                  "value":
+                                                      "", //METTRE LE NOM DE LA PERSONNE CONNECTÉE
+                                                  "inline": "true"
+                                                },
+                                                {
+                                                  "name": "Email",
+                                                  "value":
+                                                      "", //METTRE L'EMAIL DE LA PERSONNE CONNECTÉE
+                                                  "inline": "true"
+                                                },
+                                                {
+                                                  "name": "Date",
+                                                  "value":
+                                                      DateHourUtils.toDateTime(
+                                                          DateTime.now()),
+                                                  "inline": "true"
+                                                }
+                                              ],
+                                            }
+                                          ]
+                                        }),
+                                      )
+                                      .then(
+                                        (value) => Navigator.of(context).pop(),
+                                      )
+                                      .then(
+                                        (value) => Navigator.of(context).pop(),
+                                      )
+                                      .then(
+                                        (value) => {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                "Le message a bien été envoyé.",
+                                              ),
+                                            ),
+                                          ),
+                                        },
+                                      );
                                 }
                               },
                               child: const Text("     Envoyer     ",

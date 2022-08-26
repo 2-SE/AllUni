@@ -177,13 +177,6 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                                     BorderSide(color: Colors.indigo, width: 1),
                               ),
                               onPressed: () async {
-                                /*
-                                  print("Name :  " + ContactUsName);
-                                  print("Email :  " + ContactUsEmail);
-                                  print("Title :  " + ContactUsTitle);
-                                  print("Msg :  " + ContactUsMessage);
-                                */
-
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState?.save();
                                   var response = await Dio()

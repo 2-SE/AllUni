@@ -85,6 +85,8 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                     activeColor: const Color(0xFF4C75A0),
                                     checkColor: Colors.white,
                                   );
+                                } else {
+                                  return null;
                                 }
                               }),
                             ),
