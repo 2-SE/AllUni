@@ -301,8 +301,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
                       ),
                     ],
                   ),
-                  /*
+
                   //A REVOIR POUR QUE ÇA SOIT BIEN
+
+                  /*
                   ToggleButtons(
                     selectedColor: Colors.indigo,
                     renderBorder: false,

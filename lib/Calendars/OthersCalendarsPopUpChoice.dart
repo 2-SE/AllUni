@@ -158,15 +158,27 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                     SelectedMajorString += "- ";
                                   }
                                 }
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                        builder: (context) => Calendar(
-                                            "Autres Promotions\nClasse(s): $SelectedMajorString",
-                                            widget
-                                                .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
-                                    .then((_) {
-                                  setState(() {});
-                                });
+                                if (SelectedMajorName.length == 1) {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) => Calendar(
+                                              "Autres Promotions\nClasse: $SelectedMajorString",
+                                              widget
+                                                  .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
+                                      .then((_) {
+                                    setState(() {});
+                                  });
+                                } else {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                          builder: (context) => Calendar(
+                                              "Autres Promotions\nClasses: $SelectedMajorString",
+                                              widget
+                                                  .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
+                                      .then((_) {
+                                    setState(() {});
+                                  });
+                                }
                               }
                             }
                           },
