@@ -21,7 +21,7 @@ class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
         Expanded(
           child: Wrap(
             alignment: WrapAlignment.center,
-            spacing: 16,
+            spacing: 32,
             children: [
               ...(context
                   .watch<TypeEventProvider>()
@@ -42,7 +42,11 @@ class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
                       showCheckmark: false,
                       selectedColor: typeEventItem.selectedColor,
                       selected: typeEventItem.value,
-                      onPressed: () {},
+                      onPressed: () {
+                        context
+                            .read<TypeEventProvider>()
+                            .changeEventTypeValue(typeEventItem);
+                      },
                     ),
                   )
                   .toList())

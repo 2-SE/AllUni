@@ -227,11 +227,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 controller: descriptionController,
               ),
               const SizedBox(height: 10),
-
-              //
               TypeEventChoiceWidget(),
-              //
-
               const SizedBox(height: 10),
               Column(
                 children: [

@@ -41,11 +41,11 @@ dependencies:
   dio: ^4.0.6
 
   # Amplify Import Dependencies
-  #amplify_flutter: ^0.6.0
-  #amplify_datastore: ^0.6.0
-  #amplify_auth_cognito: ^0.6.0
-  #amplify_analytics_pinpoint: ^0.6.0
-  #amplify_api: ^0.6.0
+  amplify_flutter: ^0.6.0
+  amplify_datastore: ^0.6.0
+  amplify_auth_cognito: ^0.6.0
+  # amplify_analytics_pinpoint: ^0.6.6
+  amplify_api: ^0.6.0
 
 dev_dependencies:
   flutter_test:

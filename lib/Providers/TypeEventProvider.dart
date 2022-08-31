@@ -51,7 +51,7 @@ class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   List<TypeEvent> get typeEvent => _typeEvent;
 
-  void changeTagValue(TypeEvent typeEvent) {
+  void changeEventTypeValue(TypeEvent typeEvent) {
     for (int _ = 0; _ < _typeEvent.length; _++) {
       _typeEvent[_].value = false;
     }
