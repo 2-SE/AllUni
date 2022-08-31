@@ -1,6 +1,10 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+
 //DRAWER IMPORT (for routes) :
+
 import 'package:navigation_drawer_test/Calendars/Calendar.dart';
 import 'package:navigation_drawer_test/Calendars/FreeRoomsCalendar.dart';
 import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
@@ -9,7 +13,10 @@ import 'package:navigation_drawer_test/OtherViews/Settings.dart';
 //IMPORT FILES
 import 'package:navigation_drawer_test/OtherViews/SplashLoad.dart';
 import 'package:navigation_drawer_test/Providers/EventProvider.dart';
+import 'package:navigation_drawer_test/Providers/ModelProvider.dart';
 import 'package:provider/provider.dart';
+
+import 'amplifyconfiguration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,15 +50,59 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+class MyHomePage extends StatefulWidget {
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+
+  const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  bool _isLoading = true;
+
+  TextEditingController totoController = TextEditingController();
+
+  late Future futureObject;
+  late List<Event> events;
+  late String totodesc;
+
+
+
+
+
+
+  Future<void> _configureAmplify() async {
+    final Auth = AmplifyAuthCognito();
+    try {
+      await Future.wait([Amplify.addPlugin(Auth)
+      ]);
+      if (!Amplify.isConfigured) {
+        print("!alreadyconfig");
+        await Amplify.configure(amplifyconfig);
+      }
+    } on Exception catch (e) {return print("-------------error $e") ;}
+  }
+
+
+  @override
+  void initState()  {
+    super.initState();
+    print("$_isLoading");
+    _configureAmplify();
+    setState(() {
+      _isLoading = false; // important to set the state!
+    });
+  }
+
+  @override
+  Widget build(BuildContext context){
     return Scaffold(
-      //HOME-PAGE WHEN APP STARTS
-      body: Calendar("Mon Calendrier", 0),
-    );
+        appBar: AppBar(title: const Text('totos')),
+        body: _isLoading ?
+        Center(child: CircularProgressIndicator()) :
+            Calendar("Mon Calendrier", 0)
+   );
   }
 }

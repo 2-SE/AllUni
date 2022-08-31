@@ -1,6 +1,7 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
-import 'package:navigation_drawer_test/Models/EventsModel.dart';
+import 'package:navigation_drawer_test/models/Event.dart';
 import 'package:navigation_drawer_test/Providers/EventProvider.dart';
 import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../Utils/HeroDialog.dart';
 
 class EventEditingPage extends StatefulWidget {
-  final PersonalEvent? event;
+  final Event? event;
   const EventEditingPage({
     Key? key,
     this.event,
@@ -33,10 +34,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
       toDate = DateTime.now().add(const Duration(hours: 1));
     } else {
       final event = widget.event!;
-      titleController.text = event.title;
-      descriptionController.text = event.description;
-      fromDate = event.fromDate;
-      toDate = event.toDate;
+      titleController.text = event.Titre;
+      descriptionController.text = event.Description!;
+      fromDate = event.HeureDebut as DateTime;
+      toDate = event.HeureFin as DateTime;
     }
   }
 
@@ -53,13 +54,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
-        final event = PersonalEvent(
-          title: titleController.text,
-          description: descriptionController.text,
-          tag: "",
-          fromDate: fromDate,
-          toDate: toDate,
+        final event = Event(
+          Titre: titleController.text,
+          Description: descriptionController.text,
+          Tag: [],
+          HeureDebut: TemporalDateTime(fromDate),
+          HeureFin: TemporalDateTime(toDate),
           isAllDay: false,
+          Type: '',
         );
         final isEditing = widget.event != null;
         final provider = Provider.of<EventProvider>(context, listen: false);

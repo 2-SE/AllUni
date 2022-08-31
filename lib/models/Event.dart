@@ -19,7 +19,7 @@
 
 // ignore_for_file: public_member_api_docs, annotate_overrides, dead_code, dead_codepublic_member_api_docs, depend_on_referenced_packages, file_names, library_private_types_in_public_api, no_leading_underscores_for_library_prefixes, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, null_check_on_nullable_type_parameter, prefer_adjacent_string_concatenation, prefer_const_constructors, prefer_if_null_operators, prefer_interpolation_to_compose_strings, slash_for_doc_comments, sort_child_properties_last, unnecessary_const, unnecessary_constructor_name, unnecessary_late, unnecessary_new, unnecessary_null_aware_assignments, unnecessary_nullable_for_final_variable_declarations, unnecessary_string_interpolations, use_build_context_synchronously
 
-import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
+import 'package:amplify_core/amplify_core.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
@@ -44,6 +44,8 @@ class Event extends Model {
   final String? _Comments;
   final bool? _isAllDay;
   final List<String>? _Tag;
+  final TemporalDateTime? _createdAt;
+  final TemporalDateTime? _updatedAt;
 
   @override
   getInstanceType() => classType;
@@ -81,10 +83,10 @@ class Event extends Model {
     try {
       return _Type!;
     } catch(e) {
-      throw new DataStoreException(
-          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -94,10 +96,10 @@ class Event extends Model {
     try {
       return _Titre!;
     } catch(e) {
-      throw new DataStoreException(
-          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -111,10 +113,10 @@ class Event extends Model {
     try {
       return _HeureDebut!;
     } catch(e) {
-      throw new DataStoreException(
-          DataStoreExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+      throw new AmplifyCodeGenModelException(
+          AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
           recoverySuggestion:
-            DataStoreExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+            AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
           underlyingException: e.toString()
           );
     }
@@ -140,7 +142,15 @@ class Event extends Model {
     return _Tag;
   }
   
-  const Event._internal({required this.id, CampusID, MajeureID, CoursID, UserID, Hote, Position, required Type, required Titre, HeureFin, required HeureDebut, TypeCours, Description, Comments, isAllDay, Tag}): _CampusID = CampusID, _MajeureID = MajeureID, _CoursID = CoursID, _UserID = UserID, _Hote = Hote, _Position = Position, _Type = Type, _Titre = Titre, _HeureFin = HeureFin, _HeureDebut = HeureDebut, _TypeCours = TypeCours, _Description = Description, _Comments = Comments, _isAllDay = isAllDay, _Tag = Tag;
+  TemporalDateTime? get createdAt {
+    return _createdAt;
+  }
+  
+  TemporalDateTime? get updatedAt {
+    return _updatedAt;
+  }
+  
+  const Event._internal({required this.id, CampusID, MajeureID, CoursID, UserID, Hote, Position, required Type, required Titre, HeureFin, required HeureDebut, TypeCours, Description, Comments, isAllDay, Tag, createdAt, updatedAt}): _CampusID = CampusID, _MajeureID = MajeureID, _CoursID = CoursID, _UserID = UserID, _Hote = Hote, _Position = Position, _Type = Type, _Titre = Titre, _HeureFin = HeureFin, _HeureDebut = HeureDebut, _TypeCours = TypeCours, _Description = Description, _Comments = Comments, _isAllDay = isAllDay, _Tag = Tag, _createdAt = createdAt, _updatedAt = updatedAt;
   
   factory Event({String? id, String? CampusID, String? MajeureID, String? CoursID, List<String>? UserID, String? Hote, String? Position, required String Type, required String Titre, TemporalDateTime? HeureFin, required TemporalDateTime HeureDebut, String? TypeCours, String? Description, String? Comments, bool? isAllDay, List<String>? Tag}) {
     return Event._internal(
@@ -211,14 +221,16 @@ class Event extends Model {
     buffer.write("Description=" + "$_Description" + ", ");
     buffer.write("Comments=" + "$_Comments" + ", ");
     buffer.write("isAllDay=" + (_isAllDay != null ? _isAllDay!.toString() : "null") + ", ");
-    buffer.write("Tag=" + (_Tag != null ? _Tag!.toString() : "null"));
+    buffer.write("Tag=" + (_Tag != null ? _Tag!.toString() : "null") + ", ");
+    buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
+    buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
     
     return buffer.toString();
   }
   
   Event copyWith({String? id, String? CampusID, String? MajeureID, String? CoursID, List<String>? UserID, String? Hote, String? Position, String? Type, String? Titre, TemporalDateTime? HeureFin, TemporalDateTime? HeureDebut, String? TypeCours, String? Description, String? Comments, bool? isAllDay, List<String>? Tag}) {
-    return Event(
+    return Event._internal(
       id: id ?? this.id,
       CampusID: CampusID ?? this.CampusID,
       MajeureID: MajeureID ?? this.MajeureID,
@@ -253,10 +265,12 @@ class Event extends Model {
       _Description = json['Description'],
       _Comments = json['Comments'],
       _isAllDay = json['isAllDay'],
-      _Tag = json['Tag']?.cast<String>();
+      _Tag = json['Tag']?.cast<String>(),
+      _createdAt = json['createdAt'] != null ? TemporalDateTime.fromString(json['createdAt']) : null,
+      _updatedAt = json['updatedAt'] != null ? TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'CampusID': _CampusID, 'MajeureID': _MajeureID, 'CoursID': _CoursID, 'UserID': _UserID, 'Hote': _Hote, 'Position': _Position, 'Type': _Type, 'Titre': _Titre, 'HeureFin': _HeureFin?.format(), 'HeureDebut': _HeureDebut?.format(), 'TypeCours': _TypeCours, 'Description': _Description, 'Comments': _Comments, 'isAllDay': _isAllDay, 'Tag': _Tag
+    'id': id, 'CampusID': _CampusID, 'MajeureID': _MajeureID, 'CoursID': _CoursID, 'UserID': _UserID, 'Hote': _Hote, 'Position': _Position, 'Type': _Type, 'Titre': _Titre, 'HeureFin': _HeureFin?.format(), 'HeureDebut': _HeureDebut?.format(), 'TypeCours': _TypeCours, 'Description': _Description, 'Comments': _Comments, 'isAllDay': _isAllDay, 'Tag': _Tag, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
 
   static final QueryField ID = QueryField(fieldName: "id");
@@ -382,6 +396,20 @@ class Event extends Model {
       isRequired: false,
       isArray: true,
       ofType: ModelFieldType(ModelFieldTypeEnum.collection, ofModelName: describeEnum(ModelFieldTypeEnum.string))
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'createdAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
+    ));
+    
+    modelSchemaDefinition.addField(ModelFieldDefinition.nonQueryField(
+      fieldName: 'updatedAt',
+      isRequired: false,
+      isReadOnly: true,
+      ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)
     ));
   });
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
-import 'package:navigation_drawer_test/Models/EventsModel.dart';
+import 'package:navigation_drawer_test/models/Event.dart';
 import 'package:navigation_drawer_test/Providers/EventProvider.dart';
 import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
 
 class EventViewingPopUp extends StatefulWidget {
-  final PersonalEvent event;
+  final Event event;
 
   const EventViewingPopUp({
     Key? key,
@@ -24,7 +24,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Hero(
-          tag: widget.event.title,
+          tag: widget.event.Titre,
           child: Material(
             color: Colors.white,
             elevation: 2,
@@ -88,7 +88,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                       ],
                     ),
                     Text(
-                      widget.event.title,
+                      widget.event.Titre,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -114,7 +114,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.fromDate),
+                          DateHourUtils.toDate(widget.event.HeureDebut as DateTime),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -135,7 +135,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          "${DateHourUtils.toTime(widget.event.toDate)} - ${DateHourUtils.toTime(widget.event.toDate)}",
+                          "${DateHourUtils.toTime(widget.event.HeureFin as DateTime)} - ${DateHourUtils.toTime(widget.event.HeureFin as DateTime)}",
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -156,7 +156,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.fromDate),
+                          DateHourUtils.toDate(widget.event.HeureDebut as DateTime),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -177,7 +177,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.fromDate),
+                          DateHourUtils.toDate(widget.event.HeureDebut as DateTime),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -197,8 +197,8 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: Text(
-                              (widget.event.description != "")
-                                  ? widget.event.description
+                              (widget.event.Description != "")
+                                  ? widget.event.Description!
                                   : "Aucune note enregistrée pour ce cours.",
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,

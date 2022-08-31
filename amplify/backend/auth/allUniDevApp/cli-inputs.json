@@ -1,10 +1,8 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "alluni2ca93d19_identitypool_2ca93d19",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "alluni2ca93d19",
-    "userPoolName": "alluni2ca93d19_userpool_2ca93d19",
+    "resourceNameTruncated": "alluni0523df27",
+    "userPoolName": "allUniDevAppUP",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -18,11 +16,7 @@
     "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": true,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-      "Requires Lowercase",
-      "Requires Uppercase",
-      "Requires Numbers"
-    ],
+    "passwordPolicyCharacters": [],
     "requiredAttributes": [
       "email"
     ],
@@ -35,13 +29,12 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "alluni2ca93d19_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "allUni0523df27_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "2ca93d19",
-    "resourceName": "alluni2ca93d192ca93d19",
-    "authSelections": "identityPoolAndUserPool",
+    "sharedId": "0523df27",
+    "resourceName": "allUniDevApp",
+    "authSelections": "userPoolOnly",
     "useDefault": "manual",
-    "thirdPartyAuth": false,
     "userPoolGroups": false,
     "adminQueries": false,
     "triggers": {},

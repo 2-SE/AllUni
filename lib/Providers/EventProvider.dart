@@ -36,6 +36,7 @@ class EventProvider extends ChangeNotifier {
       final index = _events.indexOf(oldEvent);
       _events[index] = newEvent;
       notifyListeners();
+      newEvent = newEvent.copyWith(id: oldEvent.id);
       await Amplify.DataStore.save(newEvent);
     } catch (e) {
       rethrow;

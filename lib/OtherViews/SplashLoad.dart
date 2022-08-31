@@ -18,7 +18,7 @@ class _SplashState extends State<Splash> {
   _navigateToHome() async {
     await Future.delayed(const Duration(milliseconds: 2000), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => MyHomePage()));
   }
 
   @override
