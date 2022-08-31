@@ -1,4 +1,4 @@
-import 'package:AllUni/Calendars/EventEditingPage.dart';
+import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
 import 'package:AllUni/Calendars/EventViewingPopUp.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/Models/EventDataSource.dart';
@@ -17,9 +17,8 @@ class Calendar extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<Calendar> createState() {
-    return _CalendarState(currentView, CalendarFormatIndex);
-  }
+  State<Calendar> createState() =>
+      _CalendarState(currentView, CalendarFormatIndex);
 }
 
 class _CalendarState extends State<Calendar> {
@@ -44,7 +43,7 @@ class _CalendarState extends State<Calendar> {
         width: details.bounds.width,
         height: details.bounds.height,
         decoration: BoxDecoration(
-          color: event.backgroundColor,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
         ),
         child: Row(
@@ -99,7 +98,7 @@ class _CalendarState extends State<Calendar> {
         width: details.bounds.width,
         height: details.bounds.height,
         decoration: BoxDecoration(
-          color: event.backgroundColor,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
         child: Row(
@@ -157,7 +156,7 @@ class _CalendarState extends State<Calendar> {
         width: details.bounds.width,
         height: details.bounds.height,
         decoration: BoxDecoration(
-          color: event.backgroundColor,
+          color: Colors.green,
           borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
       );
@@ -201,7 +200,7 @@ class _CalendarState extends State<Calendar> {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
-              child: const Icon(Icons.calendar_today),
+              child: const Icon(Icons.today_rounded),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.of(context)
@@ -301,7 +300,9 @@ class _CalendarState extends State<Calendar> {
         backgroundColor: const Color(0xFF4C75A0),
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const EventEditingPage()),
+            MaterialPageRoute(
+              builder: (context) => const EventEditingPage(),
+            ),
           );
         },
         child: const Icon(Icons.add, color: Colors.white),

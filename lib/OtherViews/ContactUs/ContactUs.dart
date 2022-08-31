@@ -50,7 +50,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          Container(height: 5, color: Colors.transparent),
+                          const SizedBox(height: 5),
                           TextFormField(
                             onChanged: (value) {
                               ContactUsTitle = value;
@@ -97,7 +97,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                               return null;
                             },
                           ),
-                          Container(height: 20, color: Colors.transparent),
+                          const SizedBox(height: 20),
                           Center(
                             child: RaisedButton(
                               color: Colors.white,
@@ -123,7 +123,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                                       color: Colors.indigo)),
                             ),
                           ),
-                          Container(height: 20, color: Colors.transparent),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

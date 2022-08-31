@@ -69,7 +69,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          Container(height: 5, color: Colors.transparent),
+                          const SizedBox(height: 5),
                           TextFormField(
                             controller: senderController,
                             onChanged: (value) {
@@ -167,7 +167,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                               return null;
                             },
                           ),
-                          Container(height: 20, color: Colors.transparent),
+                          const SizedBox(height: 20),
                           Center(
                             child: RaisedButton(
                               color: Colors.white,
@@ -246,7 +246,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                                       color: Colors.indigo)),
                             ),
                           ),
-                          Container(height: 20, color: Colors.transparent),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

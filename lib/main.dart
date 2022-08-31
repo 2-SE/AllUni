@@ -5,11 +5,20 @@ import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
 import 'package:AllUni/OtherViews/SplashLoad.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Providers/TagsProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => TagsProvider()),
+        ChangeNotifierProvider(create: (_) => EventProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,29 +26,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => EventProvider(),
-      child: MaterialApp(
-        title: 'AllUni',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: const Color(0xFF4C75A0),
-          ),
+    return MaterialApp(
+      title: 'AllUni',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color(0xFF4C75A0),
         ),
-        routes: <String, WidgetBuilder>{
-          "/settings": (BuildContext context) => SettingsPage(
-                myPromotion: '',
-                myAcademicMajor: '',
-              ),
-          "/contactLogIn": (BuildContext context) => const ContactUsPage(),
-          "/contactLogOut": (BuildContext context) =>
-              const ContactUsLogOutPage(),
-          "/drawer": (BuildContext context) =>
-              DrawerCalendarView(isSelectedFormat: const [], currentView: ""),
-        },
-        home: const Splash(),
       ),
+      routes: <String, WidgetBuilder>{
+        "/settings": (BuildContext context) => SettingsPage(
+              myPromotion: '',
+              myAcademicMajor: '',
+            ),
+        "/contactLogIn": (BuildContext context) => const ContactUsPage(),
+        "/contactLogOut": (BuildContext context) => const ContactUsLogOutPage(),
+        "/drawer": (BuildContext context) =>
+            DrawerCalendarView(isSelectedFormat: const [], currentView: ""),
+      },
+      home: const Splash(),
     );
   }
 }

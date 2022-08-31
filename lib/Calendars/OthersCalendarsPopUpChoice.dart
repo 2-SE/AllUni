@@ -195,9 +195,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                   color: Colors.indigo,
                                 ),
                               ),
-                              const SizedBox(
-                                width: 20,
-                              ),
+                              const SizedBox(width: 20),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: const [

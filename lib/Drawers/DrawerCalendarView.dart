@@ -130,7 +130,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   },
                 ),
                 const Divider(color: Colors.black, height: 1),
-                Container(height: 15, color: Colors.transparent),
+                const SizedBox(height: 15),
                 Row(
                   children: const [
                     Text("    "),
@@ -143,7 +143,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                         )),
                   ],
                 ),
-                Container(height: 5, color: Colors.transparent),
+                const SizedBox(height: 5),
                 ListTile(
                   title: const Text("Calendriers Autres Promotions"),
                   trailing:
@@ -262,7 +262,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                     Navigator.pushNamed(context, "/contactLogOut");
                   },
                 ),
-                Container(height: 15, color: Colors.transparent),
+                const SizedBox(height: 15),
               ],
             ),
           ),

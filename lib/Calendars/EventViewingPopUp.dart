@@ -1,4 +1,4 @@
-import 'package:AllUni/Calendars/EventEditingPage.dart';
+import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
 import 'package:AllUni/Models/EventsModel.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';

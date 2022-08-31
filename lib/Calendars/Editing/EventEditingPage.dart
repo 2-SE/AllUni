@@ -1,3 +1,4 @@
+import 'package:AllUni/Calendars/Editing/TagsChoiceWidget.dart';
 import 'package:AllUni/Calendars/EventViewingPopUp.dart';
 import 'package:AllUni/Models/EventsModel.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
@@ -8,9 +9,11 @@ import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatefulWidget {
   final Event? event;
+  final String? myCustomTagName;
   const EventEditingPage({
     Key? key,
     this.event,
+    this.myCustomTagName,
   }) : super(key: key);
 
   @override
@@ -23,7 +26,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
-  //late bool isAllDay;
+  final localizationController = TextEditingController();
+  late List<String> tagsNames;
+  String myCustomTagName = "";
 
   @override
   void initState() {
@@ -31,14 +36,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
-      //isAllDay = false;
+      tagsNames = [];
     } else {
       final event = widget.event!;
       titleController.text = event.title;
       descriptionController.text = event.description;
       fromDate = event.fromDate;
       toDate = event.toDate;
-      //isAllDay = event.isAllDay;
+      localizationController.text = event.localization;
+      tagsNames = event.tagsNames;
     }
   }
 
@@ -46,13 +52,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
+    localizationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var isSelected = [false, false, false];
-
     // UTILS FOR THE EVENT EDITING PAGE
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
@@ -60,10 +65,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
         final event = Event(
           title: titleController.text,
           description: descriptionController.text,
-          tag: "",
           fromDate: fromDate,
           toDate: toDate,
-          //isAllDay: isAllDay,
+          localization: localizationController.text,
+          tagsNames: tagsNames,
         );
         final isEditing = widget.event != null;
         final provider = Provider.of<EventProvider>(context, listen: false);
@@ -150,6 +155,20 @@ class _EventEditingPageState extends State<EventEditingPage> {
       });
     }
 
+    List<bool> isSelectedTags = [false, false, false, false];
+    for (int index = 0; index < tagsNames.length; index++) {
+      if (tagsNames[index] == "Perso") {
+        isSelectedTags[0] = true;
+      } else if (tagsNames[index] == "Travail") {
+        isSelectedTags[1] = true;
+      } else if (tagsNames[index] == "Événement") {
+        isSelectedTags[2] = true;
+      } else {
+        isSelectedTags[3] = true;
+        myCustomTagName = tagsNames[index];
+      }
+    }
+
     // THE VIEW
     return Scaffold(
       appBar: AppBar(
@@ -183,7 +202,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 ),
                 style: const TextStyle(fontSize: 28),
                 autocorrect: true,
-                maxLength: 128,
+                maxLength: 100,
                 minLines: 1,
                 maxLines: 2,
                 controller: titleController,
@@ -201,31 +220,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 ),
                 style: const TextStyle(fontSize: 18),
                 autocorrect: true,
-                maxLength: 1024,
+                maxLength: 1000,
                 minLines: 1,
                 maxLines: 8,
                 controller: descriptionController,
               ),
-              Container(height: 10, color: Colors.transparent),
-              //EventEditingType(isSelected: [true, false], isEditing: false),
-              /*
-              CheckboxListTile(
-                title: const Text(
-                  "Journée entière ?",
-                ),
-                controlAffinity: ListTileControlAffinity.leading,
-                secondary: const Icon(Icons.edit_calendar_rounded),
-                value: isAllDay,
-                onChanged: (value) {
-                  setState(() {
-                    isAllDay = value ?? false;
-                  });
-                },
-                activeColor: Colors.lightGreen,
-                checkColor: Colors.white,
-              ),
-              */
-              Container(height: 10, color: Colors.transparent),
+              const SizedBox(height: 10),
               Column(
                 children: [
                   Column(
@@ -255,7 +255,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                           ),
                         ],
                       ),
-                      Container(height: 12, color: Colors.transparent),
+                      const SizedBox(height: 12),
                       const Text("Au :",
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Row(
@@ -284,112 +284,24 @@ class _EventEditingPageState extends State<EventEditingPage> {
                   ),
                 ],
               ),
-              Container(height: 10, color: Colors.transparent),
               const Divider(),
-              Container(height: 10, color: Colors.transparent),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Icon(Icons.library_add_rounded),
-                      Text(
-                        " Tags :  ",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-
-                  //A REVOIR POUR QUE ÇA SOIT BIEN
-
-                  /*
-                  ToggleButtons(
-                    selectedColor: Colors.indigo,
-                    renderBorder: false,
-                    isSelected: isSelected,
-                    onPressed: (int index) {
-                      setState(() {
-                        print("$index");
-                        if (isSelected[index] == true) {
-                          isSelected[index] = false;
-                        } else {
-                          isSelected[index] = true;
-                        }
-                        //isSelected[index] = !isSelected[index];
-                        print("${isSelected}");
-                        /*
-                        if (isSelected[index] == true) {
-                          isSelected[index] = false;
-                        } else {
-                          isSelected[index] = true;
-                        }
-                        */
-                      });
-                    },
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            height: 24,
-                            color: Colors.amber,
-                            child: const Center(
-                              child: Text(
-                                "  Perso  ",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            height: 24,
-                            color: const Color(0xFF6D071A),
-                            child: const Center(
-                              child: Text(
-                                "  Travail  ",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            height: 24,
-                            color: Colors.green,
-                            child: const Center(
-                              child: Text(
-                                "  Événement  ",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  */
-                ],
+              TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: "Lieu",
+                ),
+                style: const TextStyle(fontSize: 18),
+                autocorrect: true,
+                minLines: 1,
+                maxLines: 2,
+                controller: localizationController,
+              ),
+              const SizedBox(height: 10),
+              const Divider(),
+              const SizedBox(height: 10),
+              TagsChoiceWidget(
+                myCustomTagName:
+                    (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
               ),
             ],
           ),
