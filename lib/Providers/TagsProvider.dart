@@ -59,14 +59,4 @@ class TagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
     tag.value = !tag.value;
     notifyListeners();
   }
-
-  void addCustomTagValue(Tag tag) {
-    tags.add(tag);
-    notifyListeners();
-  }
-
-  void removeCustomTagValue(Tag tag) {
-    tags.remove(tag);
-    notifyListeners();
-  }
 }

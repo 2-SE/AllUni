@@ -1,4 +1,5 @@
 import 'package:AllUni/Calendars/Editing/TagsChoiceWidget.dart';
+import 'package:AllUni/Calendars/Editing/TypeEventChoiceWidget.dart';
 import 'package:AllUni/Calendars/EventViewingPopUp.dart';
 import 'package:AllUni/Models/EventsModel.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
@@ -225,6 +226,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 maxLines: 8,
                 controller: descriptionController,
               ),
+              const SizedBox(height: 10),
+
+              //
+              TypeEventChoiceWidget(),
+              //
+
               const SizedBox(height: 10),
               Column(
                 children: [

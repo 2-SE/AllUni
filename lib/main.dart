@@ -6,6 +6,7 @@ import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
 import 'package:AllUni/OtherViews/SplashLoad.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:AllUni/Providers/TagsProvider.dart';
+import 'package:AllUni/Providers/TypeEventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => TagsProvider()),
         ChangeNotifierProvider(create: (_) => EventProvider()),
+        ChangeNotifierProvider(create: (_) => TypeEventProvider()),
       ],
       child: const MyApp(),
     ),
