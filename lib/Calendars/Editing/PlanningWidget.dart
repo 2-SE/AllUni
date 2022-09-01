@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class PlanningWidget extends StatefulWidget {
   final Event? event;
+  final String? myCustomTagName;
   const PlanningWidget({
     Key? key,
     this.event,
+    this.myCustomTagName,
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class _PlanningWidgetState extends State<PlanningWidget> {
   late DateTime toDate;
   final localizationController = TextEditingController();
   late List<String> tagsNames;
+
   String myCustomTagName = "";
 
   @override

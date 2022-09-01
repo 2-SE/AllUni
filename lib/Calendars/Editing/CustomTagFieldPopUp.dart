@@ -23,7 +23,7 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    Future saveForm() async {
+    Future saveTagForm() async {
       final isValid = formKey.currentState!.validate();
       Navigator.pop(
         context,
@@ -94,7 +94,7 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
                           }),
                       FlatButton(
                         onPressed: () {
-                          saveForm();
+                          saveTagForm();
                         },
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 0),

@@ -1,4 +1,4 @@
-import 'package:AllUni/Models/EventsModel.dart' show Deadline;
+import 'package:AllUni/Models/DeadlinesModel.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DeadlineDataSource extends CalendarDataSource {
@@ -13,8 +13,6 @@ class DeadlineDataSource extends CalendarDataSource {
   String getDescription(int index) => getDeadline(index).description;
 
   DateTime getDeadlineTime(int index) => getDeadline(index).deadlineDate;
-
-  String getLocalization(int index) => getDeadline(index).localization;
 
   List<String> getTags(int index) => getDeadline(index).tagsNames;
 }

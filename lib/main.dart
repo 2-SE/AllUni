@@ -4,6 +4,7 @@ import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
 import 'package:AllUni/OtherViews/SplashLoad.dart';
+import 'package:AllUni/Providers/DeadlineProvider.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:AllUni/Providers/EventTagsProvider.dart';
@@ -16,6 +17,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => EventProvider()),
+        ChangeNotifierProvider(create: (_) => DeadlineProvider()),
         ChangeNotifierProvider(create: (_) => TypeEventProvider()),
         ChangeNotifierProvider(create: (_) => EventTagsProvider()),
         ChangeNotifierProvider(create: (_) => DeadlineTagsProvider()),

@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TypeEventChoiceWidget extends StatelessWidget {
+  final Event? events;
+  final String? myCustomTagName;
   const TypeEventChoiceWidget({
     Key? key,
     this.events,
-    //required this.onPressedButton,
+    this.myCustomTagName,
   }) : super(key: key);
-
-  final Event? events;
-  //final Function onPressedButton;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class TypeEventChoiceWidget extends StatelessWidget {
             Expanded(
               child: Wrap(
                 alignment: WrapAlignment.center,
-                spacing: 32,
+                spacing: MediaQuery.of(context).size.width * 0.1,
                 children: [
                   ...(context
                       .watch<TypeEventProvider>()
@@ -68,8 +67,8 @@ class TypeEventChoiceWidget extends StatelessWidget {
           ],
         ),
         context.watch<TypeEventProvider>().currentActive == 'Planning'
-            ? PlanningWidget()
-            : DeadlineWidget()
+            ? const PlanningWidget()
+            : const DeadlineWidget()
       ],
     );
   }

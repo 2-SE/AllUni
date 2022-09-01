@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class DeadlineWidget extends StatefulWidget {
   final Event? event;
+  final String? myCustomTagName;
   const DeadlineWidget({
     Key? key,
     this.event,
+    this.myCustomTagName,
   }) : super(key: key);
 
   @override

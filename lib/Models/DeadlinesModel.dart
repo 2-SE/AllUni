@@ -1,18 +1,14 @@
-class Event {
+class Deadline {
   final String title;
   final String description;
-  final DateTime fromDate;
-  final DateTime toDate;
-  final String localization;
+  final DateTime deadlineDate;
   final List<String> tagsNames;
   final String customTagName;
 
-  const Event({
+  const Deadline({
     required this.title,
     this.description = "",
-    required this.fromDate,
-    required this.toDate,
-    this.localization = "",
+    required this.deadlineDate,
     this.tagsNames = const [],
     this.customTagName = "",
   });
