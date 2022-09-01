@@ -296,16 +296,19 @@ class _CalendarState extends State<Calendar> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF4C75A0),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const EventEditingPage(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add, color: Colors.white),
+      floatingActionButton: Visibility(
+        visible: (currentView == "Mon Calendrier") ? true : false,
+        child: FloatingActionButton(
+          backgroundColor: const Color(0xFF4C75A0),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const EventEditingPage(),
+              ),
+            );
+          },
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
       ),
     );
   }

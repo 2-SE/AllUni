@@ -5,7 +5,6 @@ class Event {
   final DateTime toDate;
   final String localization;
   final List<String> tagsNames;
-  final String customTagName;
 
   const Event({
     required this.title,
@@ -14,6 +13,5 @@ class Event {
     required this.toDate,
     this.localization = "",
     this.tagsNames = const [],
-    this.customTagName = "",
   });
 }

@@ -2,7 +2,6 @@ import 'package:AllUni/Calendars/Editing/TypeEventChoiceWidget.dart';
 import 'package:AllUni/Calendars/EventViewingPopUp.dart';
 import 'package:AllUni/Models/DeadlinesModel.dart';
 import 'package:AllUni/Models/EventsModel.dart';
-import 'package:AllUni/Providers/DeadlineProvider.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
 import 'package:AllUni/Providers/EventTagsProvider.dart';
@@ -71,11 +70,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
         final event = Event(
           title: titleController.text,
           description: descriptionController.text,
-          fromDate: fromDate,
-          toDate: toDate,
+          fromDate: (fromDate.isBefore(toDate)) ? fromDate : toDate,
+          toDate: (toDate.isAfter(fromDate)) ? toDate : fromDate,
           localization: localizationController.text,
           tagsNames: tagsNames,
         );
+
         final isEditing = widget.event != null;
         final provider = Provider.of<EventProvider>(context, listen: false);
 
@@ -97,6 +97,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       }
     }
 
+    /*
     Future saveDeadlineForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
@@ -128,6 +129,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         }
       }
     }
+    */
 
     if (context.watch<TypeEventProvider>().currentActive == "Planning") {
       List<bool> isSelectedTags = [false, false, false, false];
