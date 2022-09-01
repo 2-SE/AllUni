@@ -38,7 +38,7 @@ class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
       label: "Deadline",
       value: false,
       iconChecked: const Icon(
-        Icons.warning_amber_rounded,
+        Icons.warning_rounded,
         color: Colors.white,
       ),
       iconNonChecked: const Icon(
@@ -50,6 +50,9 @@ class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
   ];
 
   List<TypeEvent> get typeEvent => _typeEvent;
+
+  String get currentActive =>
+      _typeEvent.firstWhere((tE) => tE.value == true).label;
 
   void changeEventTypeValue(TypeEvent typeEvent) {
     for (int _ = 0; _ < _typeEvent.length; _++) {

@@ -1,21 +1,21 @@
 import 'package:AllUni/Calendars/Editing/CustomTagFieldPopUp.dart';
-import 'package:AllUni/Providers/TagsProvider.dart';
+import 'package:AllUni/Providers/EventTagsProvider.dart';
 import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TagsChoiceWidget extends StatefulWidget {
+class EventTagsChoiceWidget extends StatefulWidget {
   late String? myCustomTagName;
-  TagsChoiceWidget({
+  EventTagsChoiceWidget({
     Key? key,
     this.myCustomTagName,
   }) : super(key: key);
 
   @override
-  State<TagsChoiceWidget> createState() => _TagsChoiceWidgetState();
+  State<EventTagsChoiceWidget> createState() => _EventTagsChoiceWidgetState();
 }
 
-class _TagsChoiceWidgetState extends State<TagsChoiceWidget> {
+class _EventTagsChoiceWidgetState extends State<EventTagsChoiceWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -50,7 +50,7 @@ class _TagsChoiceWidgetState extends State<TagsChoiceWidget> {
                 ],
               ),
               ...context
-                  .watch<TagsProvider>()
+                  .watch<EventTagsProvider>()
                   .tags
                   .map((tagItem) => InputChip(
                       avatar: tagItem.showedIcon,
@@ -67,7 +67,9 @@ class _TagsChoiceWidgetState extends State<TagsChoiceWidget> {
                       selectedColor: tagItem.selectedColor,
                       selected: tagItem.value,
                       onPressed: () {
-                        context.read<TagsProvider>().changeTagValue(tagItem);
+                        context
+                            .read<EventTagsProvider>()
+                            .changeTagValue(tagItem);
                       }))
                   .toList(),
               InputChip(

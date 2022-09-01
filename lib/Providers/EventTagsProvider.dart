@@ -22,7 +22,7 @@ class Tag {
         );
 }
 
-class TagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
+class EventTagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   final List<Tag> _tags = [
     Tag(
       label: "Perso",
@@ -57,6 +57,13 @@ class TagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   void changeTagValue(Tag tag) {
     tag.value = !tag.value;
+    notifyListeners();
+  }
+
+  void resetAllTagValue() {
+    for (int _ = 0; _ < _tags.length; _++) {
+      _tags[_].value = false;
+    }
     notifyListeners();
   }
 }

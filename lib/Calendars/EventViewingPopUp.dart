@@ -195,13 +195,15 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: Padding(
                             padding: const EdgeInsets.all(8),
-                            child: Text(
-                              (widget.event.description != "")
-                                  ? widget.event.description
-                                  : "Aucune note enregistrée pour ce cours.",
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 16),
+                            child: CustomScrollView(
+                              slivers: [
+                                Text(
+                                  (widget.event.description != "")
+                                      ? widget.event.description
+                                      : "Aucune note enregistrée pour ce cours.",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ],
                             ),
                           ),
                         ),

@@ -4,8 +4,9 @@ import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
 import 'package:AllUni/OtherViews/SplashLoad.dart';
+import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/EventProvider.dart';
-import 'package:AllUni/Providers/TagsProvider.dart';
+import 'package:AllUni/Providers/EventTagsProvider.dart';
 import 'package:AllUni/Providers/TypeEventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +15,10 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => TagsProvider()),
         ChangeNotifierProvider(create: (_) => EventProvider()),
         ChangeNotifierProvider(create: (_) => TypeEventProvider()),
+        ChangeNotifierProvider(create: (_) => EventTagsProvider()),
+        ChangeNotifierProvider(create: (_) => DeadlineTagsProvider()),
       ],
       child: const MyApp(),
     ),
