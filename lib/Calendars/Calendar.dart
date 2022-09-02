@@ -1,53 +1,44 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
 import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
 import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
-import 'package:navigation_drawer_test/Providers/EventProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:navigation_drawer_test/Utils/Calendar/LessonAdapter.dart';
+
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import '../Utils/HeroDialog.dart';
-import '../models/Event.dart';
-import '../Providers/EventDataSource.dart';
+import '../models/Lesson.dart';
 
 class Calendar extends StatefulWidget {
   String currentView;
   int CalendarFormatIndex;
+  List<Lesson> lessons;
 
-  Calendar(this.currentView, this.CalendarFormatIndex, {Key? key})
-      : super(key: key);
+  Calendar(this.currentView, this.CalendarFormatIndex, this.lessons);
+
 
   @override
-  State<Calendar> createState() {
-    return _CalendarState(currentView, CalendarFormatIndex);
-  }
+  State<Calendar> createState() => _CalendarState(currentView, CalendarFormatIndex, lessons);
 }
 
 class _CalendarState extends State<Calendar> {
   List<bool> CalendarFormat = [false, false, false, false];
   String CalendarFormatString = "";
+  List<Lesson> lessons;
 
- late Future futureObject;
 
   String currentView;
   int CalendarFormatIndex;
-  _CalendarState(this.currentView, this.CalendarFormatIndex);
+  _CalendarState(this.currentView, this.CalendarFormatIndex, this.lessons);
 
   final CalendarController _controller = CalendarController();
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
-    setState(() {
-      futureObject = Amplify.DataStore.query(Event.classType);
-      // important to set the state!
-    });
-    print(futureObject);
   }
   Widget appointmentBuilder(BuildContext context,CalendarAppointmentDetails details) {
-    final event = details.appointments.first;
+    final lesson = details.appointments.first;
 
     if (CalendarFormatIndex == 0 || CalendarFormatIndex == 3) {
       // CALENDAR.VIEW = PLANNING/LIST
@@ -66,7 +57,7 @@ class _CalendarState extends State<Calendar> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    "   ${DateFormat.Hm().format(event.fromDate)}   ",
+                    "   ${DateFormat.Hm().format(lesson.HeureDebut)}   ",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: details.bounds.height * 0.25,
@@ -74,7 +65,7 @@ class _CalendarState extends State<Calendar> {
                     ),
                   ),
                   Text(
-                    "   ${DateFormat.Hm().format(event.toDate)}   ",
+                    "   ${DateFormat.Hm().format(lesson.HeureFin)}   ",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: details.bounds.height * 0.25,
@@ -92,7 +83,7 @@ class _CalendarState extends State<Calendar> {
             Flexible(
               flex: 5,
               child: Text(
-                "  ${event.title}",
+                "  ${lesson.NomCours}",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: details.bounds.height * 0.3,
@@ -109,10 +100,7 @@ class _CalendarState extends State<Calendar> {
       return Container(
         width: details.bounds.width,
         height: details.bounds.height,
-        decoration: BoxDecoration(
-
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(details.bounds.height * 0.2)),
         child: Row(
           children: [
             Flexible(
@@ -126,7 +114,7 @@ class _CalendarState extends State<Calendar> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    "${event.title}",
+                    "${lesson.NomCours}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 16,
@@ -147,8 +135,7 @@ class _CalendarState extends State<Calendar> {
                       fontSize: 10,
                     ),
                   ),
-                  Text(
-                    "${DateFormat.Hm().format(event.fromDate)} - ${DateFormat.Hm().format(event.toDate)}",
+                  Text("${DateFormat.Hm().format(lesson.HeureDebut)} - ${DateFormat.Hm().format(lesson.HeureFin)}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 12),
                   ),
@@ -205,83 +192,47 @@ class _CalendarState extends State<Calendar> {
         backgroundColor: const Color(0xFF4C75A0),
         foregroundColor: Colors.white,
         actions: [
-        Padding(
-        padding: const EdgeInsets.only(right: 20.0),
-        child: GestureDetector(
-        child: const Icon(Icons.calendar_today),
-        onTap: () {
-        Navigator.pop(context);
-        Navigator.of(context)
-            .push(MaterialPageRoute(
-        builder: (context) => Calendar(
-        widget.currentView, widget.CalendarFormatIndex)))
-            .then((_) {
-        setState(() {});
-        });
-        },
-        ),
-        ),
-        /*
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                child: const Icon(Icons.search),
-                onTap: () {},
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+            child: const Icon(Icons.calendar_today),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Calendar(widget.currentView, widget.CalendarFormatIndex, widget.lessons)))
+                .then((_) {
+                  setState(() {});
+                  });
+                },
               ),
-          ),
-           */
-        ],
-        //elevation: defaultTargetPlatform == TargetPlatform.android ? 5.0:0.0,
+            ),
+          ],
         ),
         drawer: DrawerCalendarView(
         currentView: widget.currentView,
         isSelectedFormat: CalendarFormat,
         ),
-        body: FutureBuilder(
-          future: futureObject,
-          builder: (context, AsyncSnapshot snapshot){
-            return Expanded(child: SfCalendar(
+        body:  SfCalendar(
               controller: _controller,
               todayHighlightColor: const Color(0xFF4C75A0),
               todayTextStyle: const TextStyle(color: Colors.white),
               appointmentBuilder: appointmentBuilder,
+              dataSource: EventDataSource(lessons),
               firstDayOfWeek: 1,
               cellBorderColor: Colors.grey.withOpacity(0.25),
-              //initialSelectedDate: DateTime.now(),
-              initialDisplayDate: DateTime.now().add(const Duration(hours: -2)),
-              timeSlotViewSettings: const TimeSlotViewSettings(
-                timeFormat: 'HH:mm',
-                timeIntervalHeight: 70,
-                /*
-          //LATER MAYBE FOR -8h-20h format
-          timeIntervalHeight: -1,
-          startHour: 7,
-          endHour: 20,
-           */
-              ),
+              initialDisplayDate: DateTime.utc(DateTime.now().year, 3, 0),
+              timeSlotViewSettings: const TimeSlotViewSettings(timeFormat: 'HH:mm',timeIntervalHeight: 70,),
               scheduleViewSettings: const ScheduleViewSettings(
                 hideEmptyScheduleWeek: false,
                 dayHeaderSettings: DayHeaderSettings(
                   dayFormat: 'EEE',
                   width: 50,
-                  dayTextStyle: TextStyle(
-                    fontSize: 10,
-                    color: Color(0xFF061323),
-                  ),
-                  dateTextStyle: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFF061323),
-                  ),
-                ),
-                weekHeaderSettings: WeekHeaderSettings(
-                  startDateFormat: "dd MMMM",
-                  endDateFormat: "dd MMMM",
-                ),
+                  dayTextStyle: TextStyle(fontSize: 10,color: Color(0xFF061323)),
+                  dateTextStyle: TextStyle(fontSize: 20,color: Color(0xFF061323)),),
+                weekHeaderSettings: WeekHeaderSettings(startDateFormat: "dd MMMM", endDateFormat: "dd MMMM",),
                 monthHeaderSettings: MonthHeaderSettings(
                   height: 75,
                   backgroundColor: Color(0xFF061323),
-                  textAlign: TextAlign.center,
-                ),
+                  textAlign: TextAlign.center),
               ),
               monthViewSettings: MonthViewSettings(
                 navigationDirection: MonthNavigationDirection.horizontal,
@@ -292,23 +243,18 @@ class _CalendarState extends State<Calendar> {
                 showAgenda: true,
                 agendaViewHeight: MediaQuery.of(context).size.height * 0.35,
               ),
-              dataSource: EventDataSource(snapshot.data),
               onTap: (details) {
                 if (details.appointments == null) return;
-                final event = details.appointments!.first;
-
+                final lesson = details.appointments!.first;
                 Navigator.of(context).push(
                   HeroDialogRoute(
                     builder: (context) => Center(
-                      child: EventViewingPopUp(event: snapshot.data),
+                      child:LessonViewingPopUp(lesson: lesson),
                     ),
                   ),
                 );
-                //Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventViewingPopUp(event: event)));
-              },
-            ));
-            }
-        )
+                },
+            )
         );
   }
 }

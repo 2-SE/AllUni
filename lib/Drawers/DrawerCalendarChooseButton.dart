@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/Calendars/Calendar.dart';
+import 'package:navigation_drawer_test/Pages/CalendarPages/DatabaseLoadPage.dart';
 
 
 class DrawerCalendarChooseButton extends StatefulWidget {
@@ -59,15 +60,8 @@ class _DrawerCalendarChooseButtonState extends State<DrawerCalendarChooseButton>
                 isSelected[index] = false;
               }
             }
-            //print(isSelected);
-            //print("Index :  $SelectedButtonIndex");
             Navigator.pop(context);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Calendar(currentView, SelectedButtonIndex)))
-            .then((_) {
-              setState(() {
-              });
             });
-          });
         },
       ),
     );

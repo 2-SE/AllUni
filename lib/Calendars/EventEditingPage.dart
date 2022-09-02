@@ -1,25 +1,24 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
-import 'package:navigation_drawer_test/models/Event.dart';
-import 'package:navigation_drawer_test/Providers/EventProvider.dart';
+import 'package:navigation_drawer_test/models/Lesson.dart';
 import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
-import 'package:provider/provider.dart';
+
 
 import '../Utils/HeroDialog.dart';
 
-class EventEditingPage extends StatefulWidget {
-  final Event? event;
-  const EventEditingPage({
+class LessonEditingPage extends StatefulWidget {
+  final Lesson? lesson;
+  const LessonEditingPage({
     Key? key,
-    this.event,
+    this.lesson,
   }) : super(key: key);
 
   @override
-  State<EventEditingPage> createState() => _EventEditingPageState();
+  State<LessonEditingPage> createState() => _LessonEditingPageState();
 }
 
-class _EventEditingPageState extends State<EventEditingPage> {
+class _LessonEditingPageState extends State<LessonEditingPage> {
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -29,15 +28,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.event == null) {
+    if (widget.lesson == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
     } else {
-      final event = widget.event!;
-      titleController.text = event.Titre;
-      descriptionController.text = event.Description!;
-      fromDate = event.HeureDebut as DateTime;
-      toDate = event.HeureFin as DateTime;
+      final Lesson = widget.lesson!;
+      titleController.text = Lesson.NomCours!;
+      descriptionController.text = Lesson.Professeur!;
+      fromDate = Lesson.HeureDebut as DateTime;
+      toDate = Lesson.HeureFin as DateTime;
     }
   }
 
@@ -50,36 +49,31 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   @override
   Widget build(BuildContext context) {
-    // UTILS FOR THE EVENT EDITING PAGE
+    // UTILS FOR THE Lesson EDITING PAGE
     Future saveForm() async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
-        final event = Event(
-          Titre: titleController.text,
-          Description: descriptionController.text,
-          Tag: [],
-          HeureDebut: TemporalDateTime(fromDate),
-          HeureFin: TemporalDateTime(toDate),
-          isAllDay: false,
-          Type: '',
+
+        final lesson = Lesson(
+          NomCours: titleController.text,
+          Professeur: descriptionController.text,
+          HeureDebut: fromDate,
+          HeureFin: toDate,
         );
-        final isEditing = widget.event != null;
-        final provider = Provider.of<EventProvider>(context, listen: false);
+        final isEditing = widget.lesson != null;
 
         if (isEditing) {
-          provider.editEvent(event, widget.event!);
           Navigator.of(context).pop();
           Navigator.of(context).pop();
           Navigator.of(context).push(
             HeroDialogRoute(
               builder: (context) => Center(
-                child: EventViewingPopUp(event: event),
+                child: LessonViewingPopUp(lesson: lesson),
               ),
             ),
           );
           //Navigator.of(context).pop();
         } else {
-          provider.addEvent(event);
           Navigator.of(context).pop();
         }
         //Navigator.of(context).pop();
@@ -205,7 +199,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 controller: descriptionController,
               ),
               Container(height: 20, color: Colors.transparent),
-              //PersonalEventType(isSelected: 0),
+              //PersonalLessonType(isSelected: 0),
               Container(height: 20, color: Colors.transparent),
               Column(
                 children: [

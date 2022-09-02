@@ -1,6 +1,10 @@
+
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
 import 'package:navigation_drawer_test/Drawers/DrawerCalendarChooseButton.dart';
+import 'package:navigation_drawer_test/Pages/CalendarPages/DatabaseLoadPage.dart';
+import 'package:navigation_drawer_test/Utils/Calendar/OthersCalendarsPopUpChoice.dart';
+
+import '../Utils/HeroDialog.dart';
 
 class DrawerCalendarView extends StatefulWidget {
   String currentView = "";
@@ -28,6 +32,47 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
         currentFormat = index;
       }
     }
+
+    final AcademicMajorList = [
+      "1A",
+      "1B",
+      "1C",
+      "1D",
+      "1E",
+      "1F",
+      "1G",
+      "1H",
+      "2B",
+      "2C",
+      "2D",
+      "2E",
+      "2F",
+      "2G",
+      "2I",
+      "2M",
+      "2N",
+      "2R",
+      "2S",
+      "2T",
+      "2V",
+      "3B",
+      "3C",
+      "3E",
+      "3F",
+      "3G",
+      "3I",
+      "3M",
+      "3N",
+      "3R",
+      "3S",
+      "3T",
+      "3V"
+    ];
+
+    List<bool> isSelectedMajor = [];
+    isSelectedMajor = List<bool>.filled(AcademicMajorList.length, false);
+    //isSelectedMajor[3] = true;
+
     return Drawer(
       child: Column(
         children: [
@@ -74,20 +119,20 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                 ListTile(
                   title: const Text("Mon Calendrier"),
                   trailing:
-                      const Icon(Icons.today_rounded, color: Colors.black),
+                  const Icon(Icons.today_rounded, color: Colors.black),
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context)
                         .push(MaterialPageRoute(
-                            builder: (context) =>
-                                Calendar("Mon Calendrier", currentFormat)))
+                        builder: (context) =>
+                            DatabaseLoadPage(["1A"], currentFormat,"Mon Calendrier")))
                         .then((_) {
                       setState(() {});
                     });
                   },
                 ),
                 const Divider(color: Colors.black, height: 1),
-                Container(height: 15, color: Colors.transparent),
+                const SizedBox(height: 15),
                 Row(
                   children: const [
                     Text("    "),
@@ -100,51 +145,33 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                         )),
                   ],
                 ),
-                Container(height: 5, color: Colors.transparent),
+                const SizedBox(height: 5),
                 ListTile(
                   title: const Text("Calendriers Autres Promotions"),
                   trailing:
-                      const Icon(Icons.people_outlined, color: Colors.black),
+                  const Icon(Icons.people_outlined, color: Colors.black),
                   onTap: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) =>
-                                Calendar("Autres Promotions", currentFormat)))
-                        .then((_) {
-                      setState(() {});
-                    }); //Navigator.pushNamed(context, "/calendar");
+                    Navigator.of(context).push(
+                      HeroDialogRoute(
+                        builder: (context) => Center(
+                          child: OthersCalendarsPopUp(
+                            myAcademicMajor: '2S',
+                            isSelectedMajor: isSelectedMajor,
+                            AcademicMajorList: AcademicMajorList,
+                            currentFormatView: currentFormat,
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 ),
-                ListTile(
-                  title: const Text("Calendrier Salles Libres"),
-                  trailing: const Icon(Icons.meeting_room_outlined,
-                      color: Colors.black),
-                  onTap: () {
-                    //Navigator.of(context).pop();
-                    //Navigator.pushNamed(context, "/freerooms");
-                  },
-                ),
-                ListTile(
-                  title: const Text("Calendrier de l'École"),
-                  trailing:
-                      const Icon(Icons.school_rounded, color: Colors.black),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) =>
-                                Calendar("Calendrier École", currentFormat)))
-                        .then((_) {
-                      setState(() {});
-                    }); //Navigator.pushNamed(context, "/calendar");
-                  },
-                ),
+
                 const Divider(color: Colors.black, height: 1),
                 DrawerCalendarChooseButton(
                     currentView: currentView,
                     isSelected:
-                        isSelectedFormat), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
+                    isSelectedFormat), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
                 const Divider(color: Colors.black, height: 1),
               ],
             ),
@@ -181,18 +208,17 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   title: const Text("Nous Contacter",
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        color: Colors.indigo,
+                        color: Color(0xFF4C75A0),
                       )),
                   dense: true,
                   visualDensity: const VisualDensity(vertical: -2),
                   trailing:
-                      const Icon(Icons.outgoing_mail, color: Colors.indigo),
+                  const Icon(Icons.outgoing_mail, color: Color(0xFF4C75A0)),
                   onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.pushNamed(context, "/contact");
+                    Navigator.pushNamed(context, "/contactLogOut");
                   },
                 ),
-                Container(height: 15, color: Colors.transparent),
+                const SizedBox(height: 15),
               ],
             ),
           ),
@@ -201,5 +227,3 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
     );
   }
 }
-
-//Icon(Icons.meeting_room_outlined) or Icon(Icons.meeting_room_rounded)

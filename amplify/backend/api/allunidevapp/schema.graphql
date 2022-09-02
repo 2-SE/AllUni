@@ -1,0 +1,12 @@
+type Todo @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  UserID: String!
+  MajeureID: String
+  HeureDebut: AWSDateTime
+  CampusID: String
+  NomCours: String
+  Professeur: String
+  Salle: String
+  TypeBloc: String
+  HeureFin: AWSDateTime
+} 

@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
-import 'package:navigation_drawer_test/models/Event.dart';
-import 'package:navigation_drawer_test/Providers/EventProvider.dart';
+import 'package:navigation_drawer_test/models/Lesson.dart';
 import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
 import 'package:provider/provider.dart';
 
-class EventViewingPopUp extends StatefulWidget {
-  final Event event;
 
-  const EventViewingPopUp({
+class LessonViewingPopUp extends StatefulWidget {
+  final Lesson lesson;
+
+  const LessonViewingPopUp({
     Key? key,
-    required this.event,
+    required this.lesson,
   }) : super(key: key);
 
   @override
-  State<EventViewingPopUp> createState() => _EventViewingPopUpState();
+  State<LessonViewingPopUp> createState() => _LessonViewingPopUpState();
 }
 
-class _EventViewingPopUpState extends State<EventViewingPopUp> {
+class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Hero(
-          tag: widget.event.Titre,
+          tag: widget.lesson.NomCours!,
           child: Material(
             color: Colors.white,
             elevation: 2,
@@ -67,20 +67,9 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        EventEditingPage(event: widget.event),
+                                        LessonEditingPage(lesson: widget.lesson),
                                   ),
                                 );
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete_forever),
-                              onPressed: () {
-                                final provider = Provider.of<EventProvider>(
-                                  context,
-                                  listen: false,
-                                );
-                                provider.deleteEvent(widget.event);
-                                Navigator.of(context).pop();
                               },
                             ),
                           ],
@@ -88,7 +77,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                       ],
                     ),
                     Text(
-                      widget.event.Titre,
+                      widget.lesson.NomCours!,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -114,7 +103,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.HeureDebut as DateTime),
+                          DateHourUtils.toDate(widget.lesson.HeureDebut as DateTime),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -135,7 +124,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          "${DateHourUtils.toTime(widget.event.HeureFin as DateTime)} - ${DateHourUtils.toTime(widget.event.HeureFin as DateTime)}",
+                          "${DateHourUtils.toTime(widget.lesson.HeureFin as DateTime)} - ${DateHourUtils.toTime(widget.lesson.HeureFin as DateTime)}",
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -156,7 +145,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.HeureDebut as DateTime),
+                          DateHourUtils.toDate(widget.lesson.HeureDebut as DateTime),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -177,39 +166,12 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.HeureDebut as DateTime),
+                          DateHourUtils.toDate(widget.lesson.HeureDebut as DateTime),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    ClipRRect(
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                          ),
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              (widget.event.Description != "")
-                                  ? widget.event.Description!
-                                  : "Aucune note enregistrée pour ce cours.",
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
                     ),
                   ],
                 ),

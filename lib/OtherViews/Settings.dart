@@ -34,10 +34,9 @@ class SettingsPage extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              FlatButton(
+              TextButton(
                 onPressed: () => {},
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                style: TextButton.styleFrom(padding:const EdgeInsets.symmetric(horizontal: 10, vertical: 0),),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const <Widget>[
@@ -126,12 +125,13 @@ class SettingsPage extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               Center(
-                child: RaisedButton(
-                  color: Colors.white,
-                  textColor: Colors.red,
-                  shape: const StadiumBorder(
-                    side: BorderSide(color: Colors.red, width: 1),
-                  ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      textStyle: TextStyle(color: Colors.red),
+                      shape: const StadiumBorder(
+                        side: BorderSide(color: Colors.red, width: 1),
+                      )),
                   onPressed: () {},
                   child: const Text("     Déconnexion     ",
                       style: TextStyle(

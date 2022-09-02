@@ -99,12 +99,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                           ),
                           Container(height: 20, color: Colors.transparent),
                           Center(
-                            child: RaisedButton(
-                              color: Colors.white,
-                              textColor: Colors.indigo,
-                              shape: const StadiumBorder(
-                                side:
-                                    BorderSide(color: Colors.indigo, width: 1),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                textStyle: TextStyle(color: Colors.indigo),
+                                shape: const StadiumBorder(
+                                  side:
+                                  BorderSide(color: Colors.indigo, width: 1),
+                                ),
                               ),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
