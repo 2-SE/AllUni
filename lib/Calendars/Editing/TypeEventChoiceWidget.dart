@@ -1,18 +1,20 @@
 import 'package:AllUni/Calendars/Editing/DeadlineWidget.dart';
 import 'package:AllUni/Calendars/Editing/PlanningWidget.dart';
-import 'package:AllUni/Models/EventsModel.dart';
+import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
-import 'package:AllUni/Providers/EventTagsProvider.dart';
+import 'package:AllUni/Providers/PlanningTagsProvider.dart';
 import 'package:AllUni/Providers/TypeEventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TypeEventChoiceWidget extends StatelessWidget {
-  final Event? events;
+  final CalendarAppointment? calendarAppointment;
+  //final Event? events;
   final String? myCustomTagName;
   const TypeEventChoiceWidget({
     Key? key,
-    this.events,
+    this.calendarAppointment,
+    //this.events,
     this.myCustomTagName,
   }) : super(key: key);
 
@@ -33,6 +35,8 @@ class TypeEventChoiceWidget extends StatelessWidget {
                       .map(
                         (typeEventItem) => InputChip(
                           avatar: typeEventItem.showedIcon,
+                          labelPadding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                           label: Text(
                             typeEventItem.label,
                             style: TextStyle(
@@ -52,7 +56,7 @@ class TypeEventChoiceWidget extends StatelessWidget {
                                 .read<TypeEventProvider>()
                                 .changeEventTypeValue(typeEventItem);
                             context
-                                .read<EventTagsProvider>()
+                                .read<PlanningTagsProvider>()
                                 .resetAllTagValue();
                             context
                                 .read<DeadlineTagsProvider>()

@@ -1,8 +1,8 @@
 import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
-import 'package:AllUni/Calendars/EventViewingPopUp.dart';
+import 'package:AllUni/Calendars/Viewing/EventViewingPopUp.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
-import 'package:AllUni/Models/EventDataSource.dart';
-import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Models/CalendarAppointmentsDataSource.dart';
+import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
 import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +31,7 @@ class _CalendarState extends State<Calendar> {
 
   final CalendarController _controller = CalendarController();
 
-  Widget appointmentBuilder(
+  Widget planningAppointmentBuilder(
     BuildContext context,
     CalendarAppointmentDetails details,
   ) {
@@ -169,6 +169,133 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
+  Widget deadlineAppointmentBuilder(
+    BuildContext context,
+    CalendarAppointmentDetails details,
+  ) {
+    final deadline = details.appointments.first;
+
+    if (CalendarFormatIndex == 0 || CalendarFormatIndex == 3) {
+      // CALENDAR.VIEW = PLANNING/LIST
+      return Container(
+        width: details.bounds.width,
+        height: details.bounds.height,
+        decoration: BoxDecoration(
+          color: const Color(0xFF600000),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
+        ),
+        child: Row(
+          children: [
+            Flexible(
+              flex: 1,
+              child: Text(
+                "   ${DateFormat.Hm().format(deadline.deadlineDate)}   ",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: details.bounds.height * 0.25,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              height: details.bounds.height * 0.85,
+              width: 1,
+            ),
+            Flexible(
+              flex: 5,
+              child: Text(
+                "  ${deadline.title}",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: details.bounds.height * 0.3,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  //color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else if (CalendarFormatIndex == 1) {
+      // CALENDAR.VIEW = DAY
+      return Container(
+        width: details.bounds.width,
+        height: details.bounds.height,
+        decoration: BoxDecoration(
+          color: const Color(0xFF600000),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
+        ),
+        child: Row(
+          children: [
+            Flexible(
+              flex: 1,
+              child: Container(color: Colors.transparent),
+            ),
+            Flexible(
+              flex: 35,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "${deadline.title}",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const Text(
+                    "Lieu :  ",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  const Text(
+                    "Professeur :  ",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    "${DateFormat.Hm().format(deadline.fromDate)} - ${DateFormat.Hm().format(deadline.toDate)}",
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(color: Colors.transparent),
+            ),
+          ],
+        ),
+      );
+    } else if (CalendarFormatIndex == 2) {
+      // CALENDAR.VIEW = WEEK
+      return Container(
+        width: details.bounds.width,
+        height: details.bounds.height,
+        decoration: BoxDecoration(
+          color: const Color(0xFF600000),
+          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
+        ),
+      );
+    } else {
+      return SizedBox(
+        width: details.bounds.width,
+        height: details.bounds.height,
+        child: const Text("Error"),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     CalendarFormat[widget.CalendarFormatIndex] = true;
@@ -188,7 +315,10 @@ class _CalendarState extends State<Calendar> {
       }
     }
 
-    final events = Provider.of<EventProvider>(context).events;
+    //final events = Provider.of<PlanningProvider>(context).events;
+    //final deadline = Provider.of<DeadlineProvider>(context).deadlines;
+    final appointments =
+        Provider.of<CalendarAppointmentsProvider>(context).appointments;
 
     return Scaffold(
       appBar: AppBar(
@@ -196,33 +326,6 @@ class _CalendarState extends State<Calendar> {
         backgroundColor: const Color(0xFF4C75A0),
         foregroundColor: Colors.white,
         centerTitle: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              child: const Icon(Icons.today_rounded),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.of(context)
-                    .push(MaterialPageRoute(
-                        builder: (context) => Calendar(
-                            widget.currentView, widget.CalendarFormatIndex)))
-                    .then((_) {
-                  setState(() {});
-                });
-              },
-            ),
-          ),
-          /*
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                child: const Icon(Icons.search),
-                onTap: () {},
-              ),
-          ),
-           */
-        ],
       ),
       drawer: DrawerCalendarView(
         currentView: widget.currentView,
@@ -232,7 +335,9 @@ class _CalendarState extends State<Calendar> {
         controller: _controller, // Change the Calendar Type View
         todayHighlightColor: const Color(0xFF4C75A0),
         todayTextStyle: const TextStyle(color: Colors.white),
-        appointmentBuilder: appointmentBuilder,
+        appointmentBuilder: planningAppointmentBuilder,
+        dataSource: CalendarAppointmentsDataSource(appointments),
+        showDatePickerButton: true,
         firstDayOfWeek: 1,
         cellBorderColor: Colors.grey.withOpacity(0.25),
         initialSelectedDate: DateTime.now(),
@@ -280,16 +385,16 @@ class _CalendarState extends State<Calendar> {
           showAgenda: true,
           agendaViewHeight: MediaQuery.of(context).size.height * 0.35,
         ),
-        dataSource: EventDataSource(events),
         onTap: (details) {
           if (details.appointments == null) return;
-          final event = details.appointments!.first;
+          final calendarAppointment = details.appointments!.first;
 
           if (details.targetElement != CalendarElement.calendarCell) {
             Navigator.of(context).push(
               HeroDialogRoute(
                 builder: (context) => Center(
-                  child: EventViewingPopUp(event: event),
+                  child: EventViewingPopUp(
+                      calendarAppointment: calendarAppointment),
                 ),
               ),
             );

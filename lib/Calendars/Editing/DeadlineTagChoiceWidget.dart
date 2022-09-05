@@ -68,8 +68,8 @@ class _DeadlineTagsChoiceWidgetState extends State<DeadlineTagsChoiceWidget> {
                       selectedColor: tagItem.selectedColor,
                       selected: tagItem.value,
                       onPressed: () {
-                        context
-                            .read<DeadlineTagsProvider>()
+                        Provider.of<DeadlineTagsProvider>(context,
+                                listen: false)
                             .changeTagValue(tagItem);
                       }))
                   .toList(),
@@ -110,7 +110,7 @@ class _DeadlineTagsChoiceWidgetState extends State<DeadlineTagsChoiceWidget> {
                     ? true
                     : false,
                 onPressed: () async {
-                  var _NavigatorTagsNameResult =
+                  var navigatorTagsNameResult =
                       await Navigator.of(context).push(
                     HeroDialogRequiredRoute(
                       builder: (context) => Center(
@@ -119,12 +119,12 @@ class _DeadlineTagsChoiceWidgetState extends State<DeadlineTagsChoiceWidget> {
                       ),
                     ),
                   );
-                  if (_NavigatorTagsNameResult.toString() != "" &&
-                      _NavigatorTagsNameResult != null) {
-                    debugPrint(_NavigatorTagsNameResult.toString());
+                  if (navigatorTagsNameResult.toString() != "" &&
+                      navigatorTagsNameResult != null) {
+                    //debugPrint(navigatorTagsNameResult.toString());
                     setState(() {
                       widget.myCustomTagName =
-                          _NavigatorTagsNameResult as String;
+                          navigatorTagsNameResult as String;
                     });
                   } else {
                     setState(() {

@@ -1,21 +1,22 @@
 import 'package:AllUni/Calendars/Editing/CustomTagFieldPopUp.dart';
-import 'package:AllUni/Providers/EventTagsProvider.dart';
+import 'package:AllUni/Providers/PlanningTagsProvider.dart';
 import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EventTagsChoiceWidget extends StatefulWidget {
+class PlanningTagsChoiceWidget extends StatefulWidget {
   late String? myCustomTagName;
-  EventTagsChoiceWidget({
+  PlanningTagsChoiceWidget({
     Key? key,
     this.myCustomTagName,
   }) : super(key: key);
 
   @override
-  State<EventTagsChoiceWidget> createState() => _EventTagsChoiceWidgetState();
+  State<PlanningTagsChoiceWidget> createState() =>
+      _PlanningTagsChoiceWidgetState();
 }
 
-class _EventTagsChoiceWidgetState extends State<EventTagsChoiceWidget> {
+class _PlanningTagsChoiceWidgetState extends State<PlanningTagsChoiceWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -50,7 +51,7 @@ class _EventTagsChoiceWidgetState extends State<EventTagsChoiceWidget> {
                 ],
               ),
               ...context
-                  .watch<EventTagsProvider>()
+                  .watch<PlanningTagsProvider>()
                   .tags
                   .map((tagItem) => InputChip(
                       avatar: tagItem.showedIcon,
@@ -67,8 +68,8 @@ class _EventTagsChoiceWidgetState extends State<EventTagsChoiceWidget> {
                       selectedColor: tagItem.selectedColor,
                       selected: tagItem.value,
                       onPressed: () {
-                        context
-                            .read<EventTagsProvider>()
+                        Provider.of<PlanningTagsProvider>(context,
+                                listen: false)
                             .changeTagValue(tagItem);
                       }))
                   .toList(),
@@ -109,21 +110,22 @@ class _EventTagsChoiceWidgetState extends State<EventTagsChoiceWidget> {
                     ? true
                     : false,
                 onPressed: () async {
-                  var _NavigatorTagsNameResult =
+                  var navigatorTagsNameResult =
                       await Navigator.of(context).push(
                     HeroDialogRequiredRoute(
                       builder: (context) => Center(
                         child: CustomTagFieldPopUp(
-                            nameTag: widget.myCustomTagName),
+                          nameTag: widget.myCustomTagName,
+                        ),
                       ),
                     ),
                   );
-                  if (_NavigatorTagsNameResult.toString() != "" &&
-                      _NavigatorTagsNameResult != null) {
-                    debugPrint(_NavigatorTagsNameResult.toString());
+                  if (navigatorTagsNameResult.toString() != "" &&
+                      navigatorTagsNameResult != null) {
+                    //debugPrint(navigatorTagsNameResult.toString());
                     setState(() {
                       widget.myCustomTagName =
-                          _NavigatorTagsNameResult as String;
+                          navigatorTagsNameResult as String;
                     });
                   } else {
                     setState(() {

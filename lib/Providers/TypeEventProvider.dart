@@ -52,13 +52,21 @@ class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
   List<TypeEvent> get typeEvent => _typeEvent;
 
   String get currentActive =>
-      _typeEvent.firstWhere((tE) => tE.value == true).label;
+      _typeEvent.firstWhere((typeEvent) => typeEvent.value == true).label;
 
   void changeEventTypeValue(TypeEvent typeEvent) {
-    for (int _ = 0; _ < _typeEvent.length; _++) {
-      _typeEvent[_].value = false;
+    for (int index = 0; index < _typeEvent.length; index++) {
+      _typeEvent[index].value = false;
     }
     typeEvent.value = true;
+    notifyListeners();
+  }
+
+  void refreshEventTypeValue() {
+    for (int index = 0; index < _typeEvent.length; index++) {
+      _typeEvent[index].value = false;
+    }
+    _typeEvent[0].value = true;
     notifyListeners();
   }
 }

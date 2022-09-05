@@ -1,15 +1,15 @@
 import 'package:AllUni/Calendars/Editing/DeadlineTagChoiceWidget.dart';
-import 'package:AllUni/Models/EventsModel.dart';
+import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
+import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DeadlineWidget extends StatefulWidget {
-  final Event? event;
-  final String? myCustomTagName;
+  final CalendarAppointment? calendarAppointment;
   const DeadlineWidget({
     Key? key,
-    this.event,
-    this.myCustomTagName,
+    this.calendarAppointment,
   }) : super(key: key);
 
   @override
@@ -17,39 +17,22 @@ class DeadlineWidget extends StatefulWidget {
 }
 
 class _DeadlineWidgetState extends State<DeadlineWidget> {
-  //final _formKey = GlobalKey<FormState>();
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  late DateTime fromDate;
-  late DateTime toDate;
-  final localizationController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  late DateTime deadlineDate;
   late List<String> tagsNames;
   String myCustomTagName = "";
 
   @override
   void initState() {
     super.initState();
-    if (widget.event == null) {
-      fromDate = DateTime.now();
-      toDate = DateTime.now().add(const Duration(hours: 1));
+    if (widget.calendarAppointment == null) {
+      deadlineDate = DateTime.now().add(const Duration(hours: 1));
       tagsNames = [];
     } else {
-      final event = widget.event!;
-      titleController.text = event.title;
-      descriptionController.text = event.description;
-      fromDate = event.fromDate;
-      toDate = event.toDate;
-      localizationController.text = event.localization;
-      tagsNames = event.tagsNames;
+      final deadline = widget.calendarAppointment!;
+      deadlineDate = deadline.deadlineDate;
+      tagsNames = deadline.tagsNames;
     }
-  }
-
-  @override
-  void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
-    localizationController.dispose();
-    super.dispose();
   }
 
   Widget buildDropDownField({
@@ -79,6 +62,8 @@ class _DeadlineWidgetState extends State<DeadlineWidget> {
       if (date == null) return null;
       final time =
           Duration(hours: initialDate.hour, minutes: initialDate.minute);
+      Provider.of<EditDeadlineProvider>(context, listen: false)
+          .changeDeadlineToDate(date.add(time));
       return date.add(time);
     } else {
       final timeOfDay = await showTimePicker(
@@ -89,76 +74,69 @@ class _DeadlineWidgetState extends State<DeadlineWidget> {
       final date =
           DateTime(initialDate.year, initialDate.month, initialDate.day);
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
+      Provider.of<EditDeadlineProvider>(context, listen: false)
+          .changeDeadlineToDate(date.add(time));
       return date.add(time);
     }
   }
 
-  Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(fromDate, pickDate: pickDate);
-    if (date == null) return;
-    if (date.isAfter(toDate)) {
-      toDate =
-          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
-    }
-    setState(() {
-      fromDate = date;
-    });
-  }
-
   Future pickToDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(toDate,
-        pickDate: pickDate, firstDate: pickDate ? fromDate : null);
+    final date = await pickDateTime(deadlineDate,
+        pickDate: pickDate, firstDate: pickDate ? deadlineDate : null);
     if (date == null) return;
     setState(() {
-      toDate = date;
+      deadlineDate = date;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Jusqu'au :",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: buildDropDownField(
-                        text: DateHourUtils.toDate(fromDate),
-                        onClicked: () {
-                          pickFromDateTime(pickDate: true);
-                        },
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          const SizedBox(height: 10),
+          Column(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("Jusqu'au :",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: buildDropDownField(
+                          text: DateHourUtils.toDate(deadlineDate),
+                          onClicked: () {
+                            pickToDateTime(pickDate: true);
+                          },
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: buildDropDownField(
-                        text: DateHourUtils.toTime(fromDate),
-                        onClicked: () {
-                          pickFromDateTime(pickDate: false);
-                        },
+                      Expanded(
+                        flex: 1,
+                        child: buildDropDownField(
+                          text: DateHourUtils.toTime(deadlineDate),
+                          onClicked: () {
+                            pickToDateTime(pickDate: false);
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-        const Divider(),
-        const SizedBox(height: 10),
-        DeadlineTagsChoiceWidget(
-          myCustomTagName:
-              (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
-        ),
-      ],
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const Divider(),
+          const SizedBox(height: 10),
+          DeadlineTagsChoiceWidget(
+            myCustomTagName:
+                (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
+          ),
+        ],
+      ),
     );
   }
 }

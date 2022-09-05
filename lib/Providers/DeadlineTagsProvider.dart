@@ -61,9 +61,12 @@ class DeadlineTagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void resetAllTagValue() {
-    for (int _ = 0; _ < _tags.length; _++) {
-      _tags[_].value = false;
+    for (int index = 0; index < _tags.length; index++) {
+      _tags[index].value = false;
     }
     notifyListeners();
   }
+
+  List<String> get activatedTags =>
+      _tags.where((t) => t.value).map((t) => t.label).toList();
 }

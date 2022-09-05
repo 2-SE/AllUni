@@ -1,16 +1,16 @@
 import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
-import 'package:AllUni/Models/EventsModel.dart';
-import 'package:AllUni/Providers/EventProvider.dart';
+import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
+import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EventViewingPopUp extends StatefulWidget {
-  final Event event;
+  final CalendarAppointment calendarAppointment;
 
   const EventViewingPopUp({
     Key? key,
-    required this.event,
+    required this.calendarAppointment,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Hero(
-          tag: widget.event.title,
+          tag: widget.calendarAppointment.title,
           child: Material(
             color: Colors.white,
             elevation: 2,
@@ -65,8 +65,9 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        EventEditingPage(event: widget.event),
+                                    builder: (context) => EventEditingPage(
+                                        calendarAppointment:
+                                            widget.calendarAppointment),
                                   ),
                                 );
                               },
@@ -74,11 +75,13 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                             IconButton(
                               icon: const Icon(Icons.delete_forever),
                               onPressed: () {
-                                final provider = Provider.of<EventProvider>(
+                                final provider =
+                                    Provider.of<CalendarAppointmentsProvider>(
                                   context,
                                   listen: false,
                                 );
-                                provider.deleteEvent(widget.event);
+                                provider.deleteAppointment(
+                                    widget.calendarAppointment);
                                 Navigator.of(context).pop();
                               },
                             ),
@@ -87,7 +90,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                       ],
                     ),
                     Text(
-                      widget.event.title,
+                      widget.calendarAppointment.title,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -113,7 +116,8 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.fromDate),
+                          DateHourUtils.toDate(
+                              widget.calendarAppointment.fromDate),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -134,7 +138,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          "${DateHourUtils.toTime(widget.event.toDate)} - ${DateHourUtils.toTime(widget.event.toDate)}",
+                          "${DateHourUtils.toTime(widget.calendarAppointment.toDate)} - ${DateHourUtils.toTime(widget.calendarAppointment.toDate)}",
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -155,7 +159,8 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.fromDate),
+                          DateHourUtils.toDate(
+                              widget.calendarAppointment.fromDate),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -176,7 +181,8 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.event.fromDate),
+                          DateHourUtils.toDate(
+                              widget.calendarAppointment.fromDate),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -198,8 +204,8 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                             child: CustomScrollView(
                               slivers: [
                                 Text(
-                                  (widget.event.description != "")
-                                      ? widget.event.description
+                                  (widget.calendarAppointment.description != "")
+                                      ? widget.calendarAppointment.description
                                       : "Aucune note enregistrée pour ce cours.",
                                   style: const TextStyle(fontSize: 16),
                                 ),

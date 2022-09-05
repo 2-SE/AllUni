@@ -1,24 +1,23 @@
 import 'package:AllUni/Calendars/Editing/TypeEventChoiceWidget.dart';
-import 'package:AllUni/Calendars/EventViewingPopUp.dart';
-import 'package:AllUni/Models/DeadlinesModel.dart';
-import 'package:AllUni/Models/EventsModel.dart';
+import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
+import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
+import 'package:AllUni/Providers/CustomTagProvider.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
-import 'package:AllUni/Providers/EventProvider.dart';
-import 'package:AllUni/Providers/EventTagsProvider.dart';
+import 'package:AllUni/Providers/EditProvider.dart';
+import 'package:AllUni/Providers/PlanningTagsProvider.dart';
 import 'package:AllUni/Providers/TypeEventProvider.dart';
-import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatefulWidget {
-  final Event? event;
-  final Deadline? deadline;
-  final String? myCustomTagName;
+  final CalendarAppointment? calendarAppointment;
+  //final Event? event;
+  //final Deadline? deadline;
   const EventEditingPage({
     Key? key,
-    this.event,
-    this.deadline,
-    this.myCustomTagName,
+    this.calendarAppointment,
+    //this.event,
+    //this.deadline,
   }) : super(key: key);
 
   @override
@@ -27,10 +26,12 @@ class EventEditingPage extends StatefulWidget {
 
 class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
+  late String appointmentType;
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  late DateTime deadlineDate;
   final localizationController = TextEditingController();
   late List<String> tagsNames;
   String myCustomTagName = "";
@@ -38,18 +39,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.event == null) {
+    if (widget.calendarAppointment == null) {
+      appointmentType = "Planning";
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
+      deadlineDate = DateTime.now();
       tagsNames = [];
     } else {
-      final event = widget.event!;
-      titleController.text = event.title;
-      descriptionController.text = event.description;
-      fromDate = event.fromDate;
-      toDate = event.toDate;
-      localizationController.text = event.localization;
-      tagsNames = event.tagsNames;
+      final calendarAppointment = widget.calendarAppointment!;
+      appointmentType = calendarAppointment.appointmentType;
+      titleController.text = calendarAppointment.title;
+      descriptionController.text = calendarAppointment.description;
+      fromDate = calendarAppointment.fromDate;
+      toDate = calendarAppointment.toDate;
+      deadlineDate = calendarAppointment.deadlineDate;
+      localizationController.text = calendarAppointment.localization;
+      tagsNames = calendarAppointment.tagsNames;
     }
   }
 
@@ -61,11 +66,112 @@ class _EventEditingPageState extends State<EventEditingPage> {
     super.dispose();
   }
 
+  void _resetAllValues() {
+    context.read<EditPlanningProvider>().resetAllPlanningValues();
+    context.read<EditDeadlineProvider>().resetAllDeadlineValues();
+    context.read<PlanningTagsProvider>().resetAllTagValue();
+    context.read<DeadlineTagsProvider>().resetAllTagValue();
+    Provider.of<TypeEventProvider>(context, listen: false)
+        .refreshEventTypeValue();
+    Provider.of<CustomTagProvider>(context, listen: false).deleteTagValue();
+  }
+
   @override
   Widget build(BuildContext context) {
     // UTILS FOR THE EVENT EDITING PAGE
+    Future saveAppointmentForm(String type) async {
+      final isValid = _formKey.currentState!.validate();
+      if (isValid) {
+        late CalendarAppointment calendarAppointment;
+        if (type == "Planning") {
+          fromDate = Provider.of<EditPlanningProvider>(context, listen: false)
+              .getPlanningFromDate();
+          toDate = Provider.of<EditPlanningProvider>(context, listen: false)
+              .getPlanningToDate();
+          localizationController.text =
+              Provider.of<EditPlanningProvider>(context, listen: false)
+                  .getPlanningLocalization();
+          tagsNames = Provider.of<PlanningTagsProvider>(context, listen: false)
+              .activatedTags;
+          if (Provider.of<CustomTagProvider>(context, listen: false)
+                  .getCustomTagLength !=
+              0) {
+            myCustomTagName =
+                Provider.of<CustomTagProvider>(context, listen: false)
+                    .customActivatedTag;
+            tagsNames.add(myCustomTagName);
+          }
+          calendarAppointment = CalendarAppointment(
+            appointmentType: "Planning",
+            title: titleController.text,
+            description: descriptionController.text,
+            fromDate: (fromDate.isBefore(toDate)) ? fromDate : toDate,
+            toDate: (toDate.isAfter(fromDate)) ? toDate : fromDate,
+            deadlineDate: (fromDate.isBefore(toDate)) ? fromDate : toDate,
+            localization: localizationController.text,
+            tagsNames: tagsNames,
+          );
+          print(tagsNames);
+        } else if (type == "Deadline") {
+          deadlineDate =
+              Provider.of<EditDeadlineProvider>(context, listen: false)
+                  .getDeadlineToDate();
+          tagsNames = Provider.of<DeadlineTagsProvider>(context, listen: false)
+              .activatedTags;
+          if (Provider.of<CustomTagProvider>(context, listen: false)
+                  .getCustomTagLength !=
+              0) {
+            myCustomTagName =
+                Provider.of<CustomTagProvider>(context, listen: false)
+                    .customActivatedTag;
+            tagsNames.add(myCustomTagName);
+          }
+          calendarAppointment = CalendarAppointment(
+            appointmentType: "Deadline",
+            title: titleController.text,
+            description: descriptionController.text,
+            fromDate: deadlineDate,
+            toDate: deadlineDate,
+            deadlineDate: deadlineDate,
+            localization: "",
+            tagsNames: tagsNames,
+          );
+          print(tagsNames);
+        }
+
+        final isEditing = widget.calendarAppointment != null;
+        final provider =
+            Provider.of<CalendarAppointmentsProvider>(context, listen: false);
+
+        if (isEditing) {
+          provider.editAppointment(
+              calendarAppointment, widget.calendarAppointment!);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          /*
+          Navigator.of(context).push(
+            HeroDialogRoute(
+              builder: (context) => Center(
+                child: EventViewingPopUp(event: event),
+              ),
+            ),
+          );
+          */
+        } else {
+          provider.addAppointment(calendarAppointment);
+          Navigator.of(context).pop();
+        }
+        _resetAllValues();
+      }
+    }
+
+    /*
     Future saveEventForm() async {
       final isValid = _formKey.currentState!.validate();
+      fromDate = Provider.of<EditPlanningProvider>(context, listen: false)
+          .getPlanningFromDate();
+      toDate = Provider.of<EditPlanningProvider>(context, listen: false)
+          .getPlanningToDate();
       if (isValid) {
         final event = Event(
           title: titleController.text,
@@ -77,7 +183,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         );
 
         final isEditing = widget.event != null;
-        final provider = Provider.of<EventProvider>(context, listen: false);
+        final provider = Provider.of<PlanningProvider>(context, listen: false);
 
         if (isEditing) {
           provider.editEvent(event, widget.event!);
@@ -94,17 +200,22 @@ class _EventEditingPageState extends State<EventEditingPage> {
           provider.addEvent(event);
           Navigator.of(context).pop();
         }
+        Provider.of<EditPlanningProvider>(context, listen: false)
+            .resetAllPlanningValues();
+        Provider.of<EditDeadlineProvider>(context, listen: false)
+            .resetAllDeadlineValues();
       }
     }
 
-    /*
     Future saveDeadlineForm() async {
       final isValid = _formKey.currentState!.validate();
+      deadlineDate = Provider.of<EditDeadlineProvider>(context, listen: false)
+          .getDeadlineToDate();
       if (isValid) {
         final deadline = Deadline(
           title: titleController.text,
           description: descriptionController.text,
-          deadlineDate: toDate, //deadlineDate,
+          deadlineDate: deadlineDate,
           tagsNames: tagsNames,
         );
         final isEditing = widget.deadline != null;
@@ -127,6 +238,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
           provider.addDeadline(deadline);
           Navigator.of(context).pop();
         }
+        Provider.of<EditPlanningProvider>(context, listen: false)
+            .resetAllPlanningValues();
+        Provider.of<EditDeadlineProvider>(context, listen: false)
+            .resetAllDeadlineValues();
       }
     }
     */
@@ -161,12 +276,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
       }
     }
 
-    void _resetTagsValues() {
-      context.read<EventTagsProvider>().resetAllTagValue();
-      context.read<DeadlineTagsProvider>().resetAllTagValue();
-      Navigator.of(context).pop();
-    }
-
     // THE VIEW
     return Scaffold(
       appBar: AppBar(
@@ -174,7 +283,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
         backgroundColor: const Color(0xFF4C75A0),
         foregroundColor: Colors.white,
         leading: CloseButton(
-          onPressed: () => _resetTagsValues(),
+          onPressed: () {
+            _resetAllValues();
+            Navigator.of(context).pop();
+          },
         ),
         actions: [
           Padding(
@@ -182,12 +294,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
             child: GestureDetector(
               child: const Icon(Icons.save),
               onTap: () {
-                if (context.watch<TypeEventProvider>().currentActive ==
+                if (Provider.of<TypeEventProvider>(context, listen: false)
+                        .currentActive ==
                     "Planning") {
-                  saveEventForm();
-                } else if (context.watch<TypeEventProvider>().currentActive ==
+                  saveAppointmentForm("Planning");
+                } else if (Provider.of<TypeEventProvider>(context,
+                            listen: false)
+                        .currentActive ==
                     "Deadline") {
-                  //saveDeadlineForm();
+                  saveAppointmentForm("Deadline");
                 } else {
                   return;
                 }
@@ -213,6 +328,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 maxLength: 100,
                 minLines: 1,
                 maxLines: 2,
+                onChanged: (title) {
+                  context
+                      .read<EditPlanningProvider>()
+                      .changePlanningTitle(title);
+                },
                 controller: titleController,
                 validator: (String? title) {
                   if (title != null && title.isEmpty) {
@@ -231,6 +351,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 maxLength: 500,
                 minLines: 1,
                 maxLines: 8,
+                onChanged: (description) {
+                  context
+                      .read<EditPlanningProvider>()
+                      .changePlanningDescription(description);
+                },
                 controller: descriptionController,
               ),
               const SizedBox(height: 10),

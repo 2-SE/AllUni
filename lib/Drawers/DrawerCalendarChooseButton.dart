@@ -70,7 +70,7 @@ class _DrawerCalendarChooseButtonState
             } else {
               Navigator.pop(context);
               Navigator.of(context)
-                  .push(MaterialPageRoute(
+                  .pushReplacement(MaterialPageRoute(
                       builder: (context) =>
                           Calendar(currentView, SelectedButtonIndex)))
                   .then((_) {

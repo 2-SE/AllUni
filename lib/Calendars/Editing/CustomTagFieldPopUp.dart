@@ -1,4 +1,6 @@
+import 'package:AllUni/Providers/CustomTagProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomTagFieldPopUp extends StatefulWidget {
   final String? nameTag;
@@ -24,7 +26,11 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     Future saveTagForm() async {
-      final isValid = formKey.currentState!.validate();
+      (nameTagController.text.isNotEmpty)
+          ? Provider.of<CustomTagProvider>(context, listen: false)
+              .addTagValue(CustomTag(label: nameTagController.text))
+          : Provider.of<CustomTagProvider>(context, listen: false)
+              .deleteTagValue();
       Navigator.pop(
         context,
         (nameTagController.text.isNotEmpty) ? nameTagController.text : null,
@@ -90,6 +96,9 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
                             color: Colors.red,
                           ),
                           onPressed: () {
+                            Provider.of<CustomTagProvider>(context,
+                                    listen: false)
+                                .deleteTagValue();
                             Navigator.of(context).pop();
                           }),
                       FlatButton(

@@ -140,7 +140,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                       SelectedMajorName[0] == '2S')) {
                                 //CHECK PAS '2S' MAIS SI SelectedMajorName[0]==myAcademicMajor
                                 Navigator.of(context)
-                                    .push(MaterialPageRoute(
+                                    .pushReplacement(MaterialPageRoute(
                                         builder: (context) => Calendar(
                                             "Mon Calendrier",
                                             widget
@@ -160,7 +160,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                 }
                                 if (SelectedMajorName.length == 1) {
                                   Navigator.of(context)
-                                      .push(MaterialPageRoute(
+                                      .pushReplacement(MaterialPageRoute(
                                           builder: (context) => Calendar(
                                               "Autres Promotions\nClasse: $SelectedMajorString",
                                               widget
@@ -170,7 +170,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                   });
                                 } else {
                                   Navigator.of(context)
-                                      .push(MaterialPageRoute(
+                                      .pushReplacement(MaterialPageRoute(
                                           builder: (context) => Calendar(
                                               "Autres Promotions\nClasses: $SelectedMajorString",
                                               widget

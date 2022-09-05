@@ -121,7 +121,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context)
-                        .push(MaterialPageRoute(
+                        .pushReplacement(MaterialPageRoute(
                             builder: (context) =>
                                 Calendar("Mon Calendrier", currentFormat)))
                         .then((_) {
@@ -137,7 +137,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                     Text("Autres Calendriers :",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 13,
                           color: Colors.black,
                           decoration: TextDecoration.underline,
                         )),
@@ -162,15 +162,6 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                         ),
                       ),
                     );
-                    /*
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                            builder: (context) =>
-                                Calendar("Autres Promotions", currentFormat)))
-                        .then((_) {
-                      setState(() {});
-                    });
-                    */
                   },
                 ),
 
@@ -186,7 +177,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                     } else {
                       Navigator.of(context).pop();
                       Navigator.of(context)
-                          .push(MaterialPageRoute(
+                          .pushReplacement(MaterialPageRoute(
                               builder: (context) => FreeRoomsCalendar(
                                   CalendarFormatIndex: currentFormat)))
                           .then((_) {
@@ -202,7 +193,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context)
-                        .push(MaterialPageRoute(
+                        .pushReplacement(MaterialPageRoute(
                             builder: (context) =>
                                 Calendar("Calendrier École", currentFormat)))
                         .then((_) {
