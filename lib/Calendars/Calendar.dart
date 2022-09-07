@@ -3,6 +3,7 @@ import 'package:AllUni/Calendars/Viewing/EventViewingPopUp.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/Models/CalendarAppointmentsDataSource.dart';
 import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
+import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,63 +32,151 @@ class _CalendarState extends State<Calendar> {
 
   final CalendarController _controller = CalendarController();
 
-  Widget planningAppointmentBuilder(
+  Widget calendarAppointmentBuilder(
     BuildContext context,
     CalendarAppointmentDetails details,
   ) {
-    final event = details.appointments.first;
+    final appointment = details.appointments.first;
 
     if (CalendarFormatIndex == 0 || CalendarFormatIndex == 3) {
-      // CALENDAR.VIEW = PLANNING/LIST
+      // CALENDAR.VIEW = FEED & MONTH-LIST
       return Container(
         width: details.bounds.width,
         height: details.bounds.height,
         decoration: BoxDecoration(
-          color: Colors.green,
+          color: (appointment.appointmentType == "Planning")
+              ? const Color(0xFFEFE0C0) //0xFFEFE0C0//0xFFF2D492
+              : (appointment.appointmentType == "Deadline")
+                  ? const Color(0xFFA90404) //0xFFB4460D//0xFFA90404//0xFF982F09
+                  : const Color(0xFFBCCCDD),
           borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
         ),
         child: Row(
           children: [
+            const SizedBox(
+              width: 8,
+            ),
             Flexible(
               flex: 1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "   ${DateFormat.Hm().format(event.fromDate)}   ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: details.bounds.height * 0.25,
-                      fontWeight: FontWeight.w300,
+              child: (appointment.appointmentType == "Planning")
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          "${DateFormat.Hm().format(appointment.fromDate)}   ",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: details.bounds.height * 0.25,
+                            fontWeight: FontWeight.w300,
+                            color: (appointment.appointmentType == "Planning")
+                                ? Colors.black
+                                : (appointment.appointmentType == "Deadline")
+                                    ? Colors.white
+                                    : Colors.black,
+                          ),
+                        ),
+                        Text(
+                          "${DateFormat.Hm().format(appointment.toDate)}   ",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: details.bounds.height * 0.25,
+                            fontWeight: FontWeight.w300,
+                            color: (appointment.appointmentType == "Planning")
+                                ? Colors.black
+                                : (appointment.appointmentType == "Deadline")
+                                    ? Colors.white
+                                    : Colors.black,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      "${DateFormat.Hm().format(appointment.deadlineDate)}   ",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: details.bounds.height * 0.25,
+                        fontWeight: FontWeight.w300,
+                        color: (appointment.appointmentType == "Planning")
+                            ? Colors.black
+                            : (appointment.appointmentType == "Deadline")
+                                ? Colors.white
+                                : Colors.black,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "   ${DateFormat.Hm().format(event.toDate)}   ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: details.bounds.height * 0.25,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ],
-              ),
             ),
             Container(
-              color: Colors.black,
+              color: (appointment.appointmentType == "Planning")
+                  ? Colors.black
+                  : (appointment.appointmentType == "Deadline")
+                      ? Colors.white
+                      : Colors.black,
               height: details.bounds.height * 0.85,
-              width: 1,
+              width: 1.5,
+            ),
+            const SizedBox(
+              width: 5,
             ),
             Flexible(
-              flex: 5,
-              child: Text(
-                "  ${event.title}",
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: details.bounds.height * 0.3,
-                  fontWeight: FontWeight.w600,
-                  //color: Colors.black,
-                ),
-              ),
+              flex: 7,
+              child: (appointment.description.isNotEmpty)
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${appointment.title}",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: details.bounds.height * 0.3,
+                            fontWeight: (appointment.appointmentType ==
+                                    "Planning")
+                                ? FontWeight.w500
+                                : (appointment.appointmentType == "Deadline")
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                            color: (appointment.appointmentType == "Planning")
+                                ? Colors.black
+                                : (appointment.appointmentType == "Deadline")
+                                    ? Colors.white
+                                    : Colors.black,
+                            //color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          "${appointment.description}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: details.bounds.height * 0.2,
+                            color: (appointment.appointmentType == "Planning")
+                                ? Colors.black
+                                : (appointment.appointmentType == "Deadline")
+                                    ? Colors.white
+                                    : Colors.black,
+                            //color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      "${appointment.title}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontSize: details.bounds.height * 0.3,
+                        fontWeight: (appointment.appointmentType == "Planning")
+                            ? FontWeight.w500
+                            : (appointment.appointmentType == "Deadline")
+                                ? FontWeight.bold
+                                : FontWeight.w500,
+                        color: (appointment.appointmentType == "Planning")
+                            ? Colors.black
+                            : (appointment.appointmentType == "Deadline")
+                                ? Colors.white
+                                : Colors.black,
+                        //color: Colors.black,
+                      ),
+                    ),
             ),
           ],
         ),
@@ -98,57 +187,194 @@ class _CalendarState extends State<Calendar> {
         width: details.bounds.width,
         height: details.bounds.height,
         decoration: BoxDecoration(
-          color: Colors.green,
+          color: (appointment.appointmentType == "Planning")
+              ? const Color(0xFFEFE0C0) //0xFFEFE0C0//0xFFF2D492
+              : (appointment.appointmentType == "Deadline")
+                  ? const Color(0xFFA90404) //0xFFB4460D//0xFFA90404//0xFF982F09
+                  : const Color(0xFFBCCCDD),
           borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
-        child: Row(
-          children: [
-            Flexible(
-              flex: 1,
-              child: Container(color: Colors.transparent),
-            ),
-            Flexible(
-              flex: 35,
-              child: Column(
+        child: (appointment.appointmentType == "Planning" &&
+                DateHourUtils.toDate(appointment.fromDate) ==
+                    DateHourUtils.toDate(appointment.toDate))
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    "${event.title}",
+                    "${appointment.title}",
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const Text(
-                    "Lieu :  ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                  const Text(
-                    "Professeur :  ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
                   Text(
-                    "${DateFormat.Hm().format(event.fromDate)} - ${DateFormat.Hm().format(event.toDate)}",
+                    // A CHANGER POUR VOIR JUSTE DES BULLES DE LA COULEURS DES TAGS
+                    "${appointment.tagsNames}",
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
                   ),
                 ],
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(color: Colors.transparent),
-            ),
-          ],
-        ),
+              )
+            : (appointment.appointmentType == "Planning" &&
+                    DateHourUtils.toDate(appointment.fromDate) !=
+                        DateHourUtils.toDate(appointment.toDate))
+                ? Row(
+                    children: [
+                      Flexible(
+                        flex: 4,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${appointment.title}",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 10,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  DateHourUtils.toTime(appointment.fromDate),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  DateHourUtils.toTime(appointment.toDate),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: (appointment.tagsNames.isNotEmpty ||
+                                appointment.tagsNames.length == 0 ||
+                                appointment.description.isNotEmpty)
+                            ? 1
+                            : 0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            (appointment.tagsNames.isNotEmpty ||
+                                    appointment.tagsNames.length == 0)
+                                ? const Icon(Icons
+                                    .tag_rounded) // METTRE L'AFFICHAGE DES BULLES DES TAGS
+                                : const Icon(Icons.add),
+                            (appointment.description.isNotEmpty)
+                                ? const Icon(Icons.notes_rounded)
+                                : const Icon(Icons.note_add_rounded)
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+                : (appointment.appointmentType == "Deadline")
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            flex: 4,
+                            child: Text(
+                              "${appointment.title}",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Text(
+                              DateHourUtils.toTime(appointment.deadlineDate),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Flexible(
+                            flex: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "${appointment.title}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  "${appointment.localization}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                // Text(
+                                //   "${appointment.professeur}",
+                                //   overflow: TextOverflow.ellipsis,
+                                //   style: const TextStyle(
+                                //     fontSize: 10,
+                                //   ),
+                                // ),
+                                Text(
+                                  "${DateFormat.Hm().format(appointment.fromDate)} - ${DateFormat.Hm().format(appointment.toDate)}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Flexible(
+                            flex: (appointment.tagsNames.isNotEmpty ||
+                                    appointment.tagsNames.length == 0 ||
+                                    appointment.description.isNotEmpty)
+                                ? 1
+                                : 0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                (appointment.tagsNames.isNotEmpty ||
+                                        appointment.tagsNames.length == 0)
+                                    ? const Icon(Icons
+                                        .tag_rounded) // METTRE L'AFFICHAGE DES BULLES DES TAGS
+                                    : const Icon(Icons.add),
+                                (appointment.description.isNotEmpty)
+                                    ? const Icon(Icons.notes_rounded)
+                                    : const Icon(Icons.note_add_rounded)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
       );
     } else if (CalendarFormatIndex == 2) {
       // CALENDAR.VIEW = WEEK
@@ -156,134 +382,11 @@ class _CalendarState extends State<Calendar> {
         width: details.bounds.width,
         height: details.bounds.height,
         decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
-        ),
-      );
-    } else {
-      return SizedBox(
-        width: details.bounds.width,
-        height: details.bounds.height,
-        child: const Text("Error"),
-      );
-    }
-  }
-
-  Widget deadlineAppointmentBuilder(
-    BuildContext context,
-    CalendarAppointmentDetails details,
-  ) {
-    final deadline = details.appointments.first;
-
-    if (CalendarFormatIndex == 0 || CalendarFormatIndex == 3) {
-      // CALENDAR.VIEW = PLANNING/LIST
-      return Container(
-        width: details.bounds.width,
-        height: details.bounds.height,
-        decoration: BoxDecoration(
-          color: const Color(0xFF600000),
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.2),
-        ),
-        child: Row(
-          children: [
-            Flexible(
-              flex: 1,
-              child: Text(
-                "   ${DateFormat.Hm().format(deadline.deadlineDate)}   ",
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: details.bounds.height * 0.25,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              height: details.bounds.height * 0.85,
-              width: 1,
-            ),
-            Flexible(
-              flex: 5,
-              child: Text(
-                "  ${deadline.title}",
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: details.bounds.height * 0.3,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                  //color: Colors.black,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    } else if (CalendarFormatIndex == 1) {
-      // CALENDAR.VIEW = DAY
-      return Container(
-        width: details.bounds.width,
-        height: details.bounds.height,
-        decoration: BoxDecoration(
-          color: const Color(0xFF600000),
-          borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
-        ),
-        child: Row(
-          children: [
-            Flexible(
-              flex: 1,
-              child: Container(color: Colors.transparent),
-            ),
-            Flexible(
-              flex: 35,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "${deadline.title}",
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const Text(
-                    "Lieu :  ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                  const Text(
-                    "Professeur :  ",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                  Text(
-                    "${DateFormat.Hm().format(deadline.fromDate)} - ${DateFormat.Hm().format(deadline.toDate)}",
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(color: Colors.transparent),
-            ),
-          ],
-        ),
-      );
-    } else if (CalendarFormatIndex == 2) {
-      // CALENDAR.VIEW = WEEK
-      return Container(
-        width: details.bounds.width,
-        height: details.bounds.height,
-        decoration: BoxDecoration(
-          color: const Color(0xFF600000),
+          color: (appointment.appointmentType == "Planning")
+              ? const Color(0xFFEFE0C0) //0xFFEFE0C0//0xFFF2D492
+              : (appointment.appointmentType == "Deadline")
+                  ? const Color(0xFFA90404) //0xFFB4460D//0xFFA90404//0xFF982F09
+                  : const Color(0xFFBCCCDD),
           borderRadius: BorderRadius.circular(details.bounds.height * 0.1),
         ),
       );
@@ -315,8 +418,6 @@ class _CalendarState extends State<Calendar> {
       }
     }
 
-    //final events = Provider.of<PlanningProvider>(context).events;
-    //final deadline = Provider.of<DeadlineProvider>(context).deadlines;
     final appointments =
         Provider.of<CalendarAppointmentsProvider>(context).appointments;
 
@@ -335,7 +436,7 @@ class _CalendarState extends State<Calendar> {
         controller: _controller, // Change the Calendar Type View
         todayHighlightColor: const Color(0xFF4C75A0),
         todayTextStyle: const TextStyle(color: Colors.white),
-        appointmentBuilder: planningAppointmentBuilder,
+        appointmentBuilder: calendarAppointmentBuilder,
         dataSource: CalendarAppointmentsDataSource(appointments),
         showDatePickerButton: true,
         firstDayOfWeek: 1,
@@ -378,8 +479,8 @@ class _CalendarState extends State<Calendar> {
         ),
         monthViewSettings: MonthViewSettings(
           navigationDirection: MonthNavigationDirection.horizontal,
-          //appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-          appointmentDisplayCount: 4,
+          appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+          //appointmentDisplayCount: 4,
           dayFormat: 'EEE',
           showTrailingAndLeadingDates: false,
           showAgenda: true,
@@ -388,13 +489,13 @@ class _CalendarState extends State<Calendar> {
         onTap: (details) {
           if (details.appointments == null) return;
           final calendarAppointment = details.appointments!.first;
-
           if (details.targetElement != CalendarElement.calendarCell) {
             Navigator.of(context).push(
               HeroDialogRoute(
                 builder: (context) => Center(
                   child: EventViewingPopUp(
-                      calendarAppointment: calendarAppointment),
+                    calendarAppointment: calendarAppointment,
+                  ),
                 ),
               ),
             );

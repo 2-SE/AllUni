@@ -12,6 +12,7 @@
 //
 //   String getDescription(int index) => getDeadline(index).description;
 //
+//   @override
 //   DateTime getDeadlineTime(int index) => getDeadline(index).deadlineDate;
 //
 //   List<String> getTags(int index) => getDeadline(index).tagsNames;

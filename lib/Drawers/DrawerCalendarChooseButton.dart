@@ -49,35 +49,37 @@ class _DrawerCalendarChooseButtonState
           ),
         ],
         onPressed: (int SelectedButtonIndex) {
-          setState(() {
-            for (int index = 0; index < isSelected.length; index++) {
-              if (index == SelectedButtonIndex) {
-                isSelected[index] = true;
-              } else {
-                isSelected[index] = false;
+          if (mounted) {
+            setState(() {
+              for (int index = 0; index < isSelected.length; index++) {
+                if (index == SelectedButtonIndex) {
+                  isSelected[index] = true;
+                } else {
+                  isSelected[index] = false;
+                }
               }
-            }
 
-            if (widget.currentView == "FreeRooms") {
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    "Information : \nLe changement de type de vue ne peut être mis en place que pour les calendriers tels que celui personnel, des autres promotions ou encore celui de l'école.",
+              if (widget.currentView == "FreeRooms") {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      "Information : \nLe changement de type de vue ne peut être mis en place que pour les calendriers tels que celui personnel, des autres promotions ou encore celui de l'école.",
+                    ),
                   ),
-                ),
-              );
-            } else {
-              Navigator.pop(context);
-              Navigator.of(context)
-                  .pushReplacement(MaterialPageRoute(
-                      builder: (context) =>
-                          Calendar(currentView, SelectedButtonIndex)))
-                  .then((_) {
-                setState(() {});
-              });
-            }
-          });
+                );
+              } else {
+                Navigator.pop(context);
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(
+                        builder: (context) =>
+                            Calendar(currentView, SelectedButtonIndex)))
+                    .then((_) {
+                  if (mounted) setState(() {});
+                });
+              }
+            });
+          }
         },
       ),
     );

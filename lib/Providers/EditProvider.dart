@@ -6,14 +6,16 @@ class EditPlanning {
     required this.description,
     required this.fromDate,
     required this.toDate,
+    required this.deadlineDate,
     required this.localization,
     required this.tags,
   });
 
   String title;
   String description;
-  DateTime fromDate;
-  DateTime toDate;
+  late DateTime fromDate;
+  late DateTime toDate;
+  late DateTime deadlineDate;
   String localization;
   List<String> tags;
 }
@@ -25,6 +27,7 @@ class EditPlanningProvider with ChangeNotifier, DiagnosticableTreeMixin {
       description: "",
       fromDate: DateTime.now(),
       toDate: DateTime.now().add(const Duration(hours: 1)),
+      deadlineDate: DateTime.now(),
       localization: "",
       tags: [],
     )
@@ -99,7 +102,7 @@ class EditDeadline {
 
   String title;
   String description;
-  DateTime deadlineDate;
+  late DateTime deadlineDate;
   List<String> tags;
 }
 
