@@ -250,7 +250,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   trailing:
                       const Icon(Icons.outgoing_mail, color: Color(0xFF4C75A0)),
                   onTap: () {
-                    Navigator.pushNamed(context, "/contactLogOut");
+                    Navigator.pushNamed(context, "/contactLogIn");
                   },
                 ),
                 const SizedBox(height: 15),

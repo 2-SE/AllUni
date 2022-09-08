@@ -41,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              FlatButton(
+              TextButton(
                 onPressed: () => {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ProfileModifierPage(
@@ -50,19 +50,21 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ))
                 },
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
-                    Icon(Icons.edit, color: Colors.indigo),
-                    Text("Editer le Profil",
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontStyle: FontStyle.italic,
-                          color: Colors.indigo,
-                        ))
-                  ],
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: const [
+                      Icon(Icons.edit, color: Colors.indigo),
+                      Text("Editer le Profil",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.indigo,
+                          ))
+                    ],
+                  ),
                 ),
               ),
               /*
@@ -160,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   Navigator.of(context).push(
                     HeroDialogRoute(
-                      builder: (context) => Center(
+                      builder: (context) => const Center(
                         child: InformationsPopUp(),
                       ),
                     ),
@@ -479,16 +481,37 @@ class _SettingsPageState extends State<SettingsPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               Center(
-                child: RaisedButton(
-                  color: Colors.white,
-                  textColor: Colors.red,
-                  shape: const StadiumBorder(
-                    side: BorderSide(color: Colors.red, width: 1),
-                  ),
+                child: TextButton(
                   onPressed: () {},
-                  child: const Text("     Déconnexion     ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red)),
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.resolveWith(
+                      (states) => Colors.red.withOpacity(0.1),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Center(
+                        child: Text(
+                          "Déconnexion",
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),

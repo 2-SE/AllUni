@@ -116,7 +116,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                             onPressed: () {
                               Navigator.of(context).pop();
                             }),
-                        FlatButton(
+                        TextButton(
                           onPressed: () {
                             for (int index = 0;
                                 index < widget.AcademicMajorList.length;
@@ -182,34 +182,29 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                               }
                             }
                           },
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Voir le calendrier de cette(ces) classe(s)",
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontStyle: FontStyle.italic,
-                                  color: Colors.indigo,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text(
+                                  "Voir le calendrier de cette(ces) classe(s)",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.indigo,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 20),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: const [
-                                  Icon(
-                                    Icons.save,
-                                    color: Color(0xFF4C75A0),
-                                  ),
-                                  Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    color: Color(0xFF4C75A0),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                SizedBox(width: 10),
+                                Icon(
+                                  Icons.keyboard_arrow_right_rounded,
+                                  color: Color(0xFF4C75A0),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

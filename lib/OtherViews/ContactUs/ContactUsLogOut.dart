@@ -127,7 +127,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             maxLength: 64,
                             minLines: 1,
                             maxLines: 2,
-                            autocorrect: true,
+                            autocorrect: false,
                             decoration: const InputDecoration(
                               icon: Icon(Icons.subject),
                               labelText: "Objet du message",
@@ -151,7 +151,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                             maxLength: 2048,
                             minLines: 2,
                             maxLines: 30,
-                            autocorrect: true,
+                            autocorrect: false,
                             decoration: const InputDecoration(
                               labelText: "Votre message",
                               labelStyle: TextStyle(color: Color(0xFF4C75A0)),
@@ -169,24 +169,11 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                           ),
                           const SizedBox(height: 20),
                           Center(
-                            child: RaisedButton(
-                              color: Colors.white,
-                              textColor: Colors.indigo,
-                              shape: const StadiumBorder(
-                                side:
-                                    BorderSide(color: Colors.indigo, width: 1),
-                              ),
+                            child: TextButton(
                               onPressed: () async {
-                                /*
-                                  print("Name :  " + ContactUsName);
-                                  print("Email :  " + ContactUsEmail);
-                                  print("Title :  " + ContactUsTitle);
-                                  print("Msg :  " + ContactUsMessage);
-                                */
-
                                 if (_formKey.currentState!.validate()) {
                                   _formKey.currentState?.save();
-                                  var response = await Dio()
+                                  await Dio()
                                       .post(
                                         "https://discord.com/api/webhooks/1011653493439860797/jGX9AE2EAVJVeYwZjdI07lx0EVFjQZLc5cxEssBap8yf57uEYM2YEdnh6xfC4CoDDyYc",
                                         data: json.encode({
@@ -240,10 +227,36 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
                                       );
                                 }
                               },
-                              child: const Text("     Envoyer     ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.indigo)),
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.resolveWith(
+                                  (states) =>
+                                      const Color(0xFF4C75A0).withOpacity(0.1),
+                                ),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: const BorderSide(
+                                      color: Color(0xFF4C75A0),
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Center(
+                                    child: Text(
+                                      "Envoyer",
+                                      style: TextStyle(
+                                        color: Color(0xFF4C75A0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),

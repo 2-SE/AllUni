@@ -10,6 +10,8 @@ class ContactUsPage extends StatefulWidget {
 class _ContactUsPageState extends State<ContactUsPage> {
   final _formKey = GlobalKey<FormState>();
 
+  // TODO => Récup current-user name & email
+
   String ContactUsTitle = "";
   String ContactUsMessage = "";
 
@@ -99,28 +101,50 @@ class _ContactUsPageState extends State<ContactUsPage> {
                           ),
                           const SizedBox(height: 20),
                           Center(
-                            child: RaisedButton(
-                              color: Colors.white,
-                              textColor: Colors.indigo,
-                              shape: const StadiumBorder(
-                                side:
-                                    BorderSide(color: Colors.indigo, width: 1),
-                              ),
+                            child: TextButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text(
-                                            "Message envoyé.\nUn récapitulatif de votre message a été envoyé à votre adresse email.")),
+                                      content: Text(
+                                        "Message envoyé.",
+                                      ),
+                                    ),
                                   );
                                   //SEND EMAIL TO pickassos2se@gmail.com;
                                   Navigator.of(context).pop();
                                 }
                               },
-                              child: const Text("     Envoyer     ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.indigo)),
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.resolveWith(
+                                  (states) =>
+                                      const Color(0xFF4C75A0).withOpacity(0.1),
+                                ),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: const BorderSide(
+                                      color: Color(0xFF4C75A0),
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Center(
+                                    child: Text(
+                                      "Envoyer",
+                                      style: TextStyle(
+                                        color: Color(0xFF4C75A0),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
