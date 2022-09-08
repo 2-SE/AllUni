@@ -104,29 +104,31 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
                                 .deleteTagValue();
                             Navigator.of(context).pop();
                           }),
-                      FlatButton(
+                      TextButton(
                         onPressed: () {
                           saveTagForm();
                         },
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              "Enregistrer ce tag",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.indigo,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Enregistrer ce tag",
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.indigo,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 20),
-                            Icon(
-                              Icons.save,
-                              color: Color(0xFF4C75A0),
-                            ),
-                          ],
+                              SizedBox(width: 20),
+                              Icon(
+                                Icons.save,
+                                color: Color(0xFF4C75A0),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
