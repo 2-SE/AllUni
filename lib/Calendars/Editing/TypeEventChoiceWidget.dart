@@ -7,17 +7,20 @@ import 'package:AllUni/Providers/TypeEventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TypeEventChoiceWidget extends StatelessWidget {
+class TypeEventChoiceWidget extends StatefulWidget {
   final CalendarAppointment? calendarAppointment;
-  //final Event? events;
   final String? myCustomTagName;
   const TypeEventChoiceWidget({
     Key? key,
     this.calendarAppointment,
-    //this.events,
     this.myCustomTagName,
   }) : super(key: key);
 
+  @override
+  State<TypeEventChoiceWidget> createState() => _TypeEventChoiceWidgetState();
+}
+
+class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -70,7 +73,7 @@ class TypeEventChoiceWidget extends StatelessWidget {
             ),
           ],
         ),
-        context.watch<TypeEventProvider>().currentActive == 'Planning'
+        context.read<TypeEventProvider>().currentActive == 'Planning'
             ? const EditingPlanningWidget()
             : const EditingDeadlineWidget()
       ],

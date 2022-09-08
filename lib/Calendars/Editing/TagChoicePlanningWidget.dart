@@ -120,9 +120,9 @@ class _TagsChoicePlanningWidgetState extends State<TagsChoicePlanningWidget> {
                       ),
                     ),
                   );
+
                   if (navigatorTagsNameResult.toString() != "" &&
                       navigatorTagsNameResult != null) {
-                    //debugPrint(navigatorTagsNameResult.toString());
                     setState(() {
                       widget.myCustomTagName =
                           navigatorTagsNameResult as String;

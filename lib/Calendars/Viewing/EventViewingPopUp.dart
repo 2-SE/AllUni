@@ -45,63 +45,162 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        (widget.calendarAppointment.tagsNames.isNotEmpty)
-                            ? SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.65,
-                                child: TagsNamesClips(
-                                  calendarAppointment:
-                                      widget.calendarAppointment,
+                    (widget.calendarAppointment.tagsNames.isNotEmpty)
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: TagsNamesClips(
+                                            calendarAppointment:
+                                                widget.calendarAppointment,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.25,
+                                          child: Wrap(
+                                            alignment: WrapAlignment.end,
+                                            spacing: -10,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.edit_note_rounded,
+                                                  color: Color(
+                                                      0xFF666666), //Color(0xFF4C75A0),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EventEditingPage(
+                                                              calendarAppointment:
+                                                                  widget
+                                                                      .calendarAppointment),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.delete_forever,
+                                                  color: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  final provider = Provider.of<
+                                                      CalendarAppointmentsProvider>(
+                                                    context,
+                                                    listen: false,
+                                                  );
+                                                  //OPEN DELETE EVENT POPUP (NEED TO DO)
+                                                  provider.deleteAppointment(
+                                                      widget
+                                                          .calendarAppointment);
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              )
-                            : Container(),
-                        Wrap(
-                          alignment: WrapAlignment.end,
-                          spacing: -10,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit_note_rounded),
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => EventEditingPage(
-                                        calendarAppointment:
-                                            widget.calendarAppointment),
+                                Text(
+                                  widget.calendarAppointment.title,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 28,
                                   ),
-                                );
-                              },
+                                ),
+                              ],
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.delete_forever),
-                              onPressed: () {
-                                final provider =
-                                    Provider.of<CalendarAppointmentsProvider>(
-                                  context,
-                                  listen: false,
-                                );
-                                //OPEN DELETE EVENT POPUP (NEED TO DO)
-                                provider.deleteAppointment(
-                                    widget.calendarAppointment);
-                                Navigator.of(context).pop();
-                              },
+                          )
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: Text(
+                                    widget.calendarAppointment.title,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 28,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.25,
+                                  child: Wrap(
+                                    alignment: WrapAlignment.end,
+                                    spacing: -10,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.edit_note_rounded,
+                                          color: Color(
+                                              0xFF666666), //Color(0xFF4C75A0),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EventEditingPage(
+                                                      calendarAppointment: widget
+                                                          .calendarAppointment),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.delete_forever,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: () {
+                                          final provider = Provider.of<
+                                              CalendarAppointmentsProvider>(
+                                            context,
+                                            listen: false,
+                                          );
+                                          //OPEN DELETE EVENT POPUP (NEED TO DO)
+                                          provider.deleteAppointment(
+                                              widget.calendarAppointment);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Text(
-                      widget.calendarAppointment.title,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28,
-                      ),
-                    ),
+                          ),
                     const Divider(
                       color: Colors.grey,
                       thickness: 0.5,

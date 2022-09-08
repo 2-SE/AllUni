@@ -47,7 +47,7 @@ class _TagsNamesClipsState extends State<TagsNamesClips> {
                       height: 24,
                       color: chooseColor(element),
                       child: FittedBox(
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.fitHeight,
                         child: Center(
                           child: Text(
                             "  $element  ",

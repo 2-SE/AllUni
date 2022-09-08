@@ -15,6 +15,7 @@ class CustomTagFieldPopUp extends StatefulWidget {
 
 class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
   final nameTagController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -24,13 +25,13 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     Future saveTagForm() async {
       (nameTagController.text.isNotEmpty)
-          ? Provider.of<CustomTagProvider>(context, listen: false)
-              .addTagValue(CustomTag(label: nameTagController.text))
+          ? Provider.of<CustomTagProvider>(context, listen: false).addTagValue(
+              CustomTag(label: nameTagController.text),
+            ) //context.read()<CustomTagProvider>().addTagValue(CustomTag(label: nameTagController.text))
           : Provider.of<CustomTagProvider>(context, listen: false)
-              .deleteTagValue();
+              .deleteTagValue(); //context.read()<CustomTagProvider>().deleteTagValue();
       Navigator.pop(
         context,
         (nameTagController.text.isNotEmpty) ? nameTagController.text : null,
@@ -75,18 +76,20 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
                     thickness: 0.5,
                   ),
                   Form(
-                      key: formKey,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          hintText: "Nom du tag",
-                        ),
-                        style: const TextStyle(fontSize: 18),
-                        controller: nameTagController,
-                        autocorrect: true,
-                        maxLength: 20,
-                        maxLines: 1,
-                      )),
+                    key: formKey,
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        hintText: "Nom du tag",
+                      ),
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
+                      controller: nameTagController,
+                      maxLength: 20,
+                      maxLines: 1,
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

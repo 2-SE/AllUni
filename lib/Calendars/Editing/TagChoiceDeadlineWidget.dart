@@ -121,7 +121,6 @@ class _TagsChoiceDeadlineWidgetState extends State<TagsChoiceDeadlineWidget> {
                   );
                   if (navigatorTagsNameResult.toString() != "" &&
                       navigatorTagsNameResult != null) {
-                    //debugPrint(navigatorTagsNameResult.toString());
                     setState(() {
                       widget.myCustomTagName =
                           navigatorTagsNameResult as String;

@@ -13,13 +13,9 @@ import 'package:provider/provider.dart';
 
 class EventEditingPage extends StatefulWidget {
   final CalendarAppointment? calendarAppointment;
-  //final Event? event;
-  //final Deadline? deadline;
   const EventEditingPage({
     Key? key,
     this.calendarAppointment,
-    //this.event,
-    //this.deadline,
   }) : super(key: key);
 
   @override
@@ -83,34 +79,25 @@ class _EventEditingPageState extends State<EventEditingPage> {
     // UTILS FOR THE EVENT EDITING PAGE
     Future saveAppointmentForm(String type) async {
       final isValid = _formKey.currentState!.validate();
+      final EditPlanningProvider planningEditProvider =
+          context.read<EditPlanningProvider>();
+      final EditDeadlineProvider deadlineEditProvider =
+          context.read<EditDeadlineProvider>();
+      final CustomTagProvider customTagsProvider =
+          context.read<CustomTagProvider>();
+
       if (isValid) {
         late CalendarAppointment calendarAppointment;
         if (type == "Planning") {
-          fromDate = Provider.of<EditPlanningProvider>(context, listen: false)
-              .getPlanningFromDate;
-          toDate = Provider.of<EditPlanningProvider>(context, listen: false)
-              .getPlanningToDate;
+          fromDate = planningEditProvider.getPlanningFromDate;
+          toDate = planningEditProvider.getPlanningToDate;
           localizationController.text =
-              Provider.of<EditPlanningProvider>(context, listen: false)
-                  .getPlanningLocalization;
-          tagsNames = Provider.of<PlanningTagsProvider>(context, listen: false)
-              .activatedTags;
-          if (Provider.of<CustomTagProvider>(context, listen: false)
-                  .getCustomTagLength !=
-              0) {
-            myCustomTagName =
-                Provider.of<CustomTagProvider>(context, listen: false)
-                    .customActivatedTag;
+              planningEditProvider.getPlanningLocalization;
+          tagsNames = context.read<PlanningTagsProvider>().activatedTags;
+          if (customTagsProvider.getCustomTagLength != 0) {
+            myCustomTagName = customTagsProvider.customActivatedTag;
             tagsNames.add(myCustomTagName);
           }
-          // print("Planning");
-          // print(titleController.text);
-          // print(descriptionController.text);
-          // print((fromDate.isBefore(toDate)) ? fromDate : toDate);
-          // print((toDate.isAfter(fromDate)) ? toDate : fromDate);
-          // print((fromDate.isBefore(toDate)) ? fromDate : toDate);
-          // print(localizationController.text);
-          // print(tagsNames);
           calendarAppointment = CalendarAppointment(
             appointmentType: "Planning",
             title: titleController.text,
@@ -122,27 +109,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
             tagsNames: tagsNames,
           );
         } else if (type == "Deadline") {
-          deadlineDate =
-              Provider.of<EditDeadlineProvider>(context, listen: false)
-                  .getDeadlineToDate;
-          tagsNames = Provider.of<DeadlineTagsProvider>(context, listen: false)
-              .activatedTags;
-          if (Provider.of<CustomTagProvider>(context, listen: false)
-                  .getCustomTagLength !=
-              0) {
-            myCustomTagName =
-                Provider.of<CustomTagProvider>(context, listen: false)
-                    .customActivatedTag;
+          deadlineDate = deadlineEditProvider.getDeadlineToDate;
+          tagsNames = context.read<DeadlineTagsProvider>().activatedTags;
+          if (customTagsProvider.getCustomTagLength != 0) {
+            myCustomTagName = customTagsProvider.customActivatedTag;
             tagsNames.add(myCustomTagName);
           }
-          // print("Deadline");
-          // print(titleController.text);
-          // print(descriptionController.text);
-          // print((fromDate.isBefore(toDate)) ? fromDate : toDate);
-          // print((toDate.isAfter(fromDate)) ? toDate : fromDate);
-          // print((fromDate.isBefore(toDate)) ? fromDate : toDate);
-          // print(localizationController.text);
-          // print(tagsNames);
           calendarAppointment = CalendarAppointment(
             appointmentType: "Deadline",
             title: titleController.text,
@@ -181,7 +153,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
       }
     }
 
-    if (context.watch<TypeEventProvider>().currentActive == "Planning") {
+    if (context.read<TypeEventProvider>().currentActive == "Planning") {
       List<bool> isSelectedTags = [false, false, false, false];
       for (int index = 0; index < tagsNames.length; index++) {
         if (tagsNames[index] == "Perso") {
@@ -195,7 +167,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           myCustomTagName = tagsNames[index];
         }
       }
-    } else if (context.watch<TypeEventProvider>().currentActive == "Deadline") {
+    } else if (context.read<TypeEventProvider>().currentActive == "Deadline") {
       List<bool> isSelectedTags = [false, false, false, false];
       for (int index = 0; index < tagsNames.length; index++) {
         if (tagsNames[index] == "Perso") {
