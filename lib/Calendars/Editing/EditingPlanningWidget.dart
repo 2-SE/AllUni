@@ -1,22 +1,22 @@
-import 'package:AllUni/Calendars/Editing/PlanningTagsChoiceWidget.dart';
+import 'package:AllUni/Calendars/Editing/TagChoicePlanningWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PlanningWidget extends StatefulWidget {
+class EditingPlanningWidget extends StatefulWidget {
   final CalendarAppointment? calendarAppointment;
-  const PlanningWidget({
+  const EditingPlanningWidget({
     Key? key,
     this.calendarAppointment,
   }) : super(key: key);
 
   @override
-  State<PlanningWidget> createState() => _PlanningWidgetState();
+  State<EditingPlanningWidget> createState() => _EditingPlanningWidgetState();
 }
 
-class _PlanningWidgetState extends State<PlanningWidget> {
+class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
   final _formKey = GlobalKey<FormState>();
   late DateTime fromDate;
   late DateTime toDate;
@@ -213,7 +213,7 @@ class _PlanningWidgetState extends State<PlanningWidget> {
           const SizedBox(height: 10),
           const Divider(),
           const SizedBox(height: 10),
-          PlanningTagsChoiceWidget(
+          TagsChoicePlanningWidget(
             myCustomTagName:
                 (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
           ),

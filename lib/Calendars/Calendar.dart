@@ -2,6 +2,7 @@ import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
 import 'package:AllUni/Calendars/Viewing/EventViewingPopUp.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/Models/CalendarAppointmentsDataSource.dart';
+import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:AllUni/Utils/HeroDialog.dart';
@@ -29,6 +30,7 @@ class _CalendarState extends State<Calendar> {
   String currentView;
   int CalendarFormatIndex;
   _CalendarState(this.currentView, this.CalendarFormatIndex);
+  late dynamic _appointmentsList;
 
   final CalendarController _controller = CalendarController();
 
@@ -418,8 +420,8 @@ class _CalendarState extends State<Calendar> {
       }
     }
 
-    final appointments =
-        Provider.of<CalendarAppointmentsProvider>(context).appointments;
+    _appointmentsList =
+        context.watch<CalendarAppointmentsProvider>().appointments;
 
     return Scaffold(
       appBar: AppBar(
@@ -437,7 +439,7 @@ class _CalendarState extends State<Calendar> {
         todayHighlightColor: const Color(0xFF4C75A0),
         todayTextStyle: const TextStyle(color: Colors.white),
         appointmentBuilder: calendarAppointmentBuilder,
-        dataSource: CalendarAppointmentsDataSource(appointments),
+        dataSource: CalendarAppointmentsDataSource(_appointmentsList),
         showDatePickerButton: true,
         firstDayOfWeek: 1,
         cellBorderColor: Colors.grey.withOpacity(0.25),
@@ -488,8 +490,10 @@ class _CalendarState extends State<Calendar> {
         ),
         onTap: (details) {
           if (details.appointments == null) return;
-          final calendarAppointment = details.appointments!.first;
+          final CalendarAppointment calendarAppointment =
+              details.appointments!.first;
           if (details.targetElement != CalendarElement.calendarCell) {
+            //print(calendarAppointment);
             Navigator.of(context).push(
               HeroDialogRoute(
                 builder: (context) => Center(
@@ -500,6 +504,24 @@ class _CalendarState extends State<Calendar> {
               ),
             );
           }
+
+          // /!\ ON TAP À REVOIR ????
+          // if (details.appointments == null) return;
+          // if (details.targetElement == CalendarElement.appointment) {
+          //   final CalendarAppointment calendarAppointment =
+          //       details.appointments!.first;
+          //   if (details.targetElement != CalendarElement.calendarCell) {
+          //     Navigator.of(context).push(
+          //       HeroDialogRoute(
+          //         builder: (context) => Center(
+          //           child: EventViewingPopUp(
+          //             calendarAppointment: calendarAppointment,
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   }
+          // }
         },
       ),
       floatingActionButton: Visibility(

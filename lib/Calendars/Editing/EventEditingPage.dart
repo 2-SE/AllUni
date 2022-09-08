@@ -1,4 +1,5 @@
 import 'package:AllUni/Calendars/Editing/TypeEventChoiceWidget.dart';
+import 'package:AllUni/Calendars/Viewing/EventViewingPopUp.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
 import 'package:AllUni/Providers/CustomTagProvider.dart';
@@ -6,6 +7,7 @@ import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Providers/PlanningTagsProvider.dart';
 import 'package:AllUni/Providers/TypeEventProvider.dart';
+import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -85,12 +87,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
         late CalendarAppointment calendarAppointment;
         if (type == "Planning") {
           fromDate = Provider.of<EditPlanningProvider>(context, listen: false)
-              .getPlanningFromDate();
+              .getPlanningFromDate;
           toDate = Provider.of<EditPlanningProvider>(context, listen: false)
-              .getPlanningToDate();
+              .getPlanningToDate;
           localizationController.text =
               Provider.of<EditPlanningProvider>(context, listen: false)
-                  .getPlanningLocalization();
+                  .getPlanningLocalization;
           tagsNames = Provider.of<PlanningTagsProvider>(context, listen: false)
               .activatedTags;
           if (Provider.of<CustomTagProvider>(context, listen: false)
@@ -122,7 +124,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         } else if (type == "Deadline") {
           deadlineDate =
               Provider.of<EditDeadlineProvider>(context, listen: false)
-                  .getDeadlineToDate();
+                  .getDeadlineToDate;
           tagsNames = Provider.of<DeadlineTagsProvider>(context, listen: false)
               .activatedTags;
           if (Provider.of<CustomTagProvider>(context, listen: false)
@@ -162,15 +164,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
               calendarAppointment, widget.calendarAppointment!);
           Navigator.of(context).pop();
           Navigator.of(context).pop();
-          /*
           Navigator.of(context).push(
             HeroDialogRoute(
               builder: (context) => Center(
-                child: EventViewingPopUp(event: event),
+                child: EventViewingPopUp(
+                  calendarAppointment: calendarAppointment,
+                ),
               ),
             ),
           );
-          */
         } else {
           provider.addAppointment(calendarAppointment);
           Navigator.of(context).pop();

@@ -1,7 +1,10 @@
 import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
+import 'package:AllUni/Calendars/Viewing/TagsNamesClips.dart';
+import 'package:AllUni/Calendars/Viewing/ViewingPopUpDeadlineWidget.dart';
+import 'package:AllUni/Calendars/Viewing/ViewingPopUpLessonsWidget.dart';
+import 'package:AllUni/Calendars/Viewing/ViewingPopUpPlanningWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
-import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,13 +23,19 @@ class EventViewingPopUp extends StatefulWidget {
 class _EventViewingPopUpState extends State<EventViewingPopUp> {
   @override
   Widget build(BuildContext context) {
+    //return Center(child: Text(widget.calendarAppointment.title));
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Hero(
           tag: widget.calendarAppointment.title,
           child: Material(
-            color: Colors.white,
+            color: (widget.calendarAppointment.appointmentType == "Planning")
+                ? Colors.white
+                : (widget.calendarAppointment.appointmentType == "Deadline")
+                    ? const Color(0xFFF8E8E8) //0xFFE8BABA//0xFFE5B2B2
+                    : const Color(0xFFDFE6EF), //0xFFDFE6EF//0xFFD5DFEA
             elevation: 2,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -41,24 +50,18 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            height: 24,
-                            color: Colors.green,
-                            child: const Center(
-                              child: Text(
-                                "  Cours  ",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
+                        (widget.calendarAppointment.tagsNames.isNotEmpty)
+                            ? SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.65,
+                                child: TagsNamesClips(
+                                  calendarAppointment:
+                                      widget.calendarAppointment,
                                 ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                              )
+                            : Container(),
+                        Wrap(
+                          alignment: WrapAlignment.end,
+                          spacing: -10,
                           children: [
                             IconButton(
                               icon: const Icon(Icons.edit_note_rounded),
@@ -80,6 +83,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                   context,
                                   listen: false,
                                 );
+                                //OPEN DELETE EVENT POPUP (NEED TO DO)
                                 provider.deleteAppointment(
                                     widget.calendarAppointment);
                                 Navigator.of(context).pop();
@@ -105,118 +109,20 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                     const SizedBox(
                       height: 8,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Date :   ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          DateHourUtils.toDate(
-                              widget.calendarAppointment.fromDate),
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
+                    (widget.calendarAppointment.appointmentType == "Planning")
+                        ? ViewingPopUpPlanningWidget(
+                            calendarAppointment: widget.calendarAppointment,
+                          )
+                        : (widget.calendarAppointment.appointmentType ==
+                                "Deadline")
+                            ? ViewingPopUpDeadlineWidget(
+                                calendarAppointment: widget.calendarAppointment,
+                              )
+                            : ViewingPopUpLessonsWidget(
+                                calendarAppointment: widget.calendarAppointment,
+                              ),
                     const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Horaires :   ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          "${DateHourUtils.toTime(widget.calendarAppointment.toDate)} - ${DateHourUtils.toTime(widget.calendarAppointment.toDate)}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Salle :   ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          DateHourUtils.toDate(
-                              widget.calendarAppointment.fromDate),
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 18,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Professeur :   ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        Text(
-                          DateHourUtils.toDate(
-                              widget.calendarAppointment.fromDate),
-                          style: const TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    ClipRRect(
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                          ),
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: CustomScrollView(
-                              slivers: [
-                                Text(
-                                  (widget.calendarAppointment.description != "")
-                                      ? widget.calendarAppointment.description
-                                      : "Aucune note enregistrée pour ce cours.",
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
+                      height: 8,
                     ),
                   ],
                 ),

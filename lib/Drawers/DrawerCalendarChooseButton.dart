@@ -26,7 +26,7 @@ class _DrawerCalendarChooseButtonState
       color: Colors.indigo.withOpacity(0.15),
       child: ToggleButtons(
         isSelected: isSelected,
-        fillColor: Color(0xFF4C75A0),
+        fillColor: const Color(0xFF4C75A0),
         selectedColor: Colors.white,
         renderBorder: false,
         color: Colors.black,

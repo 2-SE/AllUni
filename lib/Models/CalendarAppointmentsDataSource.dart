@@ -24,19 +24,16 @@ class CalendarAppointmentsDataSource extends CalendarDataSource {
   ) =>
       getAppointment(index).description;
 
-  @override
   DateTime getAppointmentFromDate(
     int index,
   ) =>
       getAppointment(index).fromDate;
 
-  @override
   DateTime getAppointmentToDate(
     int index,
   ) =>
       getAppointment(index).toDate;
 
-  @override
   DateTime getAppointmentDeadlineDate(
     int index,
   ) =>

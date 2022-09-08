@@ -1,22 +1,22 @@
-import 'package:AllUni/Calendars/Editing/DeadlineTagChoiceWidget.dart';
+import 'package:AllUni/Calendars/Editing/TagChoiceDeadlineWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DeadlineWidget extends StatefulWidget {
+class EditingDeadlineWidget extends StatefulWidget {
   final CalendarAppointment? calendarAppointment;
-  const DeadlineWidget({
+  const EditingDeadlineWidget({
     Key? key,
     this.calendarAppointment,
   }) : super(key: key);
 
   @override
-  State<DeadlineWidget> createState() => _DeadlineWidgetState();
+  State<EditingDeadlineWidget> createState() => _EditingDeadlineWidgetState();
 }
 
-class _DeadlineWidgetState extends State<DeadlineWidget> {
+class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
   final _formKey = GlobalKey<FormState>();
   late DateTime deadlineDate;
   late List<String> tagsNames;
@@ -131,7 +131,7 @@ class _DeadlineWidgetState extends State<DeadlineWidget> {
           ),
           const Divider(),
           const SizedBox(height: 10),
-          DeadlineTagsChoiceWidget(
+          TagsChoiceDeadlineWidget(
             myCustomTagName:
                 (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
           ),

@@ -4,19 +4,19 @@ import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PlanningTagsChoiceWidget extends StatefulWidget {
+class TagsChoicePlanningWidget extends StatefulWidget {
   late String? myCustomTagName;
-  PlanningTagsChoiceWidget({
+  TagsChoicePlanningWidget({
     Key? key,
     this.myCustomTagName,
   }) : super(key: key);
 
   @override
-  State<PlanningTagsChoiceWidget> createState() =>
-      _PlanningTagsChoiceWidgetState();
+  State<TagsChoicePlanningWidget> createState() =>
+      _TagsChoicePlanningWidgetState();
 }
 
-class _PlanningTagsChoiceWidgetState extends State<PlanningTagsChoiceWidget> {
+class _TagsChoicePlanningWidgetState extends State<TagsChoicePlanningWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(

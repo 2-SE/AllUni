@@ -1,5 +1,5 @@
-import 'package:AllUni/Calendars/Editing/DeadlineWidget.dart';
-import 'package:AllUni/Calendars/Editing/PlanningWidget.dart';
+import 'package:AllUni/Calendars/Editing/EditingDeadlineWidget.dart';
+import 'package:AllUni/Calendars/Editing/EditingPlanningWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/PlanningTagsProvider.dart';
@@ -71,8 +71,8 @@ class TypeEventChoiceWidget extends StatelessWidget {
           ],
         ),
         context.watch<TypeEventProvider>().currentActive == 'Planning'
-            ? const PlanningWidget()
-            : const DeadlineWidget()
+            ? const EditingPlanningWidget()
+            : const EditingDeadlineWidget()
       ],
     );
   }

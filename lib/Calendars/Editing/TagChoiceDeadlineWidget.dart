@@ -4,19 +4,19 @@ import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DeadlineTagsChoiceWidget extends StatefulWidget {
+class TagsChoiceDeadlineWidget extends StatefulWidget {
   late String? myCustomTagName;
-  DeadlineTagsChoiceWidget({
+  TagsChoiceDeadlineWidget({
     Key? key,
     this.myCustomTagName,
   }) : super(key: key);
 
   @override
-  State<DeadlineTagsChoiceWidget> createState() =>
-      _DeadlineTagsChoiceWidgetState();
+  State<TagsChoiceDeadlineWidget> createState() =>
+      _TagsChoiceDeadlineWidgetState();
 }
 
-class _DeadlineTagsChoiceWidgetState extends State<DeadlineTagsChoiceWidget> {
+class _TagsChoiceDeadlineWidgetState extends State<TagsChoiceDeadlineWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
