@@ -1,10 +1,12 @@
 import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
+import 'package:AllUni/Calendars/Viewing/ConfirmEventSuppressionPopUp.dart';
 import 'package:AllUni/Calendars/Viewing/TagsNamesClips.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpDeadlineWidget.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpLessonsWidget.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpPlanningWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
+import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,8 +25,6 @@ class EventViewingPopUp extends StatefulWidget {
 class _EventViewingPopUpState extends State<EventViewingPopUp> {
   @override
   Widget build(BuildContext context) {
-    //return Center(child: Text(widget.calendarAppointment.title));
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -183,16 +183,28 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                           Icons.delete_forever,
                                           color: Colors.red,
                                         ),
-                                        onPressed: () {
-                                          final provider = Provider.of<
-                                              CalendarAppointmentsProvider>(
-                                            context,
-                                            listen: false,
-                                          );
-                                          //OPEN DELETE EVENT POPUP (NEED TO DO)
-                                          provider.deleteAppointment(
-                                              widget.calendarAppointment);
-                                          Navigator.of(context).pop();
+                                        onPressed: () async {
+                                          var navigatorOnDeleteResult =
+                                              await Navigator.of(context)
+                                                  .push(
+                                            HeroDialogRequiredRoute(
+                                              builder: (context) =>
+                                                  const Center(
+                                                child:
+                                                    ConfirmEventSuppressionPopUp(),
+                                              ),
+                                            ),
+                                          )
+                                                  .then((value) {
+                                            if (value == true) {
+                                              context
+                                                  .read<
+                                                      CalendarAppointmentsProvider>()
+                                                  .deleteAppointment(widget
+                                                      .calendarAppointment);
+                                              Navigator.of(context).pop();
+                                            }
+                                          });
                                         },
                                       ),
                                     ],

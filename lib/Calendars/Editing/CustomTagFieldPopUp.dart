@@ -27,11 +27,10 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
   Widget build(BuildContext context) {
     Future saveTagForm() async {
       (nameTagController.text.isNotEmpty)
-          ? Provider.of<CustomTagProvider>(context, listen: false).addTagValue(
-              CustomTag(label: nameTagController.text),
-            ) //context.read()<CustomTagProvider>().addTagValue(CustomTag(label: nameTagController.text))
-          : Provider.of<CustomTagProvider>(context, listen: false)
-              .deleteTagValue(); //context.read()<CustomTagProvider>().deleteTagValue();
+          ? context
+              .read()<CustomTagProvider>()
+              .addTagValue(CustomTag(label: nameTagController.text))
+          : context.read()<CustomTagProvider>().deleteTagValue();
       Navigator.pop(
         context,
         (nameTagController.text.isNotEmpty) ? nameTagController.text : null,
