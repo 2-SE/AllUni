@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class EditingPlanningWidget extends StatefulWidget {
   final CalendarAppointment? calendarAppointment;
-  const EditingPlanningWidget({
+  EditingPlanningWidget({
     Key? key,
     this.calendarAppointment,
   }) : super(key: key);
@@ -20,9 +20,8 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
   final _formKey = GlobalKey<FormState>();
   late DateTime fromDate;
   late DateTime toDate;
-  final localizationController = TextEditingController();
+  late String localization;
   late List<String> tagsNames;
-
   String myCustomTagName = "";
 
   @override
@@ -36,16 +35,15 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
       final calendarAppointment = widget.calendarAppointment!;
       fromDate = calendarAppointment.fromDate;
       toDate = calendarAppointment.toDate;
-      localizationController.text = calendarAppointment.localization;
+      localization = calendarAppointment.localization;
       tagsNames = calendarAppointment.tagsNames;
     }
   }
 
-  @override
-  void dispose() {
-    localizationController.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   localizationController.dispose();
+  //   super.dispose();
+  // }
 
   Widget buildDropDownField({
     required String text,
@@ -148,7 +146,10 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
                       Expanded(
                         flex: 2,
                         child: buildDropDownField(
-                          text: DateHourUtils.toDate(fromDate),
+                          text: (widget.calendarAppointment != null)
+                              ? DateHourUtils.toDate(
+                                  widget.calendarAppointment!.fromDate)
+                              : DateHourUtils.toDate(fromDate),
                           onClicked: () {
                             pickFromDateTime(pickDate: true);
                           },
@@ -157,7 +158,10 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
                       Expanded(
                         flex: 1,
                         child: buildDropDownField(
-                          text: DateHourUtils.toTime(fromDate),
+                          text: (widget.calendarAppointment != null)
+                              ? DateHourUtils.toTime(
+                                  widget.calendarAppointment!.fromDate)
+                              : DateHourUtils.toTime(fromDate),
                           onClicked: () {
                             pickFromDateTime(pickDate: false);
                           },
@@ -173,7 +177,10 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
                       Expanded(
                         flex: 2,
                         child: buildDropDownField(
-                          text: DateHourUtils.toDate(toDate),
+                          text: (widget.calendarAppointment != null)
+                              ? DateHourUtils.toDate(
+                                  widget.calendarAppointment!.toDate)
+                              : DateHourUtils.toDate(toDate),
                           onClicked: () {
                             pickToDateTime(pickDate: true);
                           },
@@ -182,7 +189,10 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
                       Expanded(
                         flex: 1,
                         child: buildDropDownField(
-                          text: DateHourUtils.toTime(toDate),
+                          text: (widget.calendarAppointment != null)
+                              ? DateHourUtils.toTime(
+                                  widget.calendarAppointment!.toDate)
+                              : DateHourUtils.toTime(toDate),
                           onClicked: () {
                             pickToDateTime(pickDate: false);
                           },
@@ -208,14 +218,17 @@ class _EditingPlanningWidgetState extends State<EditingPlanningWidget> {
               Provider.of<EditPlanningProvider>(context, listen: false)
                   .changePlanningLocalization(localization);
             },
-            controller: localizationController,
+            initialValue:
+                (widget.calendarAppointment != null) ? localization : "",
           ),
           const SizedBox(height: 10),
           const Divider(),
           const SizedBox(height: 10),
           TagsChoicePlanningWidget(
-            myCustomTagName:
-                (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
+            calendarAppointment: (widget.calendarAppointment != null)
+                ? widget.calendarAppointment
+                : null,
+            //(myCustomTagName.isNotEmpty) ? myCustomTagName : null,
           ),
         ],
       ),

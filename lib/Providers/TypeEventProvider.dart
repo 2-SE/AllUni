@@ -17,6 +17,7 @@ class TypeEvent {
   Color selectedColor;
 
   Icon get showedIcon => (value) ? iconChecked : iconNonChecked;
+  Icon get existingBlocShowedIcon => (value) ? iconNonChecked : iconChecked;
 }
 
 class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {

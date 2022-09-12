@@ -82,7 +82,7 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
 
   Future pickToDateTime({required bool pickDate}) async {
     final date = await pickDateTime(deadlineDate,
-        pickDate: pickDate, firstDate: pickDate ? deadlineDate : null);
+        pickDate: pickDate, firstDate: DateTime.now());
     if (date == null) return;
     setState(() {
       deadlineDate = date;
@@ -108,7 +108,10 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
                       Expanded(
                         flex: 2,
                         child: buildDropDownField(
-                          text: DateHourUtils.toDate(deadlineDate),
+                          text: (widget.calendarAppointment != null)
+                              ? DateHourUtils.toDate(
+                                  widget.calendarAppointment!.deadlineDate)
+                              : DateHourUtils.toDate(deadlineDate),
                           onClicked: () {
                             pickToDateTime(pickDate: true);
                           },
@@ -117,7 +120,10 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
                       Expanded(
                         flex: 1,
                         child: buildDropDownField(
-                          text: DateHourUtils.toTime(deadlineDate),
+                          text: (widget.calendarAppointment != null)
+                              ? DateHourUtils.toTime(
+                                  widget.calendarAppointment!.deadlineDate)
+                              : DateHourUtils.toTime(deadlineDate),
                           onClicked: () {
                             pickToDateTime(pickDate: false);
                           },

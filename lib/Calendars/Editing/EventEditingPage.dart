@@ -33,6 +33,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final localizationController = TextEditingController();
   late List<String> tagsNames;
   String myCustomTagName = "";
+  late PlanningTagsProvider planningTagsProvider;
 
   @override
   void initState() {
@@ -69,13 +70,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
     context.read<EditDeadlineProvider>().resetAllDeadlineValues();
     context.read<PlanningTagsProvider>().resetAllTagValue();
     context.read<DeadlineTagsProvider>().resetAllTagValue();
-    Provider.of<TypeEventProvider>(context, listen: false)
-        .refreshEventTypeValue();
+    context.read<TypeEventProvider>().refreshEventTypeValue();
     Provider.of<CustomTagProvider>(context, listen: false).deleteTagValue();
   }
 
   @override
   Widget build(BuildContext context) {
+    planningTagsProvider = context.read<PlanningTagsProvider>();
+
     // UTILS FOR THE EVENT EDITING PAGE
     Future saveAppointmentForm(String type) async {
       final isValid = _formKey.currentState!.validate();
@@ -153,40 +155,21 @@ class _EventEditingPageState extends State<EventEditingPage> {
       }
     }
 
-    if (context.read<TypeEventProvider>().currentActive == "Planning") {
-      List<bool> isSelectedTags = [false, false, false, false];
-      for (int index = 0; index < tagsNames.length; index++) {
-        if (tagsNames[index] == "Perso") {
-          isSelectedTags[0] = true;
-        } else if (tagsNames[index] == "Travail") {
-          isSelectedTags[1] = true;
-        } else if (tagsNames[index] == "Événement") {
-          isSelectedTags[2] = true;
-        } else {
-          isSelectedTags[3] = true;
-          myCustomTagName = tagsNames[index];
-        }
-      }
-    } else if (context.read<TypeEventProvider>().currentActive == "Deadline") {
-      List<bool> isSelectedTags = [false, false, false, false];
-      for (int index = 0; index < tagsNames.length; index++) {
-        if (tagsNames[index] == "Perso") {
-          isSelectedTags[0] = true;
-        } else if (tagsNames[index] == "Travail") {
-          isSelectedTags[1] = true;
-        } else if (tagsNames[index] == "Urgent") {
-          isSelectedTags[2] = true;
-        } else {
-          isSelectedTags[3] = true;
-          myCustomTagName = tagsNames[index];
-        }
-      }
-    }
-
     // THE VIEW
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ajout dans mon Calendrier"),
+        title: Text(
+          (widget.calendarAppointment == null)
+              ? "Ajout dans mon Calendrier"
+              : (widget.calendarAppointment != null &&
+                      widget.calendarAppointment!.appointmentType == "Planning")
+                  ? "Modifier cet Événement"
+                  : (widget.calendarAppointment != null &&
+                          widget.calendarAppointment!.appointmentType ==
+                              "Deadline")
+                      ? "Modifier cette Deadline"
+                      : "Ajouter une Annotation", // Pour plus tard quand on aura un cours
+        ),
         backgroundColor: const Color(0xFF4C75A0),
         foregroundColor: Colors.white,
         leading: CloseButton(
@@ -205,12 +188,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
                         .currentActive ==
                     "Planning") {
                   saveAppointmentForm("Planning");
+                  _resetAllValues();
                 } else if (Provider.of<TypeEventProvider>(context,
                             listen: false)
                         .currentActive ==
                     "Deadline") {
                   saveAppointmentForm("Deadline");
+                  _resetAllValues();
                 } else {
+                  _resetAllValues();
                   return;
                 }
               },
@@ -266,7 +252,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
                 controller: descriptionController,
               ),
               const SizedBox(height: 10),
-              const TypeEventChoiceWidget(),
+              TypeEventChoiceWidget(
+                calendarAppointment: widget.calendarAppointment,
+              ),
             ],
           ),
         ),

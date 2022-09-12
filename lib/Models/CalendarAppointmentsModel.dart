@@ -18,4 +18,7 @@ class CalendarAppointment {
     this.localization = "",
     this.tagsNames = const [],
   });
+
+  @override
+  String toString() => '$title $appointmentType';
 }

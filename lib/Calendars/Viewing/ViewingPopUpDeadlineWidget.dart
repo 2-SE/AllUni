@@ -21,7 +21,7 @@ class _ViewingPopUpDeadlineWidgetState
     return Column(
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               "Jusqu'au :   ",
@@ -31,7 +31,7 @@ class _ViewingPopUpDeadlineWidgetState
               ),
             ),
             Text(
-              "${DateHourUtils.toDate(widget.calendarAppointment.deadlineDate)}  -  ${DateHourUtils.toTime(widget.calendarAppointment.deadlineDate)}",
+              "${DateHourUtils.toDate(widget.calendarAppointment.deadlineDate)}\n${DateHourUtils.toTime(widget.calendarAppointment.deadlineDate)}",
               style: const TextStyle(
                 fontSize: 18,
               ),
@@ -57,7 +57,8 @@ class _ViewingPopUpDeadlineWidgetState
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  (widget.calendarAppointment.description != "")
+                  (widget.calendarAppointment.localization.isNotEmpty ||
+                          widget.calendarAppointment.description != "")
                       ? widget.calendarAppointment.description
                       : "Aucune note enregistrée pour ce cours.",
                   maxLines: 20,

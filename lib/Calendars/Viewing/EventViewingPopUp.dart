@@ -38,8 +38,10 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                     : const Color(0xFFDFE6EF), //0xFFDFE6EF//0xFFD5DFEA
             elevation: 2,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    MediaQuery.of(context).size.width / 24)),
+              borderRadius: BorderRadius.circular(
+                MediaQuery.of(context).size.width / 24,
+              ),
+            ),
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -83,9 +85,11 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                               IconButton(
                                                 icon: const Icon(
                                                   Icons.edit_note_rounded,
+                                                  // Icons.add,
                                                   color: Color(
                                                       0xFF666666), //Color(0xFF4C75A0),
                                                 ),
+// TODO : OnPressed - with tags here
                                                 onPressed: () {
                                                   Navigator.of(context).push(
                                                     MaterialPageRoute(
@@ -103,17 +107,30 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                                   Icons.delete_forever,
                                                   color: Colors.red,
                                                 ),
-                                                onPressed: () {
-                                                  final provider = Provider.of<
-                                                      CalendarAppointmentsProvider>(
-                                                    context,
-                                                    listen: false,
-                                                  );
-                                                  //OPEN DELETE EVENT POPUP (NEED TO DO)
-                                                  provider.deleteAppointment(
-                                                      widget
-                                                          .calendarAppointment);
-                                                  Navigator.of(context).pop();
+                                                onPressed: () async {
+                                                  var navigatorOnDeleteResult =
+                                                      await Navigator.of(
+                                                              context)
+                                                          .push(
+                                                    HeroDialogRequiredRoute(
+                                                      builder: (context) =>
+                                                          const Center(
+                                                        child:
+                                                            ConfirmEventSuppressionPopUp(),
+                                                      ),
+                                                    ),
+                                                  )
+                                                          .then((value) {
+                                                    if (value == true) {
+                                                      context
+                                                          .read<
+                                                              CalendarAppointmentsProvider>()
+                                                          .deleteAppointment(widget
+                                                              .calendarAppointment);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }
+                                                  });
                                                 },
                                               ),
                                             ],
@@ -167,6 +184,7 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                           color: Color(
                                               0xFF666666), //Color(0xFF4C75A0),
                                         ),
+// TODO : OnPressed - no tags here
                                         onPressed: () {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(

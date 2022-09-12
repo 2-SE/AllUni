@@ -193,7 +193,8 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  (widget.calendarAppointment.description != "")
+                  (widget.calendarAppointment.localization.isNotEmpty ||
+                          widget.calendarAppointment.description != "")
                       ? widget.calendarAppointment.description
                       : "Aucune note enregistrée pour ce cours.",
                   maxLines: 20,

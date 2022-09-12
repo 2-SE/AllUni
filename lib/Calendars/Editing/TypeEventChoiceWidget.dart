@@ -7,22 +7,16 @@ import 'package:AllUni/Providers/TypeEventProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TypeEventChoiceWidget extends StatefulWidget {
+class TypeEventChoiceWidget extends StatelessWidget {
   final CalendarAppointment? calendarAppointment;
-  final String? myCustomTagName;
   const TypeEventChoiceWidget({
     Key? key,
-    this.calendarAppointment,
-    this.myCustomTagName,
+    required this.calendarAppointment,
   }) : super(key: key);
 
   @override
-  State<TypeEventChoiceWidget> createState() => _TypeEventChoiceWidgetState();
-}
-
-class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
-  @override
   Widget build(BuildContext context) {
+    TypeEventProvider typeEventProvider = context.watch<TypeEventProvider>();
     return Column(
       children: [
         Row(
@@ -32,31 +26,57 @@ class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
                 alignment: WrapAlignment.center,
                 spacing: MediaQuery.of(context).size.width * 0.1,
                 children: [
-                  ...(context
-                      .watch<TypeEventProvider>()
-                      .typeEvent
+                  ...(typeEventProvider.typeEvent
                       .map(
                         (typeEventItem) => InputChip(
-                          avatar: typeEventItem.showedIcon,
+                          avatar: (calendarAppointment != null &&
+                                  calendarAppointment!.appointmentType ==
+                                      typeEventItem.label)
+                              ? typeEventItem.iconChecked
+                              : (calendarAppointment != null &&
+                                      calendarAppointment!.appointmentType !=
+                                          typeEventItem.label)
+                                  ? typeEventItem.iconNonChecked
+                                  : typeEventItem.showedIcon,
                           labelPadding:
                               const EdgeInsets.symmetric(horizontal: 15),
                           label: Text(
                             typeEventItem.label,
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: typeEventItem.value
+                              color: (calendarAppointment != null &&
+                                      calendarAppointment!.appointmentType ==
+                                          typeEventItem.label)
                                   ? Colors.white
-                                  : Colors.black,
+                                  : (calendarAppointment != null &&
+                                          calendarAppointment!
+                                                  .appointmentType !=
+                                              typeEventItem.label)
+                                      ? Colors.black
+                                      : (calendarAppointment == null &&
+                                              typeEventItem.value == true)
+                                          ? Colors.white
+                                          : (calendarAppointment == null &&
+                                                  typeEventItem.value == false)
+                                              ? Colors.black
+                                              : Colors.grey, //ERROR NORMALLY
                             ),
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           visualDensity: const VisualDensity(vertical: -2),
                           showCheckmark: false,
                           selectedColor: typeEventItem.selectedColor,
-                          selected: typeEventItem.value,
+                          selected: (calendarAppointment != null &&
+                                  calendarAppointment!.appointmentType ==
+                                      typeEventItem.label)
+                              ? true
+                              : (calendarAppointment != null &&
+                                      calendarAppointment!.appointmentType !=
+                                          typeEventItem.label)
+                                  ? false
+                                  : typeEventItem.value,
                           onPressed: () {
-                            context
-                                .read<TypeEventProvider>()
+                            typeEventProvider
                                 .changeEventTypeValue(typeEventItem);
                             context
                                 .read<PlanningTagsProvider>()
@@ -65,6 +85,8 @@ class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
                                 .read<DeadlineTagsProvider>()
                                 .resetAllTagValue();
                           },
+                          isEnabled:
+                              (calendarAppointment == null) ? true : false,
                         ),
                       )
                       .toList()),
@@ -73,9 +95,22 @@ class _TypeEventChoiceWidgetState extends State<TypeEventChoiceWidget> {
             ),
           ],
         ),
-        context.read<TypeEventProvider>().currentActive == 'Planning'
-            ? const EditingPlanningWidget()
-            : const EditingDeadlineWidget()
+
+        (calendarAppointment != null &&
+                calendarAppointment!.appointmentType == "Planning")
+            ? EditingPlanningWidget(
+                calendarAppointment: calendarAppointment,
+              )
+            : (calendarAppointment != null &&
+                    calendarAppointment!.appointmentType == "Deadline")
+                ? EditingDeadlineWidget(
+                    calendarAppointment: calendarAppointment,
+                  )
+                : (typeEventProvider.currentActive == "Planning")
+                    ? EditingPlanningWidget()
+                    : (typeEventProvider.currentActive == "Deadline")
+                        ? EditingDeadlineWidget()
+                        : const Text("# ERROR #"), // NORMALLY DON'T GO HERE
       ],
     );
   }
