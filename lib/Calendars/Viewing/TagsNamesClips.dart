@@ -55,7 +55,7 @@ class _TagsNamesClipsState extends State<TagsNamesClips> {
                               color: Colors.white,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w500,
-                              fontSize: 8, // TODO Check font size
+                              fontSize: 8, // TODO : Check font size
                             ),
                           ),
                         ),

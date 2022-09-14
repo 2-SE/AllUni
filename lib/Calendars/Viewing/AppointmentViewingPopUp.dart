@@ -1,5 +1,5 @@
-import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
-import 'package:AllUni/Calendars/Viewing/ConfirmEventSuppressionPopUp.dart';
+import 'package:AllUni/Calendars/EditingPages/EditingAppointmentPage.dart';
+import 'package:AllUni/Calendars/Viewing/ConfirmAppointmentSuppressionPopUp.dart';
 import 'package:AllUni/Calendars/Viewing/TagsNamesClips.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpDeadlineWidget.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpLessonsWidget.dart';
@@ -10,19 +10,58 @@ import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EventViewingPopUp extends StatefulWidget {
+class AppointmentViewingPopUp extends StatefulWidget {
   final CalendarAppointment calendarAppointment;
 
-  const EventViewingPopUp({
+  const AppointmentViewingPopUp({
     Key? key,
     required this.calendarAppointment,
   }) : super(key: key);
 
   @override
-  State<EventViewingPopUp> createState() => _EventViewingPopUpState();
+  State<AppointmentViewingPopUp> createState() =>
+      _AppointmentViewingPopUpState();
 }
 
-class _EventViewingPopUpState extends State<EventViewingPopUp> {
+class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
+  // UTILS FUNCTIONS FOR VIEWING POPUP
+  void DeleteAppointment() async {
+    final calendarAppointmentProvider =
+        context.read<CalendarAppointmentsProvider>();
+    var navigatorOnDeleteResult = await Navigator.of(context).push(
+      HeroDialogRequiredRoute(
+        builder: (context) => const Center(
+          child: ConfirmAppointmentSuppressionPopUp(),
+        ),
+      ),
+    );
+    if (navigatorOnDeleteResult == true) {
+      calendarAppointmentProvider.deleteAppointment(widget.calendarAppointment);
+      Navigator.of(context).pop();
+      setState(() {});
+    }
+  }
+
+  void OpenModifyAppointmentPage() async {
+    final calendarAppointmentProvider =
+        context.read<CalendarAppointmentsProvider>();
+    var navigatorEditAppointmentResult = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditingAppointmentPage(
+          calendarAppointment: widget.calendarAppointment,
+        ),
+      ),
+    );
+    print(navigatorEditAppointmentResult);
+// TODO : Régler le problème avec le ré-Edit /!\
+    if (navigatorEditAppointmentResult != null) {
+      calendarAppointmentProvider.editAppointment(
+        navigatorEditAppointmentResult,
+      );
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -89,49 +128,16 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                                   color: Color(
                                                       0xFF666666), //Color(0xFF4C75A0),
                                                 ),
-// TODO : OnPressed - with tags here
-                                                onPressed: () {
-                                                  Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EventEditingPage(
-                                                              calendarAppointment:
-                                                                  widget
-                                                                      .calendarAppointment),
-                                                    ),
-                                                  );
-                                                },
+                                                onPressed: () =>
+                                                    OpenModifyAppointmentPage(),
                                               ),
                                               IconButton(
                                                 icon: const Icon(
                                                   Icons.delete_forever,
                                                   color: Colors.red,
                                                 ),
-                                                onPressed: () async {
-                                                  var navigatorOnDeleteResult =
-                                                      await Navigator.of(
-                                                              context)
-                                                          .push(
-                                                    HeroDialogRequiredRoute(
-                                                      builder: (context) =>
-                                                          const Center(
-                                                        child:
-                                                            ConfirmEventSuppressionPopUp(),
-                                                      ),
-                                                    ),
-                                                  )
-                                                          .then((value) {
-                                                    if (value == true) {
-                                                      context
-                                                          .read<
-                                                              CalendarAppointmentsProvider>()
-                                                          .deleteAppointment(widget
-                                                              .calendarAppointment);
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    }
-                                                  });
-                                                },
+                                                onPressed: () =>
+                                                    DeleteAppointment(),
                                               ),
                                             ],
                                           ),
@@ -184,46 +190,15 @@ class _EventViewingPopUpState extends State<EventViewingPopUp> {
                                           color: Color(
                                               0xFF666666), //Color(0xFF4C75A0),
                                         ),
-// TODO : OnPressed - no tags here
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EventEditingPage(
-                                                      calendarAppointment: widget
-                                                          .calendarAppointment),
-                                            ),
-                                          );
-                                        },
+                                        onPressed: () =>
+                                            OpenModifyAppointmentPage(),
                                       ),
                                       IconButton(
                                         icon: const Icon(
                                           Icons.delete_forever,
                                           color: Colors.red,
                                         ),
-                                        onPressed: () async {
-                                          var navigatorOnDeleteResult =
-                                              await Navigator.of(context)
-                                                  .push(
-                                            HeroDialogRequiredRoute(
-                                              builder: (context) =>
-                                                  const Center(
-                                                child:
-                                                    ConfirmEventSuppressionPopUp(),
-                                              ),
-                                            ),
-                                          )
-                                                  .then((value) {
-                                            if (value == true) {
-                                              context
-                                                  .read<
-                                                      CalendarAppointmentsProvider>()
-                                                  .deleteAppointment(widget
-                                                      .calendarAppointment);
-                                              Navigator.of(context).pop();
-                                            }
-                                          });
-                                        },
+                                        onPressed: () => DeleteAppointment(),
                                       ),
                                     ],
                                   ),

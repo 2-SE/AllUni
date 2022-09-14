@@ -98,9 +98,7 @@ class _CustomTagFieldPopUpState extends State<CustomTagFieldPopUp> {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            Provider.of<CustomTagProvider>(context,
-                                    listen: false)
-                                .deleteTagValue();
+                            context.read<CustomTagProvider>().deleteTagValue();
                             Navigator.of(context).pop();
                           }),
                       TextButton(

@@ -105,7 +105,7 @@ class EditDeadlineProvider with ChangeNotifier, DiagnosticableTreeMixin {
     EditDeadline(
       title: "",
       description: "",
-      deadlineDate: DateTime.now(),
+      deadlineDate: DateTime.now().add(const Duration(hours: 1)),
       tags: [],
     )
   ];
@@ -138,13 +138,15 @@ class EditDeadlineProvider with ChangeNotifier, DiagnosticableTreeMixin {
   void resetAllDeadlineValues() {
     _editDeadline[0].title = "";
     _editDeadline[0].description = "";
-    _editDeadline[0].deadlineDate = DateTime.now();
+    _editDeadline[0].deadlineDate =
+        DateTime.now().add(const Duration(hours: 1));
     _editDeadline[0].tags = [];
     notifyListeners();
   }
 
   void resetParametersDeadlineValues() {
-    _editDeadline[0].deadlineDate = DateTime.now();
+    _editDeadline[0].deadlineDate =
+        DateTime.now().add(const Duration(hours: 1));
     _editDeadline[0].tags = [];
     notifyListeners();
   }

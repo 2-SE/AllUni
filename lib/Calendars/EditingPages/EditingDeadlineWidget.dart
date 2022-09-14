@@ -1,4 +1,4 @@
-import 'package:AllUni/Calendars/Editing/TagChoiceDeadlineWidget.dart';
+import 'package:AllUni/Calendars/EditingPages/TagChoiceDeadlineWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
 import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditingDeadlineWidget extends StatefulWidget {
-  final CalendarAppointment? calendarAppointment;
+  final CalendarAppointment calendarEditAppointment;
   const EditingDeadlineWidget({
     Key? key,
-    this.calendarAppointment,
+    required this.calendarEditAppointment,
   }) : super(key: key);
 
   @override
@@ -20,16 +20,17 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
   final _formKey = GlobalKey<FormState>();
   late DateTime deadlineDate;
   late List<String> tagsNames;
+  late bool isReEditDeadlineDate = false;
   String myCustomTagName = "";
 
   @override
   void initState() {
     super.initState();
-    if (widget.calendarAppointment == null) {
+    if (widget.calendarEditAppointment == null) {
       deadlineDate = DateTime.now().add(const Duration(hours: 1));
       tagsNames = [];
     } else {
-      final deadline = widget.calendarAppointment!;
+      final deadline = widget.calendarEditAppointment;
       deadlineDate = deadline.deadlineDate;
       tagsNames = deadline.tagsNames;
     }
@@ -62,8 +63,7 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
       if (date == null) return null;
       final time =
           Duration(hours: initialDate.hour, minutes: initialDate.minute);
-      Provider.of<EditDeadlineProvider>(context, listen: false)
-          .changeDeadlineToDate(date.add(time));
+      context.read<EditDeadlineProvider>().changeDeadlineToDate(date.add(time));
       return date.add(time);
     } else {
       final timeOfDay = await showTimePicker(
@@ -74,8 +74,7 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
       final date =
           DateTime(initialDate.year, initialDate.month, initialDate.day);
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
-      Provider.of<EditDeadlineProvider>(context, listen: false)
-          .changeDeadlineToDate(date.add(time));
+      context.read<EditDeadlineProvider>().changeDeadlineToDate(date.add(time));
       return date.add(time);
     }
   }
@@ -86,6 +85,7 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
     if (date == null) return;
     setState(() {
       deadlineDate = date;
+      isReEditDeadlineDate = true;
     });
   }
 
@@ -108,24 +108,26 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
                       Expanded(
                         flex: 2,
                         child: buildDropDownField(
-                          text: (widget.calendarAppointment != null)
+                          text: (isReEditDeadlineDate == false)
                               ? DateHourUtils.toDate(
-                                  widget.calendarAppointment!.deadlineDate)
+                                  widget.calendarEditAppointment.deadlineDate)
                               : DateHourUtils.toDate(deadlineDate),
-                          onClicked: () {
-                            pickToDateTime(pickDate: true);
+                          onClicked: () async {
+                            widget.calendarEditAppointment.deadlineDate =
+                                await pickToDateTime(pickDate: true);
                           },
                         ),
                       ),
                       Expanded(
                         flex: 1,
                         child: buildDropDownField(
-                          text: (widget.calendarAppointment != null)
+                          text: (isReEditDeadlineDate == false)
                               ? DateHourUtils.toTime(
-                                  widget.calendarAppointment!.deadlineDate)
+                                  widget.calendarEditAppointment.deadlineDate)
                               : DateHourUtils.toTime(deadlineDate),
-                          onClicked: () {
-                            pickToDateTime(pickDate: false);
+                          onClicked: () async {
+                            widget.calendarEditAppointment.deadlineDate =
+                                await pickToDateTime(pickDate: false);
                           },
                         ),
                       ),
@@ -135,11 +137,11 @@ class _EditingDeadlineWidgetState extends State<EditingDeadlineWidget> {
               ),
             ],
           ),
+          const SizedBox(height: 10),
           const Divider(),
           const SizedBox(height: 10),
           TagsChoiceDeadlineWidget(
-            myCustomTagName:
-                (myCustomTagName.isNotEmpty) ? myCustomTagName : null,
+            calendarAppointment: widget.calendarEditAppointment,
           ),
         ],
       ),

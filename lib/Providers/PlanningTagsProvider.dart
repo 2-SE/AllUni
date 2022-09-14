@@ -27,7 +27,6 @@ class PlanningTagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
     'Perso',
     'Travail',
     'Événement',
-    'Urgent'
   ];
 
   bool isCustomTag(String tagLabel) =>

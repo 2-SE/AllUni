@@ -1,5 +1,5 @@
-import 'package:AllUni/Calendars/Editing/EventEditingPage.dart';
-import 'package:AllUni/Calendars/Viewing/EventViewingPopUp.dart';
+import 'package:AllUni/Calendars/EditingPages/EditingAppointmentPage.dart';
+import 'package:AllUni/Calendars/Viewing/AppointmentViewingPopUp.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/Models/CalendarAppointmentsDataSource.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
@@ -497,7 +497,7 @@ class _CalendarState extends State<Calendar> {
             Navigator.of(context).push(
               HeroDialogRoute(
                 builder: (context) => Center(
-                  child: EventViewingPopUp(
+                  child: AppointmentViewingPopUp(
                     calendarAppointment: calendarAppointment,
                   ),
                 ),
@@ -514,7 +514,7 @@ class _CalendarState extends State<Calendar> {
           //     Navigator.of(context).push(
           //       HeroDialogRoute(
           //         builder: (context) => Center(
-          //           child: EventViewingPopUp(
+          //           child: AppointmentViewingPopUp(
           //             calendarAppointment: calendarAppointment,
           //           ),
           //         ),
@@ -528,12 +528,23 @@ class _CalendarState extends State<Calendar> {
         visible: (currentView == "Mon Calendrier") ? true : false,
         child: FloatingActionButton(
           backgroundColor: const Color(0xFF4C75A0),
-          onPressed: () {
-            Navigator.of(context).push(
+          onPressed: () async {
+            final calendarAppointmentProvider =
+                context.read<CalendarAppointmentsProvider>();
+
+            var navigatorAddAppointmentResult =
+                await Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const EventEditingPage(),
+                builder: (context) => EditingAppointmentPage(
+// TODO gérer emptyCalendarAppointment en entrée : CalendarAppointment.emptyAppointment(),
+                    ),
               ),
             );
+            if (navigatorAddAppointmentResult != null) {
+              calendarAppointmentProvider
+                  .addAppointment(navigatorAddAppointmentResult);
+              setState(() {});
+            }
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),

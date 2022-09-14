@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class TypeEvent {
-  TypeEvent({
+class TypeAppointment {
+  TypeAppointment({
     required this.label,
     required this.value,
     required this.iconChecked,
@@ -20,9 +20,9 @@ class TypeEvent {
   Icon get existingBlocShowedIcon => (value) ? iconNonChecked : iconChecked;
 }
 
-class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  final List<TypeEvent> _typeEvent = [
-    TypeEvent(
+class TypeAppointmentProvider with ChangeNotifier, DiagnosticableTreeMixin {
+  final List<TypeAppointment> _typeAppointment = [
+    TypeAppointment(
       label: "Planning",
       value: true,
       iconChecked: const Icon(
@@ -35,7 +35,7 @@ class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
       ),
       selectedColor: const Color(0xFF4C75A0),
     ),
-    TypeEvent(
+    TypeAppointment(
       label: "Deadline",
       value: false,
       iconChecked: const Icon(
@@ -50,24 +50,25 @@ class TypeEventProvider with ChangeNotifier, DiagnosticableTreeMixin {
     )
   ];
 
-  List<TypeEvent> get typeEvent => _typeEvent;
+  List<TypeAppointment> get typeAppointment => _typeAppointment;
 
-  String get currentActive =>
-      _typeEvent.firstWhere((typeEvent) => typeEvent.value == true).label;
+  String get currentActive => _typeAppointment
+      .firstWhere((typeAppointment) => typeAppointment.value == true)
+      .label;
 
-  void changeEventTypeValue(TypeEvent typeEvent) {
-    for (int index = 0; index < _typeEvent.length; index++) {
-      _typeEvent[index].value = false;
+  void changeEventTypeValue(TypeAppointment typeAppointment) {
+    for (int index = 0; index < _typeAppointment.length; index++) {
+      _typeAppointment[index].value = false;
     }
-    typeEvent.value = true;
+    typeAppointment.value = true;
     notifyListeners();
   }
 
   void refreshEventTypeValue() {
-    for (int index = 0; index < _typeEvent.length; index++) {
-      _typeEvent[index].value = false;
+    for (int index = 0; index < _typeAppointment.length; index++) {
+      _typeAppointment[index].value = false;
     }
-    _typeEvent[0].value = true;
+    _typeAppointment[0].value = true;
     notifyListeners();
   }
 }

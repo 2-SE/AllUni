@@ -23,12 +23,7 @@ class Tag {
 }
 
 class DeadlineTagsProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  final List<String> globalTagsFromAppointment = [
-    'Perso',
-    'Travail',
-    'Événement',
-    'Urgent'
-  ];
+  final List<String> globalTagsFromAppointment = ['Perso', 'Travail', 'Urgent'];
 
   bool isCustomTag(String tagLabel) =>
       !globalTagsFromAppointment.contains(tagLabel);

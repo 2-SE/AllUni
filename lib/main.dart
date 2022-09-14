@@ -9,7 +9,7 @@ import 'package:AllUni/Providers/CustomTagProvider.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Providers/PlanningTagsProvider.dart';
-import 'package:AllUni/Providers/TypeEventProvider.dart';
+import 'package:AllUni/Providers/TypeAppointmentProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => CalendarAppointmentsProvider()),
         ChangeNotifierProvider(create: (_) => EditPlanningProvider()),
         ChangeNotifierProvider(create: (_) => EditDeadlineProvider()),
-        ChangeNotifierProvider(create: (_) => TypeEventProvider()),
+        ChangeNotifierProvider(create: (_) => TypeAppointmentProvider()),
         ChangeNotifierProvider(create: (_) => PlanningTagsProvider()),
         ChangeNotifierProvider(create: (_) => DeadlineTagsProvider()),
         ChangeNotifierProvider(create: (_) => CustomTagProvider()),

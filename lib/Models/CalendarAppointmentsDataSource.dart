@@ -19,7 +19,7 @@ class CalendarAppointmentsDataSource extends CalendarDataSource {
   ) =>
       getAppointment(index).title;
 
-  String getAppointmentDescription(
+  String? getAppointmentDescription(
     int index,
   ) =>
       getAppointment(index).description;
@@ -39,7 +39,7 @@ class CalendarAppointmentsDataSource extends CalendarDataSource {
   ) =>
       getAppointment(index).deadlineDate;
 
-  String getAppointmentLocalization(
+  String? getAppointmentLocalization(
     int index,
   ) =>
       getAppointment(index).localization;

@@ -16,7 +16,18 @@ class CalendarAppointmentsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void editAppointment(
+  void editAppointment(CalendarAppointment appointment) {
+    _appointments[_appointments.indexOf(_appointments.firstWhere((element) =>
+        element.title == appointment.title &&
+        element.fromDate == appointment.fromDate &&
+        element.toDate == appointment.toDate &&
+        element.deadlineDate == appointment.deadlineDate &&
+        element.description == appointment.description))] = appointment;
+    notifyListeners();
+  }
+
+  void editAppointment_OldVersion(
+    // A DELETE SI VERSION AUTRE MARCHE BIEN
     CalendarAppointment newAppointment,
     CalendarAppointment oldAppointment,
   ) {

@@ -121,7 +121,11 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          // crossAxisAlignment:
+          //     (widget.calendarAppointment.localization.isNotEmpty ||
+          //             widget.calendarAppointment.localization != "")
+          //         ? CrossAxisAlignment.start
+          //         : CrossAxisAlignment.end,
           children: [
             const Text(
               "Lieu :   ",
@@ -130,21 +134,56 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
                 fontSize: 18,
               ),
             ),
-            Wrap(
-              runAlignment: WrapAlignment.start,
-              runSpacing: 4,
-              children: [
-                Text(
-                  widget.calendarAppointment.localization,
-                  maxLines: 5,
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
+            // ClipRRect(
+            //   child: Center(
+            //     child: SizedBox(
+            //       width: MediaQuery.of(context).size.width * 0.7,
+            //       child: Text(
+            //         (
+            //                 widget.calendarAppointment.localization != "")
+            //             ? widget.calendarAppointment.localization
+            //             : "Pas de lieu renseigné",
+            //         maxLines: 3,
+            //         overflow: TextOverflow.ellipsis,
+            //         style: TextStyle(
+            //           fontSize:
+            //               (
+            //                       widget.calendarAppointment.localization != "")
+            //                   ? 18
+            //                   : 15,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: [
+        //     const Text(
+        //       "Lieu :   ",
+        //       style: TextStyle(
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 18,
+        //       ),
+        //     ),
+        //     Wrap(
+        //       runAlignment: WrapAlignment.start,
+        //       runSpacing: 4,
+        //       children: [
+        //         Text(
+        //           widget.calendarAppointment.localization,
+        //           maxLines: 5,
+        //           style: const TextStyle(
+        //             fontSize: 18,
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ],
+        // ),
         const SizedBox(
           height: 18,
         ),
@@ -193,23 +232,17 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  (widget.calendarAppointment.localization.isNotEmpty ||
-                          widget.calendarAppointment.description != "")
+                  (widget.calendarAppointment.description != "")
                       ? widget.calendarAppointment.description
-                      : "Aucune note enregistrée pour ce cours.",
+                      : "Aucune note n'est enregistrée pour ce cours.",
                   maxLines: 20,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize:
-                        (widget.calendarAppointment.localization.isNotEmpty ||
-                                widget.calendarAppointment.localization != "")
-                            ? 18
-                            : 15,
-                    fontStyle:
-                        (widget.calendarAppointment.localization.isNotEmpty ||
-                                widget.calendarAppointment.localization != "")
-                            ? FontStyle.normal
-                            : FontStyle.italic,
+                        (widget.calendarAppointment.description!.isNotEmpty ||
+                                widget.calendarAppointment.description != "")
+                            ? 15
+                            : 13,
                   ),
                 ),
               ),

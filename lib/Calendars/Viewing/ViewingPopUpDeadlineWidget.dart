@@ -57,23 +57,17 @@ class _ViewingPopUpDeadlineWidgetState
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  (widget.calendarAppointment.localization.isNotEmpty ||
-                          widget.calendarAppointment.description != "")
+                  (widget.calendarAppointment.description != "")
                       ? widget.calendarAppointment.description
-                      : "Aucune note enregistrée pour ce cours.",
+                      : "Aucune note n'est enregistrée pour cette deadline.",
                   maxLines: 20,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize:
-                        (widget.calendarAppointment.localization.isNotEmpty ||
-                                widget.calendarAppointment.localization != "")
-                            ? 18
-                            : 15,
-                    fontStyle:
-                        (widget.calendarAppointment.localization.isNotEmpty ||
-                                widget.calendarAppointment.localization != "")
-                            ? FontStyle.normal
-                            : FontStyle.italic,
+                        (widget.calendarAppointment.description!.isNotEmpty ||
+                                widget.calendarAppointment.description != "")
+                            ? 15
+                            : 13,
                   ),
                 ),
               ),
