@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
+import 'package:all_uni_dev/Drawers/DrawerCalendarView.dart';
 
 class FreeRoomsCalendar extends StatelessWidget {
   const FreeRoomsCalendar({Key? key}) : super(key: key);

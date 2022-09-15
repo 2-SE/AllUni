@@ -1,42 +1,60 @@
+import 'package:all_uni_dev/Pages/CalendarPages/DatabaseLoadPage.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:all_uni_dev/Calendars/widgets/TypeEventChoiceWidget.dart';
+import 'package:all_uni_dev/Calendars/EventViewingPopUp.dart';
+import 'package:all_uni_dev/Providers/CustomTagProvider.dart';
+import 'package:all_uni_dev/Providers/DeadlineTagsProvider.dart';
+import 'package:all_uni_dev/Providers/EditProvider.dart';
+import 'package:all_uni_dev/Providers/PlanningTagsProvider.dart';
+import 'package:all_uni_dev/Providers/TypeEventProvider.dart';
+import 'package:all_uni_dev/Utils/Calendar/localLessonHandler.dart';
+import 'package:all_uni_dev/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
-import 'package:navigation_drawer_test/models/Lesson.dart';
-import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
+import 'package:all_uni_dev/models/LocalLesson.dart';
+import 'package:provider/provider.dart';
 
-
-import '../Utils/HeroDialog.dart';
-
-class LessonEditingPage extends StatefulWidget {
-  final Lesson? lesson;
-  const LessonEditingPage({
+class EventEditingPage extends StatefulWidget {
+  final LocalLesson? lesson;
+  const EventEditingPage({
     Key? key,
     this.lesson,
   }) : super(key: key);
 
   @override
-  State<LessonEditingPage> createState() => _LessonEditingPageState();
+  State<EventEditingPage> createState() => _EventEditingPageState();
 }
 
-class _LessonEditingPageState extends State<LessonEditingPage> {
+class _EventEditingPageState extends State<EventEditingPage> {
   final _formKey = GlobalKey<FormState>();
+  late String appointmentType;
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   late DateTime fromDate;
   late DateTime toDate;
+  late DateTime deadlineDate;
+  final LocalizationController = TextEditingController();
+  late List<String> tagsNames;
+  String myCustomTagName = "";
 
   @override
   void initState() {
     super.initState();
     if (widget.lesson == null) {
+      appointmentType = "Planning";
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 1));
+      deadlineDate = DateTime.now();
+      tagsNames = [];
     } else {
-      final Lesson = widget.lesson!;
-      titleController.text = Lesson.NomCours!;
-      descriptionController.text = Lesson.Professeur!;
-      fromDate = Lesson.HeureDebut as DateTime;
-      toDate = Lesson.HeureFin as DateTime;
+      print("event edit lesson nomcours ${widget.lesson!}");
+      appointmentType = "Planning";
+      titleController.text = widget.lesson!.NomCours!;
+      descriptionController.text = widget.lesson!.Professeur!;
+      fromDate = DateTime.parse(widget.lesson!.HeureDebut.toString());
+      toDate = DateTime.parse(widget.lesson!.HeureFin.toString());
+      deadlineDate = DateTime.parse(widget.lesson!.HeureDebut.toString());
+      LocalizationController.text = widget.lesson!.Salle!;
+      tagsNames = widget.lesson!.Tags!;
     }
   }
 
@@ -44,102 +62,115 @@ class _LessonEditingPageState extends State<LessonEditingPage> {
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
+    LocalizationController.dispose();
     super.dispose();
+  }
+
+  void _resetAllValues() {
+    context.read<EditPlanningProvider>().resetAllPlanningValues();
+    context.read<EditDeadlineProvider>().resetAllDeadlineValues();
+    context.read<PlanningTagsProvider>().resetAllTagValue();
+    context.read<DeadlineTagsProvider>().resetAllTagValue();
+    Provider.of<TypeEventProvider>(context, listen: false).refreshEventTypeValue();
+    Provider.of<CustomTagProvider>(context, listen: false).deleteTagValue();
   }
 
   @override
   Widget build(BuildContext context) {
-    // UTILS FOR THE Lesson EDITING PAGE
-    Future saveForm() async {
+
+
+    // UTILS FOR THE EVENT EDITING PAGE
+    Future saveAppointmentForm(String type) async {
       final isValid = _formKey.currentState!.validate();
       if (isValid) {
+        late LocalLesson lesson;
+        if (type == "Planning") {
+          fromDate = Provider.of<EditPlanningProvider>(context, listen: false).getPlanningFromDate;
+          toDate = Provider.of<EditPlanningProvider>(context, listen: false).getPlanningToDate;
+          LocalizationController.text = Provider.of<EditPlanningProvider>(context, listen: false).getPlanningLocalization;
+          tagsNames = Provider.of<PlanningTagsProvider>(context, listen: false).activatedTags;
+          if (Provider.of<CustomTagProvider>(context, listen: false).getCustomTagLength !=0) {
+            myCustomTagName =Provider.of<CustomTagProvider>(context, listen: false).customActivatedTag;
+            tagsNames.add(myCustomTagName);
+          }
+          lesson = LocalLesson(
+            UserID: "",
+            TypeBloc: "Planning",
+            NomCours: titleController.text,
+            Professeur: descriptionController.text,
+            HeureDebut: TemporalDateTime((fromDate.isBefore(toDate)) ? fromDate : toDate),
+            HeureFin: TemporalDateTime((toDate.isAfter(fromDate)) ? toDate : fromDate),
+            Salle: LocalizationController.text,
+            Tags: tagsNames,
+          );
+        } else if (type == "Deadline") {
+          deadlineDate = Provider.of<EditDeadlineProvider>(context, listen: false).getDeadlineToDate;
+          tagsNames = Provider.of<DeadlineTagsProvider>(context, listen: false).activatedTags;
+          if (Provider.of<CustomTagProvider>(context, listen: false).getCustomTagLength !=0) {
+            myCustomTagName = Provider.of<CustomTagProvider>(context, listen: false).customActivatedTag;
+            tagsNames.add(myCustomTagName);
+          }
+          lesson = LocalLesson(
+            UserID: "",
+            TypeBloc: "Deadline",
+            NomCours: titleController.text,
+            Professeur: descriptionController.text,
+            HeureDebut: TemporalDateTime(deadlineDate),
+            HeureFin: TemporalDateTime(deadlineDate),
+            Salle: "",
+            Tags: tagsNames,
+          );
+        }
 
-        final lesson = Lesson(
-          NomCours: titleController.text,
-          Professeur: descriptionController.text,
-          HeureDebut: fromDate,
-          HeureFin: toDate,
-        );
         final isEditing = widget.lesson != null;
-
         if (isEditing) {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop();
+          LocalLessonHandler().updateLocalLesson(lesson, widget.lesson!);
           Navigator.of(context).push(
             HeroDialogRoute(
               builder: (context) => Center(
-                child: LessonViewingPopUp(lesson: lesson),
+                child: EventViewingPopUp(
+                  lesson: lesson,
+                ),
               ),
             ),
           );
-          //Navigator.of(context).pop();
         } else {
-          Navigator.of(context).pop();
+          print("not editing");
+          LocalLessonHandler().createLocalLesson(lesson);
+          Navigator.of(context).pop;
+          Navigator.of(context).pop;}
+        _resetAllValues();
+      }
+    }
+
+    if (context.watch<TypeEventProvider>().currentActive == "Planning") {
+      List<bool> isSelectedTags = [false, false, false, false];
+      for (int index = 0; index < tagsNames.length; index++) {
+        if (tagsNames[index] == "Perso") {
+          isSelectedTags[0] = true;
+        } else if (tagsNames[index] == "Travail") {
+          isSelectedTags[1] = true;
+        } else if (tagsNames[index] == "Événement") {
+          isSelectedTags[2] = true;
+        } else {
+          isSelectedTags[3] = true;
+          myCustomTagName = tagsNames[index];
         }
-        //Navigator.of(context).pop();
       }
-    }
-
-    Widget buildDropDownField({
-      required String text,
-      required VoidCallback onClicked,
-    }) =>
-        ListTile(
-          title: Text(text, style: const TextStyle(fontSize: 16)),
-          trailing: const Icon(Icons.keyboard_arrow_down_rounded),
-          onTap: onClicked,
-          dense: true,
-          visualDensity: const VisualDensity(vertical: -2),
-        );
-
-    Future<DateTime?> pickDateTime(
-      DateTime initialDate, {
-      required bool pickDate,
-      DateTime? firstDate,
-    }) async {
-      if (pickDate) {
-        final date = await showDatePicker(
-          context: context,
-          initialDate: initialDate,
-          firstDate: firstDate ?? DateTime(2000, 1),
-          lastDate: DateTime(2101),
-        );
-        if (date == null) return null;
-        final time =
-            Duration(hours: initialDate.hour, minutes: initialDate.minute);
-        return date.add(time);
-      } else {
-        final timeOfDay = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.fromDateTime(initialDate),
-        );
-        if (timeOfDay == null) return null;
-        final date =
-            DateTime(initialDate.year, initialDate.month, initialDate.day);
-        final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
-        return date.add(time);
+    } else if (context.watch<TypeEventProvider>().currentActive == "Deadline") {
+      List<bool> isSelectedTags = [false, false, false, false];
+      for (int index = 0; index < tagsNames.length; index++) {
+        if (tagsNames[index] == "Perso") {
+          isSelectedTags[0] = true;
+        } else if (tagsNames[index] == "Travail") {
+          isSelectedTags[1] = true;
+        } else if (tagsNames[index] == "Urgent") {
+          isSelectedTags[2] = true;
+        } else {
+          isSelectedTags[3] = true;
+          myCustomTagName = tagsNames[index];
+        }
       }
-    }
-
-    Future pickFromDateTime({required bool pickDate}) async {
-      final date = await pickDateTime(fromDate, pickDate: pickDate);
-      if (date == null) return;
-      if (date.isAfter(toDate)) {
-        toDate = DateTime(
-            date.year, date.month, date.day, toDate.hour, toDate.minute);
-      }
-      setState(() {
-        fromDate = date;
-      });
-    }
-
-    Future pickToDateTime({required bool pickDate}) async {
-      final date = await pickDateTime(toDate,
-          pickDate: pickDate, firstDate: pickDate ? fromDate : null);
-      if (date == null) return;
-      setState(() {
-        toDate = date;
-      });
     }
 
     // THE VIEW
@@ -148,14 +179,29 @@ class _LessonEditingPageState extends State<LessonEditingPage> {
         title: const Text("Ajout dans mon Calendrier"),
         backgroundColor: const Color(0xFF4C75A0),
         foregroundColor: Colors.white,
-        leading: const CloseButton(),
+        leading: CloseButton(
+          onPressed: () {
+            _resetAllValues();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: GestureDetector(
               child: const Icon(Icons.save),
               onTap: () {
-                saveForm();
+                if (Provider.of<TypeEventProvider>(context, listen: false).currentActive ==
+                    "Planning") {
+                  saveAppointmentForm("Planning");
+                } else if (Provider.of<TypeEventProvider>(context, listen: false).currentActive ==
+                    "Deadline") {
+                  saveAppointmentForm("Deadline");
+                } else {
+                  return;
+                }
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => DatabaseLoadPage(["1A"], 0, "Mon Calendrier")));
               },
             ),
           ),
@@ -175,9 +221,14 @@ class _LessonEditingPageState extends State<LessonEditingPage> {
                 ),
                 style: const TextStyle(fontSize: 28),
                 autocorrect: true,
-                maxLength: 128,
+                maxLength: 100,
                 minLines: 1,
                 maxLines: 2,
+                onChanged: (title) {
+                  context
+                      .read<EditPlanningProvider>()
+                      .changePlanningTitle(title);
+                },
                 controller: titleController,
                 validator: (String? title) {
                   if (title != null && title.isEmpty) {
@@ -193,72 +244,18 @@ class _LessonEditingPageState extends State<LessonEditingPage> {
                 ),
                 style: const TextStyle(fontSize: 18),
                 autocorrect: true,
-                maxLength: 1024,
+                maxLength: 500,
                 minLines: 1,
                 maxLines: 8,
+                onChanged: (description) {
+                  context
+                      .read<EditPlanningProvider>()
+                      .changePlanningDescription(description);
+                },
                 controller: descriptionController,
               ),
-              Container(height: 20, color: Colors.transparent),
-              //PersonalLessonType(isSelected: 0),
-              Container(height: 20, color: Colors.transparent),
-              Column(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Du :",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: buildDropDownField(
-                              text: DateHourUtils.toDate(fromDate),
-                              onClicked: () {
-                                pickFromDateTime(pickDate: true);
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: buildDropDownField(
-                              text: DateHourUtils.toTime(fromDate),
-                              onClicked: () {
-                                pickFromDateTime(pickDate: false);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(height: 12, color: Colors.transparent),
-                      const Text("Au :",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: buildDropDownField(
-                              text: DateHourUtils.toDate(toDate),
-                              onClicked: () {
-                                pickToDateTime(pickDate: true);
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: buildDropDownField(
-                              text: DateHourUtils.toTime(toDate),
-                              onClicked: () {
-                                pickToDateTime(pickDate: false);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              )
+              const SizedBox(height: 10),
+              const TypeEventChoiceWidget(),
             ],
           ),
         ),

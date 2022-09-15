@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/main.dart';
+import 'package:all_uni_dev/main.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);

@@ -1,17 +1,21 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
-import 'package:jwt_decode/jwt_decode.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 import '../../Calendars/Calendar.dart';
 import '../../models/Lesson.dart';
-import 'package:navigation_drawer_test/Utils/Calendar/localLessonHandler.dart';
+import 'package:all_uni_dev/Utils/Calendar/localLessonHandler.dart';
+
+import '../../models/LocalLesson.dart';
 
 class DatabaseLoadPage extends StatefulWidget{
   List<String> promotions;
@@ -35,12 +39,18 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
   late bool _isLoading = true;
   late Future<List<Lesson>> futureObject;
 
+  StreamSubscription<QuerySnapshot<LocalLesson>>? _stream;
+
+  List<LocalLesson> _lessons = [];
+
+  bool _isSynced = false;
+
   Future<List<Lesson>> fetchLessonFromLambda() async {
     List<Lesson> Lessons =[];
     final response = await http.get(
         Uri.parse('https://7z7gj5ro64.execute-api.eu-west-3.amazonaws.com/prod/lessonget'),
         headers: {HttpHeaders.authorizationHeader : await _getIdToken()});
-   print("response status: ${response.statusCode}");
+    print("response status: ${response.statusCode}");
     if(response.statusCode == 200){
       try{
         final lessons = json.decode(json.decode(response.body)["body"]);
@@ -62,7 +72,6 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
     Map<String, dynamic> payload = Jwt.parseJwt(idToken!);
     return idToken;
   }
-
 
   Future<List<Lesson>> readLessonByReference(String reference,String referenceValue) async{
 
@@ -114,31 +123,57 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
   Future<List<Lesson>> readLessonsByPromotions(List<String> promotions) async{
     List<Lesson> lessons = [];
     for(final promo in promotions){
+
       final lesson = await readLessonByReference("MajeureID", promo);
       lessons.addAll(lesson);
+    }
+
+    final tlessons = await LocalLessonHandler().fetchLocalLessonToLesson();
+    observeQuery();
+    print(tlessons);
+    lessons.addAll(tlessons);
+
+    if(lessons != []){
+      setState(() {
+        Future.delayed(const Duration(seconds: 5));
+        _isLoading = false;
+      });
     }
     return lessons;
   }
 
+  void observeQuery() {
+    _stream = Amplify.DataStore.observeQuery(LocalLesson.classType).listen(
+            (QuerySnapshot<LocalLesson> snapshot) {
+                setState(() {
+                  _lessons = snapshot.items;
+                  _isSynced = snapshot.isSynced;
+                });
+            });
+  }
+
+
+
   @override
   void initState()  {
     super.initState();
-    futureObject = readLessonsByPromotions(["1A","1C"]);
-    setState(() {
-      _isLoading = false; // important to set the state!
-    });
+      futureObject = readLessonsByPromotions(["1A"]);
+      Future.delayed(const Duration(seconds:  1));
   }
 
   @override
   Widget build(BuildContext context){
-    return FutureBuilder(
-      future: futureObject,
-      builder: (context, AsyncSnapshot snapshot) {
-        print(snapshot.data);
-        List<Lesson> lessons = snapshot.data;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Calendar("Mon Calendrier", 0, lessons)));
-        return const Scaffold(body: Center(child: CircularProgressIndicator()));
-      }
-    );
+
+    return _isLoading ?
+    const Center(child: CircularProgressIndicator()) :
+    FutureBuilder(
+          future: futureObject,
+          builder: (context, AsyncSnapshot snapshot) {
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Calendar("Mon Calendrier", 0, snapshot.data)));
+            });
+            return Center();
+           }
+        );
   }
 }

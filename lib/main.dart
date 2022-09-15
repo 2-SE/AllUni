@@ -1,22 +1,46 @@
+import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
+
 //DRAWER IMPORT (for routes) :
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
-import 'package:navigation_drawer_test/Calendars/FreeRoomsCalendar.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
-import 'package:navigation_drawer_test/OtherViews/ContactUs/ContactUs.dart';
-import 'package:navigation_drawer_test/OtherViews/Settings.dart';
+import 'package:all_uni_dev/Calendars/FreeRoomsCalendar.dart';
+import 'package:all_uni_dev/Drawers/DrawerCalendarView.dart';
+import 'package:all_uni_dev/OtherViews/ContactUs/ContactUs.dart';
+import 'package:all_uni_dev/OtherViews/Settings.dart';
+
 //IMPORT FILES
-import 'package:navigation_drawer_test/OtherViews/SplashLoad.dart';
-import 'package:navigation_drawer_test/models/Lesson.dart';
+import 'package:all_uni_dev/OtherViews/SplashLoad.dart';
+import 'package:all_uni_dev/models/Lesson.dart';
+import 'package:all_uni_dev/models/ModelProvider.dart';
+
+//PROVIDERS
+import 'package:all_uni_dev/Providers/EditProvider.dart';
+import 'package:all_uni_dev/Providers/TypeEventProvider.dart';
+import 'package:all_uni_dev/Providers/PlanningTagsProvider.dart';
+import 'package:all_uni_dev/Providers/DeadlineTagsProvider.dart';
+import 'package:all_uni_dev/Providers/CustomTagProvider.dart';
 import 'package:provider/provider.dart';
 
 import 'Pages/SignPages/SignInPage.dart';
+
 import 'amplifyconfiguration.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => EditPlanningProvider()),
+        ChangeNotifierProvider(create: (_) => EditDeadlineProvider()),
+        ChangeNotifierProvider(create: (_) => TypeEventProvider()),
+        ChangeNotifierProvider(create: (_) => PlanningTagsProvider()),
+        ChangeNotifierProvider(create: (_) => DeadlineTagsProvider()),
+        ChangeNotifierProvider(create: (_) => CustomTagProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -71,8 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _configureAmplify() async {
     final Auth = AmplifyAuthCognito();
+    final DS = AmplifyDataStore(modelProvider: ModelProvider.instance);
+    final API = AmplifyAPI(modelProvider: ModelProvider.instance);
     try {
-      await Future.wait([Amplify.addPlugin(Auth)]);
+      await Future.wait([Amplify.addPlugins([Auth, DS, API])]);
       if (!Amplify.isConfigured) {
         print("!alreadyconfig");
         await Amplify.configure(amplifyconfig);

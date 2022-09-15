@@ -1,6 +1,6 @@
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
+import 'package:all_uni_dev/Calendars/Calendar.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Pages/CalendarPages/DatabaseLoadPage.dart';
+import 'package:all_uni_dev/Pages/CalendarPages/DatabaseLoadPage.dart';
 
 class OthersCalendarsPopUp extends StatefulWidget {
   int currentFormatView = 0;

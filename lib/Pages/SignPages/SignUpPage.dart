@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Utils/SignUpInOut.dart';
+import 'package:all_uni_dev/Utils/SignUpInOut.dart';
 
 import 'SignInPage.dart';
 

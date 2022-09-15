@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "allUniDevApp",
+  "projectName": "allunidev",
   "version": "3.1",
   "frontend": "flutter",
   "flutter": {

@@ -1,11 +1,15 @@
+import 'package:all_uni_dev/Pages/SignPages/SignInPage.dart';
+import 'package:all_uni_dev/models/LocalLesson.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:navigation_drawer_test/Calendars/EventViewingPopUp.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarView.dart';
-import 'package:navigation_drawer_test/Utils/Calendar/LessonAdapter.dart';
+import 'package:all_uni_dev/Calendars/EventViewingPopUp.dart';
+import 'package:all_uni_dev/Drawers/DrawerCalendarView.dart';
+import 'package:all_uni_dev/Utils/Calendar/LessonAdapter.dart';
+import 'package:all_uni_dev/Calendars/EventEditingPage.dart';
 
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import '../Utils/Calendar/localLessonHandler.dart';
 import '../Utils/HeroDialog.dart';
 import '../models/Lesson.dart';
 
@@ -25,6 +29,7 @@ class _CalendarState extends State<Calendar> {
   List<bool> CalendarFormat = [false, false, false, false];
   String CalendarFormatString = "";
   List<Lesson> lessons;
+
 
 
   String currentView;
@@ -219,7 +224,7 @@ class _CalendarState extends State<Calendar> {
               dataSource: EventDataSource(lessons),
               firstDayOfWeek: 1,
               cellBorderColor: Colors.grey.withOpacity(0.25),
-              initialDisplayDate: DateTime.utc(DateTime.now().year, 3, 0),
+              initialDisplayDate: DateTime.now(),
               timeSlotViewSettings: const TimeSlotViewSettings(timeFormat: 'HH:mm',timeIntervalHeight: 70,),
               scheduleViewSettings: const ScheduleViewSettings(
                 hideEmptyScheduleWeek: false,
@@ -249,12 +254,28 @@ class _CalendarState extends State<Calendar> {
                 Navigator.of(context).push(
                   HeroDialogRoute(
                     builder: (context) => Center(
-                      child:LessonViewingPopUp(lesson: lesson),
+                      child:EventViewingPopUp(lesson: LocalLessonHandler().LessonToLocalLesson(lesson)),
                     ),
                   ),
                 );
                 },
-            )
+            ),
+          floatingActionButton: Visibility(
+            visible: (currentView == "Mon Calendrier") ? true : false,
+            child: FloatingActionButton(
+              backgroundColor: const Color(0xFF4C75A0),
+              onPressed: () {
+
+                Future.delayed(Duration.zero, () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => EventEditingPage(),
+                  ),
+                  );
+                });
+               },
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
+          ),
         );
   }
 }

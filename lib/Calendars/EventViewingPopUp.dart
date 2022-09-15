@@ -1,23 +1,27 @@
+import 'package:all_uni_dev/Pages/CalendarPages/DatabaseLoadPage.dart';
+import 'package:all_uni_dev/Utils/Calendar/localLessonHandler.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Calendars/EventEditingPage.dart';
-import 'package:navigation_drawer_test/models/Lesson.dart';
-import 'package:navigation_drawer_test/Utils/DateHourUtils.dart';
-import 'package:provider/provider.dart';
+import 'package:all_uni_dev/Calendars/EventEditingPage.dart';
+import 'package:all_uni_dev/models/LocalLesson.dart';
+import 'package:all_uni_dev/Utils/DateHourUtils.dart';
 
 
-class LessonViewingPopUp extends StatefulWidget {
-  final Lesson lesson;
+class EventViewingPopUp extends StatefulWidget {
+  final LocalLesson lesson;
 
-  const LessonViewingPopUp({
+  const EventViewingPopUp({
     Key? key,
     required this.lesson,
   }) : super(key: key);
 
   @override
-  State<LessonViewingPopUp> createState() => _LessonViewingPopUpState();
+  State<EventViewingPopUp> createState() => EventViewingPopUpState();
 }
 
-class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
+class EventViewingPopUpState extends State<EventViewingPopUp> {
+
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -64,13 +68,15 @@ class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
                             IconButton(
                               icon: const Icon(Icons.edit_note_rounded),
                               onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        LessonEditingPage(lesson: widget.lesson),
-                                  ),
-                                );
-                              },
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventEditingPage(lesson: widget.lesson)));
+                                Navigator.of(context).pop;},
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                print(" widget lesson ${widget.lesson}");
+                                LocalLessonHandler().deleteLocalLesson(widget.lesson);
+                                Navigator.of(context).push(MaterialPageRoute(builder: (_) => DatabaseLoadPage(["1A"], 0, "Mon Calendrier")));},
                             ),
                           ],
                         ),
@@ -103,7 +109,7 @@ class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.lesson.HeureDebut as DateTime),
+                          DateHourUtils.toDate(DateTime.parse(widget.lesson.HeureDebut.toString())),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -124,7 +130,7 @@ class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
                           ),
                         ),
                         Text(
-                          "${DateHourUtils.toTime(widget.lesson.HeureFin as DateTime)} - ${DateHourUtils.toTime(widget.lesson.HeureFin as DateTime)}",
+                          DateHourUtils.toDateTime(DateTime.parse(widget.lesson.HeureDebut.toString())),
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -145,7 +151,7 @@ class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.lesson.HeureDebut as DateTime),
+                          widget.lesson.Salle!,
                           style: const TextStyle(
                             fontSize: 18,
                           ),
@@ -166,7 +172,7 @@ class _LessonViewingPopUpState extends State<LessonViewingPopUp> {
                           ),
                         ),
                         Text(
-                          DateHourUtils.toDate(widget.lesson.HeureDebut as DateTime),
+                          widget.lesson.Professeur!,
                           style: const TextStyle(
                             fontSize: 18,
                           ),

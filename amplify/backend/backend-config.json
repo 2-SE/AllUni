@@ -1,6 +1,6 @@
 {
   "auth": {
-    "allUniDevApp": {
+    "allunidev72fd7b4272fd7b42": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -26,13 +26,13 @@
     }
   },
   "api": {
-    "allunidevapp": {
+    "allunidev": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "allUniDevApp",
+          "resourceName": "allunidev72fd7b4272fd7b42",
           "attributes": [
             "UserPoolId"
           ]
@@ -43,7 +43,7 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authallUniDevApp"
+              "userPoolId": "authallunidev72fd7b4272fd7b42"
             }
           },
           "additionalAuthenticationProviders": [

@@ -1,9 +1,10 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
 
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
-import 'package:navigation_drawer_test/Pages/SignPages/SignUpPage.dart';
-import 'package:navigation_drawer_test/Utils/SignUpInOut.dart';
-import 'package:navigation_drawer_test/Pages/CalendarPages/DatabaseLoadPage.dart';
+import 'package:all_uni_dev/Calendars/Calendar.dart';
+import 'package:all_uni_dev/Pages/SignPages/SignUpPage.dart';
+import 'package:all_uni_dev/Utils/SignUpInOut.dart';
+import 'package:all_uni_dev/Pages/CalendarPages/DatabaseLoadPage.dart';
 
 
 
@@ -47,10 +48,13 @@ class _SignInPageState extends State<SignInPage>{
 
               ElevatedButton(child: const Text("SignIn"), onPressed: () async{
                 if(_username != null && _password != null){
-                    try {
+                    try{
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
                       SignUpInOut().SignIn(_username!, _password!);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DatabaseLoadPage(["1A", "1B", "1C", "1D", "1E", "1F", "1G", "1H"], 0, "Mon Calendrier")));
-                    }  catch (e) {
+
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => DatabaseLoadPage(["1A", "1B", "1C", "1D", "1E", "1F", "1G", "1H"], 0, "Mon Calendrier")));
+                              });
+                      }  catch (e) {
                       print("error $e");
                     }
                   }

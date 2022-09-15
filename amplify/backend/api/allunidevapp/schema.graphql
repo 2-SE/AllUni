@@ -1,4 +1,4 @@
-type Todo @model @auth(rules: [{allow: private}]) {
+type LocalLesson @model @auth(rules: [{allow: private}]) {
   id: ID!
   UserID: String!
   MajeureID: String
@@ -9,4 +9,6 @@ type Todo @model @auth(rules: [{allow: private}]) {
   Salle: String
   TypeBloc: String
   HeureFin: AWSDateTime
-} 
+  Tags: [String]
+}
+ 

@@ -1,17 +1,16 @@
-This is an extension of the Main project.
-Included so far are:
+# all_uni_dev
 
-A SingUpInOut page containing all simplified utilities provided by AWS_Auth_cognito
--usable by: import 'package:navigation_drawer_test/Utils/SignUpInOut.dart' and then SignUpInOut().function
+A new Flutter project.
 
-The full model integration using AWS Datastore and/or AWS API:
--models contains the Event model obtained by codegen
--Providers contains the generated ModelProvider and EventProvider
---EvenProvider contains CRUD utilities for our Event model
+## Getting Started
 
-In order to use the project:
+This project is a starting point for a Flutter application.
 
-in PS terminal:
-$amplify pull --appId d3u5nokauuvgu --envName staging /// to connect to the backend with our 
-        defined models and tables
-$amplify codegen models ///generates the models established by our backend
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

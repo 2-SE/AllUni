@@ -1,14 +1,14 @@
-
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Drawers/DrawerCalendarChooseButton.dart';
-import 'package:navigation_drawer_test/Pages/CalendarPages/DatabaseLoadPage.dart';
-import 'package:navigation_drawer_test/Utils/Calendar/OthersCalendarsPopUpChoice.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:all_uni_dev/Drawers/DrawerCalendarChooseButton.dart';
+import 'package:all_uni_dev/Pages/CalendarPages/DatabaseLoadPage.dart';
+import 'package:all_uni_dev/Utils/Calendar/OthersCalendarsPopUpChoice.dart';
 
 import '../Utils/HeroDialog.dart';
 
 class DrawerCalendarView extends StatefulWidget {
-  String currentView = "";
-  List<bool> isSelectedFormat = [];
+  String currentView ;
+  List<bool> isSelectedFormat;
   DrawerCalendarView({
     super.key,
     required this.currentView,
@@ -29,7 +29,9 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
     var currentView = widget.currentView;
     for (int index = 0; index < isSelectedFormat.length; index++) {
       if (isSelectedFormat[index] == true) {
-        currentFormat = index;
+        setState(() {
+          currentFormat = index;
+        });
       }
     }
 
@@ -74,7 +76,8 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
     //isSelectedMajor[3] = true;
 
     return Drawer(
-      child: Column(
+
+     child: Column(
         children: [
           //TOP DRAWER ITEMS
           Expanded(
@@ -121,15 +124,10 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   trailing:
                   const Icon(Icons.today_rounded, color: Colors.black),
                   onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(
-                        builder: (context) =>
-                            DatabaseLoadPage(["1A"], currentFormat,"Mon Calendrier")))
-                        .then((_) {
-                      setState(() {});
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DatabaseLoadPage(["1A"], 0, currentView)));
                     });
-                  },
+                    },
                 ),
                 const Divider(color: Colors.black, height: 1),
                 const SizedBox(height: 15),
@@ -151,7 +149,6 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   trailing:
                   const Icon(Icons.people_outlined, color: Colors.black),
                   onTap: () {
-                    Navigator.of(context).pop();
                     Navigator.of(context).push(
                       HeroDialogRoute(
                         builder: (context) => Center(

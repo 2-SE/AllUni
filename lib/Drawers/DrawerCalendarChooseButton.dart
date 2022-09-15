@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_drawer_test/Calendars/Calendar.dart';
-import 'package:navigation_drawer_test/Pages/CalendarPages/DatabaseLoadPage.dart';
+import 'package:all_uni_dev/Calendars/Calendar.dart';
+import 'package:all_uni_dev/Pages/CalendarPages/DatabaseLoadPage.dart';
 
 
 class DrawerCalendarChooseButton extends StatefulWidget {
@@ -33,21 +33,21 @@ class _DrawerCalendarChooseButtonState extends State<DrawerCalendarChooseButton>
         selectedColor: Colors.white,
         renderBorder: false,
         color: Colors.black,
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.calendar_view_day_rounded),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.amp_stories),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.calendar_view_week_rounded),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Icon(Icons.calendar_month_outlined),
           ),
         ],
