@@ -553,11 +553,13 @@
 //   }
 // }
 
+import 'package:AllUni/Calendars/DatabaseLoadPage.dart';
 import 'package:AllUni/Calendars/EditingPages/EditingAppointmentPage.dart';
 import 'package:AllUni/Calendars/Viewing/AppointmentViewingPopUp.dart';
 import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/Models/CalendarAppointmentsDataSource.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
+import 'package:AllUni/Utils/Calendar/localLessonHandler.dart';
 import 'package:AllUni/Utils/DateHourUtils.dart';
 import 'package:AllUni/Utils/HeroDialog.dart';
 import 'package:flutter/material.dart';
@@ -632,7 +634,7 @@ class _CalendarState extends State<Calendar> {
     BuildContext context,
     CalendarAppointmentDetails details,
   ) {
-    final appointment = details.appointments.first;
+    final CalendarAppointment appointment = details.appointments.first;
 
     if (CalendarFormatIndex == 0 || CalendarFormatIndex == 3) {
       // CALENDAR.VIEW = FEED & MONTH-LIST
@@ -659,7 +661,18 @@ class _CalendarState extends State<Calendar> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          "${DateFormat.Hm().format(appointment.fromDate)}   ",
+                          "${DateFormat.Hm().format(
+                            appointment.fromDate.add(
+                              const Duration(hours: 2),
+                            ),
+                          )}   ",
+                          // "${DateFormat.Hm().format(
+                          //   appointment.fromDate.add(
+                          //     Duration(
+                          //       hours: DateTime.now().timeZoneOffset.inHours,
+                          //     ),
+                          //   ),
+                          // )}   ",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: details.bounds.height * 0.25,
@@ -672,7 +685,18 @@ class _CalendarState extends State<Calendar> {
                           ),
                         ),
                         Text(
-                          "${DateFormat.Hm().format(appointment.toDate)}   ",
+                          "${DateFormat.Hm().format(
+                            appointment.toDate.add(
+                              const Duration(hours: 2),
+                            ),
+                          )}   ",
+                          // "${DateFormat.Hm().format(
+                          //   appointment.toDate.add(
+                          //     Duration(
+                          //       hours: DateTime.now().timeZoneOffset.inHours,
+                          //     ),
+                          //   ),
+                          // )}   ",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: details.bounds.height * 0.25,
@@ -687,7 +711,18 @@ class _CalendarState extends State<Calendar> {
                       ],
                     )
                   : Text(
-                      "${DateFormat.Hm().format(appointment.deadlineDate)}   ",
+                      "${DateFormat.Hm().format(
+                        appointment.deadlineDate.add(
+                          const Duration(hours: 2),
+                        ),
+                      )}   ",
+                      // "${DateFormat.Hm().format(
+                      //   appointment.deadlineDate.add(
+                      //     Duration(
+                      //       hours: DateTime.now().timeZoneOffset.inHours,
+                      //     ),
+                      //   ),
+                      // )}   ",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: details.bounds.height * 0.25,
@@ -720,7 +755,7 @@ class _CalendarState extends State<Calendar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${appointment.title}",
+                          appointment.title,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: details.bounds.height * 0.3,
@@ -739,7 +774,7 @@ class _CalendarState extends State<Calendar> {
                           ),
                         ),
                         Text(
-                          "${appointment.description}",
+                          appointment.description,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: TextStyle(
@@ -755,7 +790,7 @@ class _CalendarState extends State<Calendar> {
                       ],
                     )
                   : Text(
-                      "${appointment.title}",
+                      appointment.title,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: TextStyle(
@@ -798,7 +833,7 @@ class _CalendarState extends State<Calendar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${appointment.title}",
+                    appointment.title,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 16,
@@ -827,7 +862,7 @@ class _CalendarState extends State<Calendar> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${appointment.title}",
+                              appointment.title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 10,
                               style: const TextStyle(
@@ -860,7 +895,8 @@ class _CalendarState extends State<Calendar> {
                       ),
                       Flexible(
                         flex: (appointment.tagsNames.isNotEmpty ||
-                                appointment.tagsNames.length == 0 ||
+                                appointment.tagsNames.length ==
+                                    0 || // TODO Chelou ??
                                 appointment.description.isNotEmpty)
                             ? 1
                             : 0,
@@ -869,7 +905,8 @@ class _CalendarState extends State<Calendar> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             (appointment.tagsNames.isNotEmpty ||
-                                    appointment.tagsNames.length == 0)
+                                    appointment.tagsNames.length ==
+                                        0) // TODO Chelou ??
                                 ? const Icon(Icons
                                     .tag_rounded) // METTRE L'AFFICHAGE DES BULLES DES TAGS
                                 : const Icon(Icons.add),
@@ -889,7 +926,7 @@ class _CalendarState extends State<Calendar> {
                           Flexible(
                             flex: 4,
                             child: Text(
-                              "${appointment.title}",
+                              appointment.title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: const TextStyle(
@@ -919,7 +956,7 @@ class _CalendarState extends State<Calendar> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  "${appointment.title}",
+                                  appointment.title,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 16,
@@ -950,7 +987,8 @@ class _CalendarState extends State<Calendar> {
                           ),
                           Flexible(
                             flex: (appointment.tagsNames.isNotEmpty ||
-                                    appointment.tagsNames.length == 0 ||
+                                    appointment.tagsNames.length ==
+                                        0 || // TODO Chelou ??
                                     appointment.description.isNotEmpty)
                                 ? 1
                                 : 0,
@@ -959,7 +997,8 @@ class _CalendarState extends State<Calendar> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 (appointment.tagsNames.isNotEmpty ||
-                                        appointment.tagsNames.length == 0)
+                                        appointment.tagsNames.length ==
+                                            0) // TODO Chelou ??
                                     ? const Icon(Icons
                                         .tag_rounded) // METTRE L'AFFICHAGE DES BULLES DES TAGS
                                     : const Icon(Icons.add),
@@ -1209,21 +1248,40 @@ class _CalendarState extends State<Calendar> {
           showAgenda: true,
           agendaViewHeight: MediaQuery.of(context).size.height * 0.35,
         ),
-        onTap: (details) {
+        onTap: (details) async {
           if (details.appointments == null) return;
           final CalendarAppointment calendarAppointment =
               details.appointments!.first;
           if (details.targetElement != CalendarElement.calendarCell) {
             //print(calendarAppointment);
-            Navigator.of(context).push(
+            var refresh = await Navigator.of(context).push(
               HeroDialogRoute(
-                builder: (context) => Center(
-                  child: AppointmentViewingPopUp(
-                    calendarAppointment: calendarAppointment,
-                  ),
+                builder: (context) => AppointmentViewingPopUp(
+                  calendarAppointment: calendarAppointment,
                 ),
               ),
             );
+            if (refresh == true) {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => DatabaseLoadPage(
+                    promotions,
+                    CalendarFormatIndex,
+                    currentView,
+                  ),
+                ),
+                (route) => false,
+              );
+            }
+            // Navigator.of(context).push(
+            //   HeroDialogRoute(
+            //     builder: (context) => Center(
+            //       child: AppointmentViewingPopUp(
+            //         calendarAppointment: calendarAppointment,
+            //       ),
+            //     ),
+            //   ),
+            // );
           }
         },
       ),
@@ -1231,15 +1289,31 @@ class _CalendarState extends State<Calendar> {
         visible: (currentView == "Mon Calendrier") ? true : false,
         child: FloatingActionButton(
           backgroundColor: const Color(0xFF4C75A0),
-          onPressed: () {
-            Future.delayed(Duration.zero, () {
-              Navigator.push(
-                context,
+          onPressed: () async {
+            var navigatorAddAppointmentResult =
+                await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => EditingAppointmentPage(
+// TODO gérer emptyCalendarAppointment en entrée : CalendarAppointment.emptyAppointment(),
+                    ),
+              ),
+            );
+            if (navigatorAddAppointmentResult != null) {
+              print("test add");
+              final CreatedLesson = LocalLessonHandler()
+                  .AppointmentToLocalLesson(navigatorAddAppointmentResult);
+              await LocalLessonHandler().createLocalLesson(CreatedLesson);
+              Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => EditingAppointmentPage(),
+                  builder: (context) => DatabaseLoadPage(
+                    promotions,
+                    CalendarFormatIndex,
+                    currentView,
+                  ),
                 ),
+                (route) => false,
               );
-            });
+            }
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),

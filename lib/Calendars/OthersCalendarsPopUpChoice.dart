@@ -138,13 +138,13 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                             } else {
                               if (SelectedMajorName.isEmpty ||
                                   (SelectedMajorName.length == 1 &&
-                                      SelectedMajorName[0] == '2S')) {
-                                // TODO CHECK PAS '2S' MAIS SI SelectedMajorName[0]==myAcademicMajor
+                                      SelectedMajorName[0] == '3S')) {
+                                // TODO CHECK PAS '3S' MAIS SI SelectedMajorName[0]==myAcademicMajor
                                 Navigator.of(context)
                                     .pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) => DatabaseLoadPage(
-                                      ["2S"],
+                                      ["3S"],
                                       widget.currentFormatView,
                                       "Mon Calendrier",
                                     ),
@@ -163,8 +163,6 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                     SelectedMajorString += "- ";
                                   }
                                 }
-                                print(SelectedMajorName);
-                                print(widget.currentFormatView);
                                 Navigator.of(context)
                                     .pushReplacement(
                                   MaterialPageRoute(

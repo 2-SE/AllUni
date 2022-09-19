@@ -130,7 +130,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                         .pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => DatabaseLoadPage(
-                          ["2S"], // TODO REMPLACER AVEC L'AUTH RÉCUP DB
+                          ["3S"], // TODO REMPLACER AVEC L'AUTH RÉCUP DB
                           currentFormat,
                           "Mon Calendrier",
                         ),
@@ -168,7 +168,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                       HeroDialogRequiredRoute(
                         builder: (context) => Center(
                           child: OthersCalendarsPopUp(
-                            myAcademicMajor: "2S",
+                            myAcademicMajor: "3S",
                             isSelectedMajor: isSelectedMajor,
                             AcademicMajorList: AcademicMajorList,
                             currentFormatView: currentFormat,

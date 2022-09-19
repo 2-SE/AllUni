@@ -6,10 +6,24 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class LocalLessonHandler {
+  LocalLesson AppointmentToLocalLesson(CalendarAppointment appointment) {
+    return LocalLesson(
+      UserID: '',
+      id: appointment.id,
+      FromTime: TemporalDateTime(appointment.fromDate!),
+      ToTime: TemporalDateTime(appointment.toDate!),
+      Titre: appointment.title,
+      Description: appointment.description,
+      Location: appointment.localization,
+      Tags: appointment.tagsNames,
+      TypeBloc: appointment.appointmentType,
+    );
+  }
+
   LocalLesson LessonToLocalLesson(Lesson lesson) {
     var uuid = Uuid();
     return LocalLesson(
-      UserID: '',
+      UserID: "",
       id: uuid.v1(),
       FromTime: TemporalDateTime(lesson.HeureDebut!),
       ToTime: TemporalDateTime(lesson.HeureFin!),
@@ -31,20 +45,6 @@ class LocalLessonHandler {
       Salle: lesson.Location,
     );
   }
-
-  // Lesson AppointmentToLesson(CalendarAppointment appointment) {
-  //   return Lesson(
-  //     id: appointment.id,
-  //     HeureFin: TemporalDateTime(appointment.fromDate),
-  //     HeureDebut: TemporalDateTime(appointment.toDate),
-  //     NomCours: appointment.title,
-  //     Professeur: "",
-  //     Description: appointment.description,
-  //     Salle: appointment.localization,
-  //     TypeBloc: "",
-  //     Tags: appointment.tagsNames,
-  //   );
-  // }
 
   CalendarAppointment LocalLessonToAppointment(LocalLesson lesson) {
     return CalendarAppointment(
@@ -99,12 +99,12 @@ class LocalLessonHandler {
           where: LocalLesson.ID.eq(referenceValue));
     } else if (reference == "FROMTIME") {
       result = await Amplify.DataStore.query(LocalLesson.classType,
-          where: LocalLesson.FROMTIME
-              .eq(TemporalDateTime(toDateTime(referenceValue))));
+          where: LocalLesson.FROMTIME.eq(
+              TemporalDateTime(TemporalDateTime_To_DateTime(referenceValue))));
     } else if (reference == "TOTIME") {
       result = await Amplify.DataStore.query(LocalLesson.classType,
-          where: LocalLesson.TOTIME
-              .eq(TemporalDateTime(toDateTime(referenceValue))));
+          where: LocalLesson.TOTIME.eq(
+              TemporalDateTime(TemporalDateTime_To_DateTime(referenceValue))));
     } else if (reference == "TITRE") {
       result = await Amplify.DataStore.query(LocalLesson.classType,
           where: LocalLesson.TITRE.eq(referenceValue));

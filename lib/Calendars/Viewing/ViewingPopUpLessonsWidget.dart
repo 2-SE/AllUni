@@ -19,8 +19,10 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        (DateHourUtils.toDate(widget.calendarAppointment.fromDate) ==
-                DateHourUtils.toDate(widget.calendarAppointment.toDate))
+        (DateHourUtils.toDate(widget.calendarAppointment.fromDate
+                    .add(const Duration(hours: 2))) ==
+                DateHourUtils.toDate(widget.calendarAppointment.toDate
+                    .add(const Duration(hours: 2))))
             ? Column(
                 children: [
                   Row(
@@ -34,8 +36,8 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
                         ),
                       ),
                       Text(
-                        DateHourUtils.toDate(
-                            widget.calendarAppointment.fromDate),
+                        DateHourUtils.toDate(widget.calendarAppointment.fromDate
+                            .add(const Duration(hours: 2))),
                         style: const TextStyle(
                           fontSize: 18,
                         ),
@@ -56,7 +58,7 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
                         ),
                       ),
                       Text(
-                        "${DateHourUtils.toTime(widget.calendarAppointment.fromDate)} - ${DateHourUtils.toTime(widget.calendarAppointment.toDate)}",
+                        "${DateHourUtils.toTime(widget.calendarAppointment.fromDate.add(const Duration(hours: 2)))} - ${DateHourUtils.toTime(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}",
                         style: const TextStyle(
                           fontSize: 18,
                         ),
@@ -86,7 +88,7 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
                         ),
                       ),
                       Text(
-                        "${DateHourUtils.toDate(widget.calendarAppointment.fromDate)}  -  ${DateHourUtils.toTime(widget.calendarAppointment.fromDate)}",
+                        "${DateHourUtils.toDate(widget.calendarAppointment.fromDate.add(const Duration(hours: 2)))}  -  ${DateHourUtils.toTime(widget.calendarAppointment.fromDate.add(const Duration(hours: 2)))}",
                         style: const TextStyle(
                           fontSize: 18,
                         ),
@@ -107,7 +109,7 @@ class _ViewingPopUpLessonsWidgetState extends State<ViewingPopUpLessonsWidget> {
                         ),
                       ),
                       Text(
-                        "${DateHourUtils.toDate(widget.calendarAppointment.toDate)}  -  ${DateHourUtils.toTime(widget.calendarAppointment.toDate)}",
+                        "${DateHourUtils.toDate(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}  -  ${DateHourUtils.toTime(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}",
                         style: const TextStyle(
                           fontSize: 18,
                         ),

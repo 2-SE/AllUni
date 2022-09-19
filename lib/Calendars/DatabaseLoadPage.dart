@@ -44,11 +44,12 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
   bool _isSynced = false;
 
   Future<List<Lesson>> fetchLessonFromLambda() async {
-    // RÉCUPERE VIA CALL HTTP (API Gateway)
+    // RÉCUPÈRE VIA CALL HTTP (API Gateway)
     List<Lesson> Lessons = [];
     final response = await http.get(
       Uri.parse(
-          'https://7z7gj5ro64.execute-api.eu-west-3.amazonaws.com/prod/lessonget'),
+        'https://7z7gj5ro64.execute-api.eu-west-3.amazonaws.com/prod/lessonget',
+      ),
       headers: {
         HttpHeaders.authorizationHeader: await _getIdToken(),
       },
@@ -57,7 +58,8 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
     if (response.statusCode == 200) {
       // SI USER = CONNECTÉ
       try {
-        final lessons = json.decode(json.decode(response.body)["body"]);
+        final lessons =
+            json.decode(json.decode(response.body)["body"])['Items'];
         for (var lesson in lessons) {
           Lessons.add(Lesson.fromJson(lesson));
         }
@@ -98,13 +100,13 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
       }
     } else if (reference == "HeureDebut") {
       for (Lesson lesson in lessons) {
-        if (lesson.HeureDebut == toDateTime(referenceValue)) {
+        if (lesson.HeureDebut == TemporalDateTime_To_DateTime(referenceValue)) {
           targetLessons.add(lesson);
         }
       }
     } else if (reference == "HeureFin") {
       for (Lesson lesson in lessons) {
-        if (lesson.HeureFin == toDateTime(referenceValue)) {
+        if (lesson.HeureFin == TemporalDateTime_To_DateTime(referenceValue)) {
           targetLessons.add(lesson);
         }
       }
@@ -187,7 +189,6 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
   void initState() {
     super.initState();
     futureObject = readLessonsByPromotions(widget.promotions);
-    print("future:: $futureObject");
     Future.delayed(const Duration(seconds: 1));
   }
 
@@ -201,7 +202,7 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
             future: futureObject,
             builder: (context, AsyncSnapshot snapshot) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Calendar(
@@ -211,6 +212,7 @@ class _DatabaseLoadPageState extends State<DatabaseLoadPage> {
                       snapshot.data,
                     ),
                   ),
+                  (route) => false,
                 );
               });
               return Container();

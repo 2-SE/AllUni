@@ -100,10 +100,11 @@ class _ChoosePersonalAcademicMajorPopUpState
                                 if (index < AcademicMajorList.length) {
                                   return ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: (widget.myAcademicMajor ==
-                                              AcademicMajorList[index])
-                                          ? const Color(0xFF4C75A0)
-                                          : Colors.white,
+                                      backgroundColor:
+                                          (widget.myAcademicMajor ==
+                                                  AcademicMajorList[index])
+                                              ? const Color(0xFF4C75A0)
+                                              : Colors.white,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0),

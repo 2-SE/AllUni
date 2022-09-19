@@ -32,28 +32,43 @@ class _SignUpPageState extends State<SignUpPage> {
           key: _formKey, // for validating the fields
           child: Column(
             children: <Widget>[
-              const Text('Sign Up Information', style: TextStyle(fontSize: 20)),
+              const Text(
+                'Sign Up Information',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
               TextField(
-                  controller: _usernameController,
-                  onChanged: (value) => _username = value.toString(),
-                  obscureText: false,
-                  decoration: const InputDecoration(labelText: "Username")),
+                controller: _usernameController,
+                onChanged: (value) => _username = value.toString(),
+                obscureText: false,
+                decoration: const InputDecoration(
+                  labelText: "Username",
+                ),
+              ),
               TextField(
-                  controller: _passwordController,
-                  onChanged: (value) => _password = value.toString(),
-                  obscureText: true,
-                  autocorrect: false,
-                  decoration: const InputDecoration(labelText: "Password")),
+                controller: _passwordController,
+                onChanged: (value) => _password = value.toString(),
+                obscureText: true,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  labelText: "Password",
+                ),
+              ),
               TextField(
-                  controller: _emailController,
-                  onChanged: (value) => _email = value.toString(),
-                  obscureText: false,
-                  autocorrect: false,
-                  decoration: const InputDecoration(labelText: "email")),
+                controller: _emailController,
+                onChanged: (value) => _email = value.toString(),
+                obscureText: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  labelText: "email",
+                ),
+              ),
               ElevatedButton(
                   child: const Text("Sign Up"),
                   onPressed: () async {
-                    final _domain = _email!.substring(_email!.length - 7);
+                    final _domain =
+                        _email!.trim().substring(_email!.length - 7);
                     if (_domain != "esme.fr") {
                       showDialog<String>(
                         context: context,
@@ -70,8 +85,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       );
                     } else if (_username != null && _password != null) {
-                      SignUpInOut().SignUp(
-                          _username!, _password!, _email!.toLowerCase());
+                      SignUpInOut().SignUp(_username!.trim(), _password!,
+                          _email!.toLowerCase().trim());
                       showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
@@ -89,12 +104,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                 TextButton(
                                   child: const Text("Confirm Sign Up"),
                                   onPressed: (() {
-                                    SignUpInOut()
-                                        .ConfirmSignUp(_username!, _confCode!);
+                                    SignUpInOut().ConfirmSignUp(
+                                        _username!, _confCode!.trim());
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => SignInPage()));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => SignInPage(),
+                                      ),
+                                    );
                                   }),
                                 )
                               ],

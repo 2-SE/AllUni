@@ -72,9 +72,6 @@ class _DrawerCalendarChooseButtonState
                 );
               } else {
                 Navigator.pop(context);
-                print(widget.promotions);
-                print(currentView);
-                print(SelectedButtonIndex);
                 Navigator.of(context)
                     .pushReplacement(
                   MaterialPageRoute(

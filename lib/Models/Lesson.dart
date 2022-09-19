@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Lesson {
   late String? id;
   late String? CoursID;
@@ -27,23 +29,24 @@ class Lesson {
     return Lesson(
       // BDD - RECUPERATION SCRAPPING
       id: "",
-      CoursID: json['CoursID'],
-      CampusID: json['CampusID'],
-      MajeureID: json['MajeureID'],
-      HeureDebut: toDateTime(json['HeureDebut']),
-      HeureFin: toDateTime(json['HeureFin']),
-      NomCours: json['NomCours'],
-      Professeur: json['Professeur'],
-      Salle: json['Salle'],
-      TypeBloc: json['TypeBloc'],
+      CoursID: utf8.decode(json['CoursID'].codeUnits),
+      CampusID: utf8.decode(json['CampusID'].codeUnits),
+      MajeureID: utf8.decode(json['MajeureID'].codeUnits),
+      HeureDebut: TemporalDateTime_To_DateTime(json['HeureDebut']),
+      HeureFin: TemporalDateTime_To_DateTime(json['HeureFin']),
+      NomCours: utf8.decode(json['NomCours'].codeUnits),
+      Professeur: utf8.decode(json['Professeur'].codeUnits),
+      Salle: utf8.decode(json['Salle'].codeUnits),
+      TypeBloc: utf8.decode(json['TypeBloc'].codeUnits),
     );
   }
 }
 
-DateTime toDateTime(String? _datetime) {
+DateTime TemporalDateTime_To_DateTime(String? _datetime) {
   if (_datetime != null) {
-    final dt = _datetime!.split("-");
-    return DateTime.parse(dt[0] + dt[1] + dt[2] + "T" + dt[3] + dt[4]);
+    final dt = _datetime.split("-");
+    final dtParse = DateTime.parse(dt[0] + dt[1] + dt[2] + "T" + dt[3] + dt[4]);
+    return dtParse;
   } else {
     return DateTime(DateTime.now().year, 01, 01);
   }

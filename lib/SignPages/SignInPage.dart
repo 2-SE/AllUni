@@ -46,18 +46,18 @@ class _SignInPageState extends State<SignInPage> {
                     try {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         SignUpInOut().SignIn(_username!, _password!);
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DatabaseLoadPage([
-                                  "1A",
-                                  "1B",
-                                  "1C",
-                                  "1D",
-                                  "1E",
-                                  "1F",
-                                  "1G",
-                                  "1H"
-                                ], 0, "Mon Calendrier")));
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => DatabaseLoadPage(
+                              [
+                                "1A"
+                              ], //TODO => Récup la majeure/promo de la personne qui vient de se connectée
+                              0,
+                              "Mon Calendrier",
+                            ),
+                          ),
+                          (route) => false,
+                        );
                       });
                     } catch (e) {
                       print("error $e");

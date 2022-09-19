@@ -5,10 +5,9 @@ import 'package:AllUni/Calendars/Viewing/ViewingPopUpDeadlineWidget.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpLessonsWidget.dart';
 import 'package:AllUni/Calendars/Viewing/ViewingPopUpPlanningWidget.dart';
 import 'package:AllUni/Models/CalendarAppointmentsModel.dart';
-import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
+import 'package:AllUni/Utils/Calendar/localLessonHandler.dart';
 import 'package:AllUni/Utils/HeroDialogRequired.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AppointmentViewingPopUp extends StatefulWidget {
   final CalendarAppointment calendarAppointment;
@@ -26,8 +25,6 @@ class AppointmentViewingPopUp extends StatefulWidget {
 class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
   // UTILS FUNCTIONS FOR VIEWING POPUP
   void DeleteAppointment() async {
-    final calendarAppointmentProvider =
-        context.read<CalendarAppointmentsProvider>();
     var navigatorOnDeleteResult = await Navigator.of(context).push(
       HeroDialogRequiredRoute(
         builder: (context) => const Center(
@@ -36,15 +33,15 @@ class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
       ),
     );
     if (navigatorOnDeleteResult == true) {
-      calendarAppointmentProvider.deleteAppointment(widget.calendarAppointment);
-      Navigator.of(context).pop();
-      setState(() {});
+      LocalLessonHandler().deleteLocalLesson(
+        LocalLessonHandler()
+            .AppointmentToLocalLesson(widget.calendarAppointment),
+      );
+      Navigator.of(context).pop(true); // Refresh all page
     }
   }
 
   void OpenModifyAppointmentPage() async {
-    final calendarAppointmentProvider =
-        context.read<CalendarAppointmentsProvider>();
     var navigatorEditAppointmentResult = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EditingAppointmentPage(
@@ -52,18 +49,21 @@ class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
         ),
       ),
     );
-    print(navigatorEditAppointmentResult);
 // TODO : Régler le problème avec le ré-Edit /!\
     if (navigatorEditAppointmentResult != null) {
-      calendarAppointmentProvider.editAppointment(
-        navigatorEditAppointmentResult,
+      LocalLessonHandler().updateLocalLesson(
+        LocalLessonHandler()
+            .AppointmentToLocalLesson(widget.calendarAppointment),
+        LocalLessonHandler()
+            .AppointmentToLocalLesson(navigatorEditAppointmentResult),
       );
-      setState(() {});
+      Navigator.of(context).pop(true);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.calendarAppointment);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
