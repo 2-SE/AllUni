@@ -1,15 +1,13 @@
-import 'package:AllUni/Calendars/Calendar.dart';
-import 'package:AllUni/Drawers/DrawerCalendarView.dart';
 import 'package:AllUni/OtherViews/AllSettings/Settings.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUs.dart';
 import 'package:AllUni/OtherViews/ContactUs/ContactUsLogOut.dart';
-import 'package:AllUni/OtherViews/SplashLoad.dart';
 import 'package:AllUni/Providers/CalendarAppointmentsProvider.dart';
 import 'package:AllUni/Providers/CustomTagProvider.dart';
 import 'package:AllUni/Providers/DeadlineTagsProvider.dart';
 import 'package:AllUni/Providers/EditProvider.dart';
 import 'package:AllUni/Providers/PlanningTagsProvider.dart';
 import 'package:AllUni/Providers/TypeAppointmentProvider.dart';
+import 'package:AllUni/SplashLoad.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,10 +48,8 @@ class MyApp extends StatelessWidget {
             ),
         "/contactLogIn": (BuildContext context) => const ContactUsPage(),
         "/contactLogOut": (BuildContext context) => const ContactUsLogOutPage(),
-        "/drawer": (BuildContext context) =>
-            DrawerCalendarView(isSelectedFormat: const [], currentView: ""),
       },
-      home: const Splash(),
+      home: const HomePage(),
     );
   }
 }
@@ -65,7 +61,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //HOME-PAGE WHEN APP STARTS
-      body: Calendar("Mon Calendrier", 0),
+      body: Splash(),
     );
   }
 }

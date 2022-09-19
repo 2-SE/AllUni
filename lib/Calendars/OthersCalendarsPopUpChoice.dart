@@ -1,4 +1,4 @@
-import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Calendars/DatabaseLoadPage.dart';
 import 'package:flutter/material.dart';
 
 class OthersCalendarsPopUp extends StatefulWidget {
@@ -108,14 +108,15 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                            icon: const Icon(
-                              Icons.close,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                        ),
                         TextButton(
                           onPressed: () {
                             for (int index = 0;
@@ -138,13 +139,17 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                               if (SelectedMajorName.isEmpty ||
                                   (SelectedMajorName.length == 1 &&
                                       SelectedMajorName[0] == '2S')) {
-                                //CHECK PAS '2S' MAIS SI SelectedMajorName[0]==myAcademicMajor
+                                // TODO CHECK PAS '2S' MAIS SI SelectedMajorName[0]==myAcademicMajor
                                 Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => Calendar(
-                                            "Mon Calendrier",
-                                            widget
-                                                .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
+                                    .pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => DatabaseLoadPage(
+                                      ["2S"],
+                                      widget.currentFormatView,
+                                      "Mon Calendrier",
+                                    ),
+                                  ),
+                                ) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
                                     .then((_) {
                                   setState(() {});
                                 });
@@ -158,27 +163,23 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                                     SelectedMajorString += "- ";
                                   }
                                 }
-                                if (SelectedMajorName.length == 1) {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) => Calendar(
-                                              "Autres Promotions\nClasse: $SelectedMajorString",
-                                              widget
-                                                  .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
-                                      .then((_) {
-                                    setState(() {});
-                                  });
-                                } else {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                          builder: (context) => Calendar(
-                                              "Autres Promotions\nClasses: $SelectedMajorString",
-                                              widget
-                                                  .currentFormatView))) //AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
-                                      .then((_) {
-                                    setState(() {});
-                                  });
-                                }
+                                print(SelectedMajorName);
+                                print(widget.currentFormatView);
+                                Navigator.of(context)
+                                    .pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => DatabaseLoadPage(
+                                      SelectedMajorName,
+                                      widget.currentFormatView,
+                                      (SelectedMajorName.length == 1)
+                                          ? "Autres Promotions\nClasse: $SelectedMajorString"
+                                          : "Autres Promotions\nClasses: $SelectedMajorString",
+                                    ),
+                                  ),
+                                ) // TODO AJOUTER LE FAIT DE DEVOIR CHARGER LES EDT DES PROMOS SELECTIONNÉES
+                                    .then((_) {
+                                  setState(() {});
+                                });
                               }
                             }
                           },
@@ -191,7 +192,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: const [
                                 Text(
-                                  "Voir le calendrier de cette(ces) classe(s)",
+                                  "Voir les calendriers",
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontStyle: FontStyle.italic,

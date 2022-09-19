@@ -1,33 +1,5 @@
-// class CalendarAppointment {
-//   final String appointmentType;
-//   final String title;
-//   final String description;
-//   final DateTime fromDate;
-//   final DateTime toDate;
-//   final DateTime deadlineDate;
-//   final String localization;
-//   final List<String> tagsNames;
-//
-//   CalendarAppointment({
-//     required this.appointmentType,
-//     required this.title,
-//     this.description = "",
-//     required this.fromDate,
-//     required this.toDate,
-//     required this.deadlineDate,
-//     this.localization = "",
-//     this.tagsNames = const [],
-//   });
-//
-//   // CalendarAppointment cloneAppointmentData() => CalendarAppointment();
-//   // Map cloneAppointmentData = Map.from(CalendarAppointment);
-//
-//   @override
-//   String toString() =>
-//       '$appointmentType | $title | $description | $fromDate | $toDate | $deadlineDate | $localization | $tagsNames';
-// }
-
 class CalendarAppointment {
+  String id;
   String appointmentType;
   String title;
   String description;
@@ -39,6 +11,7 @@ class CalendarAppointment {
   bool _isFixedType = false;
 
   CalendarAppointment({
+    required this.id,
     required this.appointmentType,
     required this.title,
     required this.description,
@@ -50,7 +23,8 @@ class CalendarAppointment {
   });
 
   CalendarAppointment.emptyAppointment()
-      : appointmentType = "Planning",
+      : id = "",
+        appointmentType = "Planning",
         title = "",
         description = "",
         fromDate = DateTime.now(),
@@ -61,7 +35,8 @@ class CalendarAppointment {
         _isFixedType = true;
 
   CalendarAppointment.fromJson(Map<String, dynamic> json)
-      : appointmentType = json['appointmentType'],
+      : id = json['id'],
+        appointmentType = json['appointmentType'],
         title = json['title'],
         description = json['description'],
         fromDate = json['fromDate'],
@@ -71,6 +46,7 @@ class CalendarAppointment {
         tagsNames = json['tagsNames'];
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'appointmentType': appointmentType,
         'title': title,
         'description': description,
@@ -90,5 +66,5 @@ class CalendarAppointment {
   }
 
   String toString() =>
-      "Type: $appointmentType | Titre: $title | Description: $description | FromDate: $fromDate | ToDate: $toDate | DeadlineDate: $deadlineDate | Lieu: $localization | Tags: $tagsNames";
+      "ID: $id | Type: $appointmentType | Titre: $title | Description: $description | FromDate: $fromDate | ToDate: $toDate | DeadlineDate: $deadlineDate | Lieu: $localization | Tags: $tagsNames";
 }

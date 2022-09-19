@@ -6,6 +6,7 @@ import 'package:AllUni/Providers/PlanningTagsProvider.dart';
 import 'package:AllUni/Providers/TypeAppointmentProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class EditingAppointmentPage extends StatelessWidget {
   EditingAppointmentPage({
@@ -28,6 +29,9 @@ class EditingAppointmentPage extends StatelessWidget {
 
       if (isValid) {
         calendarEditAppointment = CalendarAppointment(
+          id: (calendarAppointment != null)
+              ? calendarEditAppointment.id
+              : const Uuid().v1(),
           appointmentType:
               context.read<TypeAppointmentProvider>().currentActive,
           title: calendarEditAppointment.title.trim(),

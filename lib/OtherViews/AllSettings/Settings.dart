@@ -1,6 +1,8 @@
 import 'package:AllUni/OtherViews/AllSettings/InformationsPopUp.dart';
 import 'package:AllUni/OtherViews/ProfileManagement/ProfileModifierPage.dart';
+import 'package:AllUni/SignPages/SignInPage.dart';
 import 'package:AllUni/Utils/HeroDialog.dart';
+import 'package:AllUni/Utils/SignUpInOut.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -482,7 +484,16 @@ class _SettingsPageState extends State<SettingsPage> {
             delegate: SliverChildListDelegate([
               Center(
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    SignUpInOut().SignOut();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignInPage(),
+                        ),
+                        (route) => false);
+                  },
                   style: ButtonStyle(
                     overlayColor: MaterialStateProperty.resolveWith(
                       (states) => Colors.red.withOpacity(0.1),

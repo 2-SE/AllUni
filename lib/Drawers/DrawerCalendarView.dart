@@ -1,16 +1,20 @@
-import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Calendars/DatabaseLoadPage.dart';
 import 'package:AllUni/Calendars/OthersCalendarsPopUpChoice.dart';
 import 'package:AllUni/Drawers/DrawerCalendarChooseButton.dart';
+import 'package:AllUni/SignPages/SignInPage.dart';
 import 'package:AllUni/Utils/HeroDialogRequired.dart';
+import 'package:AllUni/Utils/SignUpInOut.dart';
 import 'package:flutter/material.dart';
 
 class DrawerCalendarView extends StatefulWidget {
+  List<String> promotions;
   String currentView = "";
   List<bool> isSelectedFormat = [];
   DrawerCalendarView({
     super.key,
     required this.currentView,
     required this.isSelectedFormat,
+    required this.promotions,
   });
 
   @override
@@ -68,8 +72,10 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
     ];
 
     List<bool> isSelectedMajor = [];
-    isSelectedMajor = List<bool>.filled(AcademicMajorList.length, false);
-    //isSelectedMajor[3] = true;
+    isSelectedMajor = List<bool>.filled(
+      AcademicMajorList.length,
+      false,
+    );
 
     return Drawer(
       child: Column(
@@ -121,9 +127,15 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context)
-                        .pushReplacement(MaterialPageRoute(
-                            builder: (context) =>
-                                Calendar("Mon Calendrier", currentFormat)))
+                        .pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => DatabaseLoadPage(
+                          ["2S"], // TODO REMPLACER AVEC L'AUTH RÉCUP DB
+                          currentFormat,
+                          "Mon Calendrier",
+                        ),
+                      ),
+                    )
                         .then((_) {
                       setState(() {});
                     });
@@ -133,14 +145,16 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                 const SizedBox(height: 15),
                 Row(
                   children: const [
-                    Text("    "),
-                    Text("Autres Calendriers :",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                          color: Colors.black,
-                          decoration: TextDecoration.underline,
-                        )),
+                    Text("    "), // ALIGNMENT WITH TILES 'S TEXTS
+                    Text(
+                      "Autres Calendriers :",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -154,7 +168,7 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                       HeroDialogRequiredRoute(
                         builder: (context) => Center(
                           child: OthersCalendarsPopUp(
-                            myAcademicMajor: '2S',
+                            myAcademicMajor: "2S",
                             isSelectedMajor: isSelectedMajor,
                             AcademicMajorList: AcademicMajorList,
                             currentFormatView: currentFormat,
@@ -202,11 +216,13 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   },
                 ),
                 */
+
                 const Divider(color: Colors.black, height: 1),
                 DrawerCalendarChooseButton(
-                    currentView: currentView,
-                    isSelected:
-                        isSelectedFormat), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
+                  currentView: currentView,
+                  isSelected: isSelectedFormat,
+                  promotions: widget.promotions,
+                ), //LIGN OF ICONBUTTONS FOR CHOOSE THE TYPE OF THE CALENDAR
                 const Divider(color: Colors.black, height: 1),
               ],
             ),
@@ -228,23 +244,36 @@ class _DrawerCalendarViewState extends State<DrawerCalendarView> {
                   },
                 ),
                 ListTile(
-                  title: const Text("Déconnexion",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red)),
+                  title: const Text(
+                    "Déconnexion",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
                   dense: true,
                   visualDensity: const VisualDensity(vertical: -2),
                   trailing: const Icon(Icons.logout_rounded, color: Colors.red),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.of(context).pop();
+                    SignUpInOut().SignOut();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignInPage(),
+                        ),
+                        (route) => false);
                   },
                 ),
                 const Divider(color: Colors.black, height: 1),
                 ListTile(
-                  title: const Text("Nous Contacter",
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Color(0xFF4C75A0),
-                      )),
+                  title: const Text(
+                    "Nous Contacter",
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Color(0xFF4C75A0),
+                    ),
+                  ),
                   dense: true,
                   visualDensity: const VisualDensity(vertical: -2),
                   trailing:

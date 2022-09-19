@@ -1,13 +1,15 @@
-import 'package:AllUni/Calendars/Calendar.dart';
+import 'package:AllUni/Calendars/DatabaseLoadPage.dart';
 import 'package:flutter/material.dart';
 
 class DrawerCalendarChooseButton extends StatefulWidget {
-  String currentView = "";
+  String currentView;
   List<bool> isSelected = [];
+  List<String> promotions;
   DrawerCalendarChooseButton({
     super.key,
     required this.currentView,
     required this.isSelected,
+    required this.promotions,
   });
 
   @override
@@ -23,7 +25,7 @@ class _DrawerCalendarChooseButtonState
     var currentView = widget.currentView;
     return Container(
       alignment: Alignment.center,
-      color: Colors.indigo.withOpacity(0.15),
+      color: const Color(0xFF4C75A0).withOpacity(0.15),
       child: ToggleButtons(
         isSelected: isSelected,
         fillColor: const Color(0xFF4C75A0),
@@ -70,10 +72,19 @@ class _DrawerCalendarChooseButtonState
                 );
               } else {
                 Navigator.pop(context);
+                print(widget.promotions);
+                print(currentView);
+                print(SelectedButtonIndex);
                 Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(
-                        builder: (context) =>
-                            Calendar(currentView, SelectedButtonIndex)))
+                    .pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => DatabaseLoadPage(
+                      widget.promotions,
+                      SelectedButtonIndex,
+                      currentView,
+                    ),
+                  ),
+                )
                     .then((_) {
                   if (mounted) setState(() {});
                 });
