@@ -1299,7 +1299,6 @@ class _CalendarState extends State<Calendar> {
               ),
             );
             if (navigatorAddAppointmentResult != null) {
-              print("test add");
               final CreatedLesson = LocalLessonHandler()
                   .AppointmentToLocalLesson(navigatorAddAppointmentResult);
               await LocalLessonHandler().createLocalLesson(CreatedLesson);

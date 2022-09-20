@@ -8,6 +8,7 @@ class CalendarAppointment {
   DateTime deadlineDate;
   String? localization;
   List<String> tagsNames;
+  String? professor;
   bool _isFixedType = false;
 
   CalendarAppointment({
@@ -19,6 +20,7 @@ class CalendarAppointment {
     required this.toDate,
     required this.deadlineDate,
     this.localization = "",
+    this.professor = "",
     this.tagsNames = const [],
   });
 
@@ -31,6 +33,7 @@ class CalendarAppointment {
         toDate = DateTime.now().add(const Duration(hours: 1)),
         deadlineDate = DateTime.now().add(const Duration(hours: 1)),
         localization = "",
+        professor = "",
         tagsNames = [],
         _isFixedType = true;
 
@@ -43,6 +46,7 @@ class CalendarAppointment {
         toDate = json['toDate'],
         deadlineDate = json['deadlineDate'],
         localization = json['localization'],
+        professor = json['professor'],
         tagsNames = json['tagsNames'];
 
   Map<String, dynamic> toJson() => {
@@ -54,6 +58,7 @@ class CalendarAppointment {
         'toDate': toDate,
         'deadlineDate': deadlineDate,
         'localization': localization,
+        'professor': professor,
         'tagsNames': tagsNames,
       };
 
@@ -66,5 +71,5 @@ class CalendarAppointment {
   }
 
   String toString() =>
-      "ID: $id | Type: $appointmentType | Titre: $title | Description: $description | FromDate: $fromDate | ToDate: $toDate | DeadlineDate: $deadlineDate | Lieu: $localization | Tags: $tagsNames";
+      "ID: $id | Type: $appointmentType | Titre: $title | Description: $description | FromDate: $fromDate | ToDate: $toDate | DeadlineDate: $deadlineDate | Lieu: $localization | Prof: $professor | Tags: $tagsNames";
 }

@@ -1,12 +1,10 @@
 import 'package:AllUni/SignPages/SignInUpTextField.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatelessWidget {
-  SignUpPage({Key? key}) : super(key: key);
+class ResetPasswordPage extends StatelessWidget {
+  ResetPasswordPage({Key? key}) : super(key: key);
 
   String _email = "";
-  String _password = "";
-  String _passwordConfirm = "";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,6 +27,7 @@ class SignUpPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.85,
@@ -40,8 +39,19 @@ class SignUpPage extends StatelessWidget {
                     const SizedBox(height: 25),
                     const Text(
                       "Créer un compte",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    const Text(
+                      "Merci de rentrer votre email pour recevoir le message de récupération",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                      maxLines: 3,
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 25),
                     SignInUpTextField(
@@ -50,24 +60,6 @@ class SignUpPage extends StatelessWidget {
                       isHidable: false,
                       onUpdate: (value) {
                         _email = value;
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                    SignInUpTextField(
-                      labelText: "Mot de Passe",
-                      data: _password,
-                      isHidable: true,
-                      onUpdate: (value) {
-                        _password = value;
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                    SignInUpTextField(
-                      labelText: "Confirmation du Mot de Passe",
-                      data: _passwordConfirm,
-                      isHidable: true,
-                      onUpdate: (value) {
-                        _passwordConfirm = value;
                       },
                     ),
                     const SizedBox(height: 30),
@@ -98,7 +90,7 @@ class SignUpPage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Center(
                             child: Text(
-                              "S'inscrire",
+                              "Envoyer",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),

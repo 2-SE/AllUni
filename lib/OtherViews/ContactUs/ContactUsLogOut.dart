@@ -44,7 +44,7 @@ class _ContactUsLogOutPageState extends State<ContactUsLogOutPage> {
             stretch: true,
             backgroundColor: const Color(0xFF4C75A0),
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Nous Contacter',
+              title: const Text("Nous Contacter",
                   style: TextStyle(color: Colors.white)),
               background: Padding(
                 padding: const EdgeInsets.only(top: 25.0),

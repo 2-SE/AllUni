@@ -113,7 +113,8 @@ class _ViewingPopUpPlanningWidgetState
                         ),
                       ),
                       Text(
-                        "${DateHourUtils.toDate(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}  -  ${DateHourUtils.toTime(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}",
+                        "${DateHourUtils.toDate(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}"
+                        "  -  ${DateHourUtils.toTime(widget.calendarAppointment.toDate.add(const Duration(hours: 2)))}",
                         style: const TextStyle(
                           fontSize: 18,
                         ),
@@ -139,28 +140,21 @@ class _ViewingPopUpPlanningWidgetState
                 fontSize: 18,
               ),
             ),
-            // ClipRRect(
-            //   child: Center(
-            //     child: SizedBox(
-            //       width: MediaQuery.of(context).size.width * 0.7,
-            //       child: Text(
-            //         (
-            //                 widget.calendarAppointment.localization != "")
-            //             ? widget.calendarAppointment.localization
-            //             : "Pas de lieu renseigné",
-            //         maxLines: 3,
-            //         overflow: TextOverflow.ellipsis,
-            //         style: TextStyle(
-            //           fontSize:
-            //               (
-            //                       widget.calendarAppointment.localization != "")
-            //                   ? 18
-            //                   : 15,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Wrap(
+              runAlignment: WrapAlignment.start,
+              runSpacing: 4,
+              children: [
+                Text(
+                  (widget.calendarAppointment.localization != "")
+                      ? "${widget.calendarAppointment.localization}"
+                      : "Aucun renseigné",
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         const SizedBox(

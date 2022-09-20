@@ -40,5 +40,5 @@ class HeroDialogRoute<T> extends PageRoute<T> {
   }
 
   @override
-  String get barrierLabel => 'Popup dialog open';
+  String get barrierLabel => "Popup dialog open";
 }

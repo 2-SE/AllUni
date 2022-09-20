@@ -10,11 +10,12 @@ class LocalLessonHandler {
     return LocalLesson(
       UserID: '',
       id: appointment.id,
-      FromTime: TemporalDateTime(appointment.fromDate!),
-      ToTime: TemporalDateTime(appointment.toDate!),
+      FromTime: TemporalDateTime(appointment.fromDate),
+      ToTime: TemporalDateTime(appointment.toDate),
       Titre: appointment.title,
       Description: appointment.description,
       Location: appointment.localization,
+      Professor: appointment.professor,
       Tags: appointment.tagsNames,
       TypeBloc: appointment.appointmentType,
     );
@@ -56,6 +57,7 @@ class LocalLessonHandler {
       toDate: DateTime.parse(lesson.ToTime!.toString()),
       deadlineDate: DateTime.parse(lesson.ToTime!.toString()),
       localization: lesson.Location!,
+      professor: lesson.Professor ?? "",
       tagsNames: lesson.Tags!,
     );
   }

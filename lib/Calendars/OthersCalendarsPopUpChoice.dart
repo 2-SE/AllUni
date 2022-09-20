@@ -138,7 +138,7 @@ class _OthersCalendarsPopUpState extends State<OthersCalendarsPopUp> {
                             } else {
                               if (SelectedMajorName.isEmpty ||
                                   (SelectedMajorName.length == 1 &&
-                                      SelectedMajorName[0] == '3S')) {
+                                      SelectedMajorName[0] == "3S")) {
                                 // TODO CHECK PAS '3S' MAIS SI SelectedMajorName[0]==myAcademicMajor
                                 Navigator.of(context)
                                     .pushReplacement(

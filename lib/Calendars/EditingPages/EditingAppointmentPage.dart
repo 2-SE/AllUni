@@ -32,10 +32,11 @@ class EditingAppointmentPage extends StatelessWidget {
           id: (calendarAppointment != null)
               ? calendarEditAppointment.id
               : const Uuid().v1(),
-          appointmentType:
-              context.read<TypeAppointmentProvider>().currentActive,
+          appointmentType: (calendarAppointment != null)
+              ? calendarAppointment!.appointmentType
+              : context.read<TypeAppointmentProvider>().currentActive,
           title: calendarEditAppointment.title.trim(),
-          description: calendarEditAppointment.description?.trim() ?? "",
+          description: calendarEditAppointment.description.trim(),
           fromDate: (calendarEditAppointment.fromDate
                   .isBefore(calendarEditAppointment.toDate))
               ? calendarEditAppointment.fromDate
@@ -107,7 +108,7 @@ class EditingAppointmentPage extends StatelessWidget {
               ),
               EditingTextField(
                 labelText: "Description",
-                data: calendarEditAppointment.description ?? "",
+                data: calendarEditAppointment.description,
                 onUpdate: (value) {
                   calendarEditAppointment.description = value;
                 },

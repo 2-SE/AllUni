@@ -124,7 +124,6 @@ class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
                                               IconButton(
                                                 icon: const Icon(
                                                   Icons.edit_note_rounded,
-                                                  // Icons.add,
                                                   color: Color(
                                                       0xFF666666), //Color(0xFF4C75A0),
                                                 ),
@@ -159,15 +158,66 @@ class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
                             ),
                           )
                         : SizedBox(
+                            // WITHOUT TAGS
                             width: MediaQuery.of(context).size.width * 0.9,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                  child: Text(
+                            child: (widget.calendarAppointment
+                                            .appointmentType ==
+                                        "Planning" ||
+                                    widget.calendarAppointment
+                                            .appointmentType ==
+                                        "Deadline")
+                                ? Column(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          widget.calendarAppointment.title,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 28,
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(),
+                                          Wrap(
+                                            alignment: WrapAlignment.end,
+                                            spacing: -10,
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.edit_note_rounded,
+                                                  color: Color(
+                                                      0xFF666666), //Color(0xFF4C75A0),
+                                                ),
+                                                onPressed: () =>
+                                                    OpenModifyAppointmentPage(),
+                                              ),
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.delete_forever,
+                                                  color: Colors.red,
+                                                ),
+                                                onPressed: () =>
+                                                    DeleteAppointment(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                // = Lessons
+                                : Text(
                                     widget.calendarAppointment.title,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
@@ -176,35 +226,6 @@ class _AppointmentViewingPopUpState extends State<AppointmentViewingPopUp> {
                                       fontSize: 28,
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.25,
-                                  child: Wrap(
-                                    alignment: WrapAlignment.end,
-                                    spacing: -10,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.edit_note_rounded,
-                                          color: Color(
-                                              0xFF666666), //Color(0xFF4C75A0),
-                                        ),
-                                        onPressed: () =>
-                                            OpenModifyAppointmentPage(),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.delete_forever,
-                                          color: Colors.red,
-                                        ),
-                                        onPressed: () => DeleteAppointment(),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                     const Divider(
                       color: Colors.grey,

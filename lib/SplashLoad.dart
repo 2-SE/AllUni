@@ -72,7 +72,7 @@ class _SplashState extends State<Splash> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.85,
                 child: Image.asset(
                   "assets/images/calligraphy/DarkBlueAllUniCalligraphy.png",
                   fit: BoxFit.fitWidth,

@@ -31,7 +31,8 @@ class _ViewingPopUpDeadlineWidgetState
               ),
             ),
             Text(
-              "${DateHourUtils.toDate(widget.calendarAppointment.deadlineDate.add(const Duration(hours: 2)))}\n${DateHourUtils.toTime(widget.calendarAppointment.deadlineDate.add(const Duration(hours: 2)))}",
+              "${DateHourUtils.toDate(widget.calendarAppointment.deadlineDate.add(const Duration(hours: 2)))}\n"
+              "${DateHourUtils.toTime(widget.calendarAppointment.deadlineDate.add(const Duration(hours: 2)))}",
               style: const TextStyle(
                 fontSize: 18,
               ),

@@ -8,9 +8,12 @@ class SignUpInOut {
     };
     try {
       await Amplify.Auth.signUp(
-          username: username,
-          password: password,
-          options: CognitoSignUpOptions(userAttributes: userAttributes));
+        username: username,
+        password: password,
+        options: CognitoSignUpOptions(
+          userAttributes: userAttributes,
+        ),
+      );
     } catch (e) {
       rethrow;
     }
@@ -27,7 +30,10 @@ class SignUpInOut {
 
   Future<void> SignIn(String username, String password) async {
     try {
-      await Amplify.Auth.signIn(username: username, password: password);
+      await Amplify.Auth.signIn(
+        username: username,
+        password: password,
+      );
     } catch (e) {
       rethrow;
     }
@@ -36,7 +42,10 @@ class SignUpInOut {
   Future<void> SignOut() async {
     try {
       await Amplify.Auth.signOut(
-          options: const SignOutOptions(globalSignOut: true));
+        options: const SignOutOptions(
+          globalSignOut: true,
+        ),
+      );
     } catch (e) {
       rethrow;
     }
@@ -44,7 +53,9 @@ class SignUpInOut {
 
   Future<void> ResetPassword(String username) async {
     try {
-      await Amplify.Auth.resetPassword(username: username);
+      await Amplify.Auth.resetPassword(
+        username: username,
+      );
     } catch (e) {
       rethrow;
     }
