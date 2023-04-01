@@ -139,7 +139,6 @@ We have already set up this project in different languages (Kotlin and Swift for
 ## Developer Team :
   - [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hugo-bonansea-a284ba18a/) ← M. BONANSEA Hugo,
   - [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/maxime-chardon-4b9846183/) ← M. CHARDON Maxime,
-  - [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/quentin-lecomte-542234162/) ← M. LECOMTE Quentin,
   - [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/julien-leplat/) ← M. LEPLAT Julien,
   - [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mael-longefay-guinand/) ← M. LONGEFAY-GUINAND Mael,
   - [![Linkedin Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/antoine-bazire-2b7454233/) ← M. BAZIRE Antoine (Trainee : 2022 June-September)
